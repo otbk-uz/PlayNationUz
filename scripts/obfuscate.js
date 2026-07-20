@@ -1,6 +1,7 @@
 const fsStd = require('fs');
 const path = require('path');
 const JavaScriptObfuscator = require('javascript-obfuscator');
+const esbuild = require('esbuild');
 const { execSync } = require('child_process');
 
 const projectRoot = path.resolve(__dirname, '..');
@@ -68,17 +69,37 @@ async function run() {
   copyDirSync(projectRoot, targetDir, excludes);
 
   // 3. Obfuscate JS/TS/TSX files
-  console.log("Obfuscating source code...");
+  console.log("Transpiling and Obfuscating source code...");
   const srcPath = path.join(targetDir, 'src');
   if (fsStd.existsSync(srcPath)) {
     const files = getFiles(srcPath);
     for (const filePath of files) {
       const ext = path.extname(filePath);
       if (['.js', '.ts', '.tsx'].includes(ext)) {
+        let code = fsStd.readFileSync(filePath, 'utf8');
+        let jsCode = code;
+
+        // A. Transpile TS/TSX to JS first using esbuild
+        if (ext === '.ts' || ext === '.tsx') {
+          try {
+            const loader = ext === '.tsx' ? 'tsx' : 'ts';
+            const transpileResult = esbuild.transformSync(code, {
+              loader: loader,
+              jsx: 'automatic',
+              target: 'es6',
+              format: 'esm'
+            });
+            jsCode = transpileResult.code;
+          } catch (transpileErr) {
+            console.error(`Failed to transpile ${path.relative(targetDir, filePath)}:`, transpileErr.message);
+            continue;
+          }
+        }
+
+        // B. Obfuscate the transpiled JavaScript
         console.log(`Obfuscating: ${path.relative(targetDir, filePath)}`);
-        const code = fsStd.readFileSync(filePath, 'utf8');
         try {
-          const obfuscatedResult = JavaScriptObfuscator.obfuscate(code, {
+          const obfuscatedResult = JavaScriptObfuscator.obfuscate(jsCode, {
             compact: true,
             controlFlowFlattening: false,
             deadCodeInjection: false,
@@ -104,7 +125,18 @@ async function run() {
             stringArrayThreshold: 0.75,
             unicodeEscapeSequence: false
           });
-          fsStd.writeFileSync(filePath, obfuscatedResult.getObfuscatedCode(), 'utf8');
+
+          // Write back as .js (even if it was .tsx or .ts) to prevent TypeScript check issues on build
+          const dir = path.dirname(filePath);
+          const baseName = path.basename(filePath, ext);
+          const newFilePath = path.join(dir, `${baseName}.js`);
+
+          fsStd.writeFileSync(newFilePath, obfuscatedResult.getObfuscatedCode(), 'utf8');
+
+          // If we renamed the file, delete the original .ts/.tsx file
+          if (newFilePath !== filePath) {
+            fsStd.unlinkSync(filePath);
+          }
         } catch (err) {
           console.error(`Failed to obfuscate ${filePath}:`, err.message);
         }
@@ -140,6 +172,8 @@ async function run() {
   try {
     console.log("Preparing git commit in dist-obfuscated...");
     execSync('git init', { cwd: targetDir, stdio: 'inherit' });
+    execSync('git config user.name "Maroqli CI"', { cwd: targetDir, stdio: 'inherit' });
+    execSync('git config user.email "ci@maroqli.uz"', { cwd: targetDir, stdio: 'inherit' });
     execSync('git remote add origin https://github.com/otbk-uz/maroqli-uz.git', { cwd: targetDir, stdio: 'inherit' });
     execSync('git checkout -b main', { cwd: targetDir, stdio: 'inherit' });
     execSync('git add .', { cwd: targetDir, stdio: 'inherit' });
