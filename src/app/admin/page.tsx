@@ -56,6 +56,17 @@ export default function AdminPage() {
   const [newsFile, setNewsFile] = useState<File | null>(null);
   const [savingNews, setSavingNews] = useState(false);
 
+  // Lesson form state
+  const [lessonForm, setLessonForm] = useState({
+    title: '',
+    author: 'Maroqli.uz',
+    level: "GameDev 0dan o'rganish",
+    img: '',
+    video_url: '',
+    duration: ''
+  });
+  const [savingLesson, setSavingLesson] = useState(false);
+
   // Premium modal state
   const [premiumModalOpen, setPremiumModalOpen] = useState(false);
   const [selectedUserForPremium, setSelectedUserForPremium] = useState<AdminUser | null>(null);
@@ -339,6 +350,45 @@ export default function AdminPage() {
     }
   };
 
+  const handlePostLesson = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!lessonForm.title || !lessonForm.video_url) {
+      alert("Dars sarlavhasi va video havolasini kiriting!");
+      return;
+    }
+    
+    setSavingLesson(true);
+    try {
+      const { error } = await supabase
+        .from('gamedev_lessons')
+        .insert({
+          title: lessonForm.title,
+          author: lessonForm.author || 'Maroqli.uz',
+          level: lessonForm.level || "GameDev 0dan o'rganish",
+          img: lessonForm.img || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80',
+          video_url: lessonForm.video_url,
+          duration: lessonForm.duration || '15:00'
+        });
+        
+      if (error) throw error;
+      
+      alert("Video darslik muvaffaqiyatli qo'shildi!");
+      setLessonForm({
+        title: '',
+        author: 'Maroqli.uz',
+        level: "GameDev 0dan o'rganish",
+        img: '',
+        video_url: '',
+        duration: ''
+      });
+    } catch (err: any) {
+      console.error(err);
+      alert("Xatolik: " + (err.message || "Darsni saqlashda xatolik yuz berdi."));
+    } finally {
+      setSavingLesson(false);
+    }
+  };
+
 
 
   if (!isCustomAdmin) {
@@ -515,6 +565,92 @@ export default function AdminPage() {
                 className="btn-primary px-8 py-3 w-full md:w-auto"
               >
                 {savingNews ? "Yuklanmoqda..." : "Yangilikni chop etish"}
+              </button>
+            </form>
+          </div>
+        </div>
+
+        {/* Video Lesson Management */}
+        <div className="mb-12">
+          <h2 className="text-xl font-bold mb-6">Video Darslik Qo'shish</h2>
+          <div className="glass-card p-6 md:p-8 border border-white/5 rounded-2xl">
+            <form onSubmit={handlePostLesson} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-secondary mb-2">Dars sarlavhasi (Majburiy)</label>
+                  <input 
+                    type="text" 
+                    value={lessonForm.title}
+                    onChange={(e) => setLessonForm({...lessonForm, title: e.target.value})}
+                    required
+                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
+                    placeholder="Masalan: 1-Dars: Kirish va GameDev asoslari"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-secondary mb-2">Muallif / Kanal</label>
+                  <input 
+                    type="text" 
+                    value={lessonForm.author}
+                    onChange={(e) => setLessonForm({...lessonForm, author: e.target.value})}
+                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
+                    placeholder="Maroqli.uz"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div>
+                  <label className="block text-sm font-bold text-secondary mb-2">Daraja / Playlist nomi</label>
+                  <input 
+                    type="text" 
+                    value={lessonForm.level}
+                    onChange={(e) => setLessonForm({...lessonForm, level: e.target.value})}
+                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
+                    placeholder="GameDev 0dan o'rganish"
+                  />
+                </div>
+                <div>
+                  <label className="block text-sm font-bold text-secondary mb-2">Davomiyligi (Masalan: 15:20)</label>
+                  <input 
+                    type="text" 
+                    value={lessonForm.duration}
+                    onChange={(e) => setLessonForm({...lessonForm, duration: e.target.value})}
+                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
+                    placeholder="15:20"
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-secondary mb-2">Video URL (YouTube yoki Bunny.net iframe link) (Majburiy)</label>
+                <input 
+                  type="text" 
+                  value={lessonForm.video_url}
+                  onChange={(e) => setLessonForm({...lessonForm, video_url: e.target.value})}
+                  required
+                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white font-mono text-xs"
+                  placeholder="https://www.youtube.com/watch?v=... yoki bunny://..."
+                />
+              </div>
+
+              <div>
+                <label className="block text-sm font-bold text-secondary mb-2">Rasm preview (Image URL)</label>
+                <input 
+                  type="text" 
+                  value={lessonForm.img}
+                  onChange={(e) => setLessonForm({...lessonForm, img: e.target.value})}
+                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white font-mono text-xs"
+                  placeholder="https://images.unsplash.com/... (Bo'sh qolsa avto rasm olinadi)"
+                />
+              </div>
+
+              <button 
+                type="submit" 
+                disabled={savingLesson}
+                className="btn-primary px-8 py-3 w-full md:w-auto"
+              >
+                {savingLesson ? "Yuklanmoqda..." : "Darslikni chop etish"}
               </button>
             </form>
           </div>

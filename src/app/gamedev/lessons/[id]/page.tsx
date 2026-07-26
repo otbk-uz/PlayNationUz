@@ -33,6 +33,8 @@ interface Comment {
   }
 }
 
+import { DEFAULT_LESSONS } from "@/lib/lessonsData";
+
 export default function LessonDetailsPage() {
   const params = useParams();
   const router = useRouter();
@@ -104,32 +106,41 @@ export default function LessonDetailsPage() {
           .eq("id", lessonId)
           .single();
 
+        let activeLesson: Lesson | null = null;
+
         if (error || !lessonData) {
           const cached = getCachedData<Lesson>(`lesson_${lessonId}`);
+          const defaultMatch = DEFAULT_LESSONS.find(l => l.id === lessonId);
           if (cached) {
-            setLesson(cached);
-          } else {
-            router.push("/gamedev");
-            return;
+            activeLesson = cached;
+          } else if (defaultMatch) {
+            activeLesson = defaultMatch;
+          } else if (DEFAULT_LESSONS.length > 0) {
+            activeLesson = DEFAULT_LESSONS[0];
           }
         } else {
-          setLesson(lessonData);
+          activeLesson = lessonData;
           setCachedData(`lesson_${lessonId}`, lessonData);
         }
 
+        setLesson(activeLesson);
+
         // Fetch all lessons of the same course level
-        const currentLevel = lessonData?.level || "Boshlang'ich";
+        const currentLevel = activeLesson?.level || "GameDev 0dan o'rganish";
         const { data: listData } = await supabase
           .from("gamedev_lessons")
           .select("*")
           .eq("level", currentLevel)
           .order("created_at", { ascending: true });
 
-        const dbLessons = listData || [];
+        let dbLessons = (listData && listData.length > 0) ? listData : DEFAULT_LESSONS;
         setPlaylistLessons(dbLessons as Lesson[]);
         setCachedData(`lesson_playlist_${lessonId}`, dbLessons as Lesson[]);
       } catch (err) {
         console.error(t("dars_load_error", "Dars ma'lumotlarini yuklashda xatolik:"), err);
+        const defaultMatch = DEFAULT_LESSONS.find(l => l.id === lessonId) || DEFAULT_LESSONS[0];
+        setLesson(defaultMatch);
+        setPlaylistLessons(DEFAULT_LESSONS);
       } finally {
         setLoading(false);
       }

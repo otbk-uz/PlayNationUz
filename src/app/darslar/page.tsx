@@ -9,6 +9,8 @@ import { useAuthStore, useTranslation } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
 import { BackButton } from "@/components/ui/BackButton";
 
+import { DEFAULT_LESSONS } from "@/lib/lessonsData";
+
 export default function DarslarPage() {
   const router = useRouter();
   const { user, isAuthenticated } = useAuthStore();
@@ -29,10 +31,21 @@ export default function DarslarPage() {
         .select("*")
         .order("created_at", { ascending: true });
 
-      if (error) throw error;
-      setLessons(data || []);
+      if (error || !data || data.length === 0) {
+        setLessons(DEFAULT_LESSONS);
+      } else {
+        // Combine DB lessons with default lessons if DB has fewer than 5
+        const combined = [...data];
+        DEFAULT_LESSONS.forEach(def => {
+          if (!combined.some(d => d.id === def.id || d.title === def.title)) {
+            combined.push(def);
+          }
+        });
+        setLessons(combined);
+      }
     } catch (err) {
       console.error("Darslarni yuklashda xatolik:", err);
+      setLessons(DEFAULT_LESSONS);
     } finally {
       setLoadingLessons(false);
     }
@@ -166,7 +179,7 @@ export default function DarslarPage() {
             {filteredLessons.map((lesson) => (
               <div
                 key={lesson.id}
-                onClick={() => router.push(`/gamedev/lessons/${lesson.id}`)}
+                onClick={() => router.push(`/darslar/${lesson.id}`)}
                 className="group cursor-pointer flex flex-col space-y-3 transition-all duration-200 active:scale-[0.98]"
               >
                 {/* Thumbnail Container */}
