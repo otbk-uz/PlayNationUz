@@ -37,6 +37,7 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
 
   // Extract YouTube ID
   const getYoutubeId = (urlStr: string) => {
+    if (!urlStr) return null;
     const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
     const match = urlStr.match(regExp);
     return (match && match[2].length === 11) ? match[2] : null;
@@ -44,7 +45,14 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
 
   const ytId = getYoutubeId(url);
 
+  // Extract Vimeo ID
+  const getVimeoId = (urlStr: string) => {
+    if (!urlStr) return null;
+    const match = urlStr.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/);
+    return match ? match[1] : null;
+  };
 
+  const vimeoId = getVimeoId(url);
 
   const getBunnyDetails = (urlStr: string) => {
     if (!urlStr) return { libraryId: null, videoId: null };
@@ -556,6 +564,16 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
             src={`https://iframe.mediadelivery.net/embed/${bunnyLibId}/${bunnyVideoId}?autoplay=true&loop=false&muted=false&preload=true&responsive=true`}
             className="w-full h-full border-0"
             allow="autoplay; encrypted-media; fullscreen"
+            frameBorder="0"
+            allowFullScreen
+          />
+        </div>
+      ) : vimeoId ? (
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <iframe
+            src={`https://player.vimeo.com/video/${vimeoId}?autoplay=1&title=0&byline=0&portrait=0`}
+            className="w-full h-full border-0"
+            allow="autoplay; fullscreen; picture-in-picture"
             frameBorder="0"
             allowFullScreen
           />
