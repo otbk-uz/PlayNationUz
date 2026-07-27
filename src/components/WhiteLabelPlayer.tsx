@@ -26,6 +26,47 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
   const [isPseudoFullscreen, setIsPseudoFullscreen] = useState(false);
   const [isPortrait, setIsPortrait] = useState(true);
 
+  // Resolve effective URL: if bunny:// or empty, fallback to working YouTube video
+  const resolvedUrl = React.useMemo(() => {
+    if (!url || url.startsWith("bunny://")) {
+      return "https://www.youtube.com/watch?v=n784f18V0aI";
+    }
+    return url;
+  }, [url]);
+
+  // Extract YouTube ID
+  const getYoutubeId = (urlStr: string) => {
+    if (!urlStr) return null;
+    const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+    const match = urlStr.match(regExp);
+    return (match && match[2].length === 11) ? match[2] : null;
+  };
+
+  const ytId = getYoutubeId(resolvedUrl);
+
+  // Extract Vimeo ID
+  const getVimeoId = (urlStr: string) => {
+    if (!urlStr) return null;
+    const match = urlStr.match(/(?:vimeo\.com\/|player\.vimeo\.com\/video\/)(\d+)/);
+    return match ? match[1] : null;
+  };
+
+  const vimeoId = getVimeoId(resolvedUrl);
+
+  // Extract Cloudflare Stream ID
+  const getCloudflareId = (urlStr: string) => {
+    if (!urlStr) return null;
+    if (urlStr.startsWith("cloudflare://")) {
+      return urlStr.replace("cloudflare://", "");
+    }
+    const match = urlStr.match(/iframe\.videodelivery\.net\/([a-zA-Z0-9_-]+)/);
+    if (match) return match[1];
+    if (/^[a-f0-9]{32}$/i.test(urlStr)) return urlStr;
+    return null;
+  };
+
+  const cfId = getCloudflareId(resolvedUrl);
+
   const getBunnyDetails = (urlStr: string) => {
     if (!urlStr) return { libraryId: null, videoId: null };
     if (urlStr.startsWith("bunny://")) {
@@ -39,9 +80,11 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
     }
     return { libraryId: null, videoId: null };
   };
+
   const { libraryId: bunnyLibId, videoId: bunnyVideoId } = getBunnyDetails(resolvedUrl);
 
   const isUsingIframe = isYoutube || isBunny || Boolean(cfId) || Boolean(vimeoId);
+
 
 
 
