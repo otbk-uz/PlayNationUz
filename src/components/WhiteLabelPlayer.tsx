@@ -26,7 +26,15 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
   const [isPseudoFullscreen, setIsPseudoFullscreen] = useState(false);
   const [isPortrait, setIsPortrait] = useState(true);
 
+  // Security Protection States
+  const [isWindowBlurred, setIsWindowBlurred] = useState(false);
+  const [isTampered, setIsTampered] = useState(false);
+  const [watermarkPos1, setWatermarkPos1] = useState({ top: "15%", left: "15%" });
+  const [watermarkPos2, setWatermarkPos2] = useState({ top: "50%", left: "45%" });
+  const [watermarkPos3, setWatermarkPos3] = useState({ top: "80%", left: "70%" });
+
   // Resolve effective URL: if bunny:// or empty, fallback to working YouTube video
+
   const resolvedUrl = React.useMemo(() => {
     if (!url || url.startsWith("bunny://")) {
       return "https://www.youtube.com/watch?v=n784f18V0aI";
