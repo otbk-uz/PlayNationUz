@@ -26,7 +26,8 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
   const [isPseudoFullscreen, setIsPseudoFullscreen] = useState(false);
   const [isPortrait, setIsPortrait] = useState(true);
 
-  const isUsingIframe = isYoutube || isBunny;
+  const isUsingIframe = isYoutube || isBunny || Boolean(cfId) || Boolean(vimeoId);
+
 
   // Security Protection States
   const [isWindowBlurred, setIsWindowBlurred] = useState(false);
@@ -615,7 +616,7 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
             allowFullScreen
           />
         </div>
-      ) : (
+      ) : !isUsingIframe ? (
         <video
           ref={videoRef}
           src={url}
@@ -626,7 +627,8 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
           preload="auto"
           playsInline
         />
-      )}
+      ) : null}
+
 
       {/* Dynamic Security Multi-Watermarks (scattered to prevent cropping) */}
       {userIdentifier && (
