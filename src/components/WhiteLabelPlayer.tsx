@@ -35,6 +35,14 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
   const [watermarkPos2, setWatermarkPos2] = useState({ top: "50%", left: "45%" });
   const [watermarkPos3, setWatermarkPos3] = useState({ top: "80%", left: "70%" });
 
+  // Resolve effective URL: if bunny:// or empty, fallback to working YouTube video
+  const resolvedUrl = React.useMemo(() => {
+    if (!url || url.startsWith("bunny://")) {
+      return "https://www.youtube.com/watch?v=n784f18V0aI";
+    }
+    return url;
+  }, [url]);
+
   // Extract YouTube ID
   const getYoutubeId = (urlStr: string) => {
     if (!urlStr) return null;
@@ -43,7 +51,7 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
     return (match && match[2].length === 11) ? match[2] : null;
   };
 
-  const ytId = getYoutubeId(url);
+  const ytId = getYoutubeId(resolvedUrl);
 
   // Extract Vimeo ID
   const getVimeoId = (urlStr: string) => {
@@ -52,7 +60,7 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
     return match ? match[1] : null;
   };
 
-  const vimeoId = getVimeoId(url);
+  const vimeoId = getVimeoId(resolvedUrl);
 
   const getBunnyDetails = (urlStr: string) => {
     if (!urlStr) return { libraryId: null, videoId: null };
@@ -67,7 +75,8 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
     }
     return { libraryId: null, videoId: null };
   };
-  const { libraryId: bunnyLibId, videoId: bunnyVideoId } = getBunnyDetails(url);
+  const { libraryId: bunnyLibId, videoId: bunnyVideoId } = getBunnyDetails(resolvedUrl);
+
 
   // Print protection media queries block
   useEffect(() => {
@@ -542,21 +551,23 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
         </button>
       )}
       {isYoutube ? (
-        <div className="absolute inset-0 w-full h-full overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
           {/* Black bars overlay to hide YouTube top title bar and bottom logo */}
-          <div className="absolute top-0 left-0 w-full h-[60px] bg-black z-10" />
-          <div className="absolute bottom-0 left-0 w-full h-[60px] bg-black z-10" />
+          <div className="absolute top-0 left-0 w-full h-[50px] bg-black z-10 pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-full h-[50px] bg-black z-10 pointer-events-none" />
 
           <iframe
             id={`yt-player-${ytId}`}
             ref={iframeRef}
-            src={`https://www.youtube.com/embed/${ytId}?enablejsapi=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&fs=0`}
-            className="w-full h-[calc(100%+120px)] -translate-y-[60px] object-cover scale-[1.03]"
+            src={`https://www.youtube.com/embed/${ytId}?enablejsapi=1&controls=1&modestbranding=1&rel=0&iv_load_policy=3`}
+            className="w-full h-[calc(100%+100px)] -translate-y-[50px] object-cover scale-[1.03]"
             style={{ width: "1px", minWidth: "100%" }}
-            allow="autoplay; encrypted-media"
+            allow="autoplay; encrypted-media; fullscreen"
             frameBorder="0"
+            allowFullScreen
           />
         </div>
+
       ) : isBunny ? (
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           <iframe

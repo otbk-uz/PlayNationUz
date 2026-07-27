@@ -16,7 +16,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     author: "Maroqli.uz",
     level: "GameDev 0dan o'rganish",
     img: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80",
-    video_url: "https://www.youtube.com/watch?v=gB1F9G0JHD8",
+    video_url: "https://www.youtube.com/watch?v=n784f18V0aI",
     duration: "15:20",
     created_at: "2026-01-01T00:00:00.000Z"
   },
@@ -26,7 +26,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     author: "Maroqli.uz",
     level: "GameDev 0dan o'rganish",
     img: "https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&q=80",
-    video_url: "https://www.youtube.com/watch?v=gB1F9G0JHD8",
+    video_url: "https://www.youtube.com/watch?v=n784f18V0aI",
     duration: "22:45",
     created_at: "2026-01-02T00:00:00.000Z"
   },
@@ -36,7 +36,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     author: "Maroqli.uz",
     level: "GameDev 0dan o'rganish",
     img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=800&q=80",
-    video_url: "https://www.youtube.com/watch?v=gB1F9G0JHD8",
+    video_url: "https://www.youtube.com/watch?v=n784f18V0aI",
     duration: "18:10",
     created_at: "2026-01-03T00:00:00.000Z"
   },
@@ -46,7 +46,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     author: "Maroqli.uz",
     level: "GameDev 0dan o'rganish",
     img: "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=800&q=80",
-    video_url: "https://www.youtube.com/watch?v=gB1F9G0JHD8",
+    video_url: "https://www.youtube.com/watch?v=n784f18V0aI",
     duration: "30:00",
     created_at: "2026-01-04T00:00:00.000Z"
   },
@@ -56,7 +56,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     author: "Maroqli.uz",
     level: "GameDev 0dan o'rganish",
     img: "https://images.unsplash.com/photo-1551103782-8ab07afd45c1?w=800&q=80",
-    video_url: "https://www.youtube.com/watch?v=gB1F9G0JHD8",
+    video_url: "https://www.youtube.com/watch?v=n784f18V0aI",
     duration: "25:15",
     created_at: "2026-01-05T00:00:00.000Z"
   }
