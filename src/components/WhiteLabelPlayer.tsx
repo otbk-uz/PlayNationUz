@@ -62,6 +62,19 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
 
   const vimeoId = getVimeoId(resolvedUrl);
 
+  const getCloudflareId = (urlStr: string) => {
+    if (!urlStr) return null;
+    if (urlStr.startsWith("cloudflare://")) {
+      return urlStr.replace("cloudflare://", "");
+    }
+    const match = urlStr.match(/iframe\.videodelivery\.net\/([a-zA-Z0-9_-]+)/);
+    if (match) return match[1];
+    if (/^[a-f0-9]{32}$/i.test(urlStr)) return urlStr;
+    return null;
+  };
+
+  const cfId = getCloudflareId(resolvedUrl);
+
   const getBunnyDetails = (urlStr: string) => {
     if (!urlStr) return { libraryId: null, videoId: null };
     if (urlStr.startsWith("bunny://")) {
@@ -76,6 +89,7 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
     return { libraryId: null, videoId: null };
   };
   const { libraryId: bunnyLibId, videoId: bunnyVideoId } = getBunnyDetails(resolvedUrl);
+
 
 
   // Print protection media queries block
@@ -550,7 +564,19 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
           <Minimize size={20} />
         </button>
       )}
-      {isYoutube ? (
+      {cfId ? (
+        <div className="absolute inset-0 w-full h-full overflow-hidden">
+          <iframe
+            ref={iframeRef}
+            src={`https://iframe.videodelivery.net/${cfId}?autoplay=true&preload=true&responsive=true`}
+            className="w-full h-full border-0"
+            allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture; fullscreen"
+            frameBorder="0"
+            allowFullScreen
+          />
+        </div>
+      ) : isYoutube ? (
+
         <div className="absolute inset-0 w-full h-full overflow-hidden">
           {/* Black bars overlay to hide YouTube top title bar and bottom logo */}
           <div className="absolute top-0 left-0 w-full h-[50px] bg-black z-10 pointer-events-none" />
