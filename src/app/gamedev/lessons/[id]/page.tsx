@@ -7,9 +7,13 @@ import { BackButton } from "@/components/ui/BackButton";
 import { useAuthStore, useTranslation } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
 import { WhiteLabelPlayer } from "@/components/WhiteLabelPlayer";
-import { BookOpen, RefreshCw, Crown, Award, Play, Send, Trash2, User, MessageSquare } from "lucide-react";
+import { 
+  RefreshCw, Play, Send, Trash2, User, MessageSquare, ThumbsUp, ThumbsDown, 
+  Share2, Bookmark, CheckCircle, Bell, ChevronDown, ChevronUp, Youtube, Sparkles
+} from "lucide-react";
 import Link from "next/link";
 import { getCachedData, setCachedData } from "@/lib/cache";
+import { DEFAULT_LESSONS } from "@/lib/lessonsData";
 
 interface Lesson {
   id: string;
@@ -18,6 +22,7 @@ interface Lesson {
   level: string;
   img: string;
   video_url: string;
+  duration?: string;
 }
 
 interface Comment {
@@ -30,10 +35,8 @@ interface Comment {
     username: string;
     full_name: string;
     avatar_url: string;
-  }
+  };
 }
-
-import { DEFAULT_LESSONS } from "@/lib/lessonsData";
 
 export default function LessonDetailsPage() {
   const params = useParams();
@@ -45,6 +48,15 @@ export default function LessonDetailsPage() {
   const [lesson, setLesson] = useState<Lesson | null>(null);
   const [playlistLessons, setPlaylistLessons] = useState<Lesson[]>([]);
   const [loading, setLoading] = useState(true);
+
+  // YouTube interaction states
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [likeCount, setLikeCount] = useState(1420);
+  const [disliked, setDisliked] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [descExpanded, setDescExpanded] = useState(false);
+  const [copiedLink, setCopiedLink] = useState(false);
 
   // Comments states
   const [comments, setComments] = useState<Comment[]>([]);
@@ -99,7 +111,6 @@ export default function LessonDetailsPage() {
 
     const fetchLessonData = async () => {
       try {
-        // Fetch lesson detail from DB
         const { data: lessonData, error } = await supabase
           .from("gamedev_lessons")
           .select("*")
@@ -125,7 +136,6 @@ export default function LessonDetailsPage() {
 
         setLesson(activeLesson);
 
-        // Fetch all lessons of the same course level
         const currentLevel = activeLesson?.level || "GameDev 0dan o'rganish";
         const { data: listData } = await supabase
           .from("gamedev_lessons")
@@ -196,11 +206,30 @@ export default function LessonDetailsPage() {
     }
   };
 
+  const handleShare = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard.writeText(window.location.href);
+      setCopiedLink(true);
+      setTimeout(() => setCopiedLink(false), 2500);
+    }
+  };
+
+  const toggleLike = () => {
+    if (liked) {
+      setLiked(false);
+      setLikeCount(prev => prev - 1);
+    } else {
+      setLiked(true);
+      setLikeCount(prev => prev + 1);
+      if (disliked) setDisliked(false);
+    }
+  };
+
   if (!mounted || loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-background text-white">
-        <RefreshCw className="animate-spin text-primary mb-4" size={40} />
-        <p className="text-secondary text-sm">{t("lesson_loading", "Darslik yuklanmoqda...")}</p>
+      <div className="flex flex-col items-center justify-center min-h-screen bg-[#0f0f0f] text-white">
+        <RefreshCw className="animate-spin text-red-500 mb-4" size={36} />
+        <p className="text-secondary text-xs uppercase tracking-widest">{t("lesson_loading", "Darslik yuklanmoqda...")}</p>
       </div>
     );
   }
@@ -210,232 +239,320 @@ export default function LessonDetailsPage() {
   const currentLessonIndex = playlistLessons.findIndex(l => l.id === lesson.id);
 
   return (
-    <main className="min-h-screen bg-background text-white">
+    <main className="min-h-screen bg-[#0f0f0f] text-white font-sans">
       <Navbar />
 
-      <div className="container mx-auto px-4 md:px-6 pt-24 md:pt-32 pb-12 md:pb-20 max-w-6xl">
-        <div className="mb-6">
+      <div className="container mx-auto px-4 md:px-6 pt-24 md:pt-28 pb-20 max-w-7xl">
+        <div className="mb-4">
           <BackButton />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Player and Title Info (Takes 2 cols) */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Custom styled white label player with user watermark */}
-            <WhiteLabelPlayer 
-              url={lesson.video_url} 
-              userIdentifier={user?.email || user?.username} 
-            />
+          {/* Left Column: Player, Video Info, Description, Comments (2 cols) */}
+          <div className="lg:col-span-2 space-y-5">
+            {/* WhiteLabel YouTube Player Container */}
+            <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-black shadow-2xl border border-white/10">
+              <WhiteLabelPlayer 
+                url={lesson.video_url} 
+                userIdentifier={user?.email || user?.username} 
+              />
+            </div>
 
-            {/* Lesson Details Card */}
-            <div className="glass-card p-4 sm:p-6 md:p-8 border border-white/5 space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-white/5 pb-4">
+            {/* Video Title */}
+            <h1 className="text-xl sm:text-2xl font-black text-white leading-snug tracking-tight">
+              {lesson.title}
+            </h1>
+
+            {/* YouTube Channel & Actions Bar */}
+            <div className="flex flex-wrap items-center justify-between gap-4 border-b border-white/10 pb-5">
+              {/* Channel Info */}
+              <div className="flex items-center gap-3">
+                <div className="relative w-11 h-11 rounded-full bg-gradient-to-tr from-red-600 to-violet-600 p-0.5 shadow-md shrink-0">
+                  <div className="w-full h-full rounded-full bg-black flex items-center justify-center font-bold text-white uppercase text-sm">
+                    {lesson.author?.[0]?.toUpperCase() || "M"}
+                  </div>
+                </div>
+
                 <div>
-                  <span className="bg-primary/20 text-primary text-[10px] font-black uppercase tracking-widest px-3 py-1 rounded-md">
-                    {lesson.level}
-                  </span>
-                  <h1 className="text-xl sm:text-2xl md:text-3xl font-black mt-2 text-white">{lesson.title}</h1>
+                  <div className="flex items-center gap-1.5 font-bold text-white text-base">
+                    <span>{lesson.author || "Maroqli Dev"}</span>
+                    <CheckCircle size={15} className="text-red-500 fill-red-500/20" />
+                  </div>
+                  <p className="text-xs text-secondary/80 font-mono">14.8K obunachilar</p>
                 </div>
-                <div className="flex items-center space-x-1.5 text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-sm self-start sm:self-auto">
-                  <Crown size={14} />
-                  <span>{t("premium_lesson_badge", "PREMIUM DARS")}</span>
-                </div>
+
+                <button
+                  onClick={() => setIsSubscribed(!isSubscribed)}
+                  className={`ml-3 py-2 px-5 rounded-full text-xs font-bold transition-all flex items-center gap-2 ${
+                    isSubscribed 
+                      ? "bg-[#272727] text-white border border-white/10 hover:bg-[#383838]" 
+                      : "bg-white text-black hover:bg-white/90 shadow-md"
+                  }`}
+                >
+                  {isSubscribed ? (
+                    <>
+                      <Bell size={14} className="text-red-500 fill-current" />
+                      <span>Obuna bo'lingan</span>
+                    </>
+                  ) : (
+                    <span>Obuna bo'lish</span>
+                  )}
+                </button>
               </div>
 
-              <div className="flex items-center justify-between text-sm">
-                <div>
-                  <p className="text-secondary text-xs uppercase font-bold tracking-wider">{t("lesson_author_label", "Darslik Muallifi")}</p>
-                  <p className="font-bold text-white mt-1">{lesson.author}</p>
+              {/* Action Buttons (Like, Dislike, Share, Save) */}
+              <div className="flex items-center gap-2">
+                {/* Like / Dislike Group */}
+                <div className="flex items-center bg-[#272727] border border-white/10 rounded-full overflow-hidden">
+                  <button
+                    onClick={toggleLike}
+                    className={`flex items-center gap-2 py-2 px-4 text-xs font-bold transition-colors ${
+                      liked ? "text-red-500 bg-red-500/10" : "text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <ThumbsUp size={16} className={liked ? "fill-current" : ""} />
+                    <span>{likeCount.toLocaleString()}</span>
+                  </button>
+                  <div className="h-4 w-px bg-white/10" />
+                  <button
+                    onClick={() => {
+                      setDisliked(!disliked);
+                      if (liked) {
+                        setLiked(false);
+                        setLikeCount(prev => prev - 1);
+                      }
+                    }}
+                    className={`py-2 px-3 text-xs transition-colors ${
+                      disliked ? "text-red-500 bg-red-500/10" : "text-white hover:bg-white/10"
+                    }`}
+                  >
+                    <ThumbsDown size={16} className={disliked ? "fill-current" : ""} />
+                  </button>
                 </div>
-                <div className="text-right">
-                  <p className="text-secondary text-xs uppercase font-bold tracking-wider">{t("platform_label_caps", "Platforma")}</p>
-                  <p className="font-bold text-primary mt-1">MAROQLI.uz</p>
-                </div>
-              </div>
 
-              <div className="pt-2 text-secondary text-sm leading-relaxed space-y-2">
-                <p>{t("lesson_desc_p1", "Ushbu video darslik orqali o'yin yaratish sohasidagi ko'nikmalarni bosqichma-bosqich o'rganishingiz mumkin.")}</p>
-                <p>{t("lesson_desc_p2", "O'yinlar yaratish va ularni platformamiz do'koniga joylashtirib daromad olishni bugundanoq boshlang!")}</p>
+                {/* Share Button */}
+                <button
+                  onClick={handleShare}
+                  className="flex items-center gap-2 py-2 px-4 bg-[#272727] hover:bg-[#383838] border border-white/10 rounded-full text-xs font-bold text-white transition-colors"
+                >
+                  <Share2 size={15} />
+                  <span>{copiedLink ? "Nusxalandi!" : "Ulashish"}</span>
+                </button>
+
+                {/* Save Button */}
+                <button
+                  onClick={() => setSaved(!saved)}
+                  className={`p-2.5 bg-[#272727] hover:bg-[#383838] border border-white/10 rounded-full text-white transition-colors ${
+                    saved ? "text-red-500 bg-red-500/10" : ""
+                  }`}
+                  title="Saqlash"
+                >
+                  <Bookmark size={15} className={saved ? "fill-current" : ""} />
+                </button>
               </div>
             </div>
 
-            {/* Comments Section */}
-            <div className="glass-card p-4 sm:p-6 md:p-8 border border-white/5 space-y-6">
-              <h3 className="font-bold text-lg flex items-center gap-2 border-b border-white/5 pb-3">
-                <MessageSquare size={18} className="text-primary" />
-                <span>{t("comments_header", "Izohlar")} ({comments.length})</span>
-              </h3>
+            {/* YouTube Expandable Description Box */}
+            <div 
+              onClick={() => setDescExpanded(!descExpanded)}
+              className="bg-[#272727]/90 hover:bg-[#272727] border border-white/10 rounded-2xl p-4 cursor-pointer transition-colors space-y-3"
+            >
+              <div className="flex items-center gap-3 text-xs font-bold text-white font-mono">
+                <span>3,820 ko'rishlar</span>
+                <span>•</span>
+                <span>2026-yil 15-iyul</span>
+                <span className="bg-red-500/10 text-red-400 border border-red-500/20 px-2 py-0.5 rounded text-[10px] font-sans font-black uppercase">
+                  {lesson.level}
+                </span>
+              </div>
 
-              {/* Add Comment Form */}
+              <div className={`text-xs text-secondary leading-relaxed space-y-2 font-sans ${descExpanded ? "" : "line-clamp-2"}`}>
+                <p>Ushbu video darslik orqali o'yin yaratish sohasidagi ko'nikmalarni bosqichma-bosqich o'rganishingiz va Maroqli.uz platformasi do'koniga loyihalaringizni joylashtirib daromad olishni boshlashingiz mumkin.</p>
+                <p className="text-red-400 font-medium">#gamedev #maroqli #unrealengine #unity #darslik #uzbekistan</p>
+              </div>
+
+              <div className="flex items-center gap-1 text-[11px] font-bold text-white uppercase tracking-wider pt-1">
+                <span>{descExpanded ? "Qisqartirish" : "Batafsil ko'rish"}</span>
+                {descExpanded ? <ChevronUp size={14} /> : <ChevronDown size={14} />}
+              </div>
+            </div>
+
+            {/* YouTube Comments Section */}
+            <div className="space-y-6 pt-4">
+              <div className="flex items-center gap-3 border-b border-white/10 pb-4">
+                <MessageSquare size={20} className="text-red-500" />
+                <h3 className="font-bold text-lg text-white">
+                  {comments.length} ta Izohlar
+                </h3>
+              </div>
+
+              {/* Add Comment Input Bar */}
               {isAuthenticated && user ? (
-                <form onSubmit={handlePostComment} className="flex gap-4">
-                  <div className="w-9 h-9 rounded-full bg-primary flex items-center justify-center font-bold text-xs shrink-0 select-none text-white">
-                    {user.username?.[0]?.toUpperCase() || <User size={12} />}
+                <form onSubmit={handlePostComment} className="flex gap-4 items-start">
+                  <div className="w-10 h-10 rounded-full bg-gradient-to-br from-red-600 to-violet-600 text-xs font-bold text-white flex items-center justify-center shrink-0 shadow-md uppercase select-none">
+                    {user.username?.[0]?.toUpperCase() || <User size={14} />}
                   </div>
                   <div className="flex-1 space-y-3">
-                    <textarea
+                    <input
+                      type="text"
                       placeholder={t("post_comment_placeholder", "Izoh qoldiring...")}
-                      rows={3}
                       value={newComment}
                       onChange={(e) => setNewComment(e.target.value)}
                       required
-                      className="w-full bg-white/5 border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-sm text-white resize-none"
+                      className="w-full bg-transparent border-b border-white/20 focus:border-red-500 py-2 text-sm text-white focus:outline-none transition-colors placeholder:text-secondary/70"
                     />
-                    <button
-                      type="submit"
-                      disabled={submittingComment || !newComment.trim()}
-                      className="btn-primary !py-2 !px-5 text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 ml-auto disabled:opacity-50"
-                    >
-                      {submittingComment ? (
-                        <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      ) : (
-                        <>
-                          <Send size={12} />
-                          <span>{t("send_btn", "Yuborish")}</span>
-                        </>
-                      )}
-                    </button>
+                    {newComment.trim() && (
+                      <div className="flex justify-end gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setNewComment("")}
+                          className="py-1.5 px-4 rounded-full text-xs font-bold text-secondary hover:text-white transition-colors"
+                        >
+                          Bekor qilish
+                        </button>
+                        <button
+                          type="submit"
+                          disabled={submittingComment}
+                          className="py-1.5 px-5 bg-red-600 hover:bg-red-700 text-white rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shadow-md disabled:opacity-50"
+                        >
+                          {submittingComment ? (
+                            <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                          ) : (
+                            <>
+                              <Send size={12} />
+                              <span>Izoh qoldirish</span>
+                            </>
+                          )}
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </form>
               ) : (
-                <div className="text-center py-4 bg-white/5 border border-white/10 rounded-2xl">
-                  <p className="text-secondary text-sm">
-                    {locale === 'ru' ? (
-                      <>Для добавления комментария пожалуйста, <Link href="/login" className="text-primary font-bold hover:underline">войдите в систему</Link>.</>
-                    ) : locale === 'en' ? (
-                      <>To leave a comment, please <Link href="/login" className="text-primary font-bold hover:underline">log in</Link>.</>
-                    ) : (
-                      <>Izoh qoldirish uchun <Link href="/login" className="text-primary font-bold hover:underline">tizimga kiring</Link>.</>
-                    )}
+                <div className="text-center py-4 bg-[#272727] border border-white/10 rounded-2xl">
+                  <p className="text-secondary text-xs">
+                    Izoh qoldirish uchun iltimos <Link href="/login" className="text-red-400 font-bold hover:underline">tizimga kiring</Link>.
                   </p>
                 </div>
               )}
 
-              {/* Comments List */}
-              <div className="space-y-4">
-                {loadingComments ? (
-                  <div className="flex justify-center py-8">
-                    <RefreshCw className="animate-spin text-primary" size={24} />
-                  </div>
-                ) : comments.length === 0 ? (
-                  <p className="text-center text-secondary text-xs py-8">{t("first_comment_prompt", "Birinchi bo'lib izoh qoldiring!")}</p>
-                ) : (
-                  <div className="divide-y divide-white/5 space-y-4">
-                    {comments.map((comment) => (
-                      <div key={comment.id} className="flex gap-4 pt-4 first:pt-0 group">
-                        <div className="w-9 h-9 rounded-full bg-white/10 border border-white/5 overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs select-none">
-                          {comment.profiles?.avatar_url ? (
-                            <img src={comment.profiles.avatar_url} alt="avatar" className="w-full h-full object-cover" />
-                          ) : (
-                            comment.profiles?.username?.[0]?.toUpperCase() || <User size={12} />
+              {/* Comments Feed */}
+              {loadingComments ? (
+                <div className="flex justify-center py-8">
+                  <RefreshCw className="animate-spin text-red-500" size={24} />
+                </div>
+              ) : comments.length === 0 ? (
+                <p className="text-center text-secondary text-xs py-8">Birinchi bo'lib izoh qoldiring!</p>
+              ) : (
+                <div className="space-y-6 pt-2">
+                  {comments.map((comment) => (
+                    <div key={comment.id} className="flex gap-4 group">
+                      <div className="w-9 h-9 rounded-full bg-white/10 border border-white/10 overflow-hidden shrink-0 flex items-center justify-center font-bold text-xs select-none">
+                        {comment.profiles?.avatar_url ? (
+                          <img src={comment.profiles.avatar_url} alt="avatar" className="w-full h-full object-cover" />
+                        ) : (
+                          comment.profiles?.username?.[0]?.toUpperCase() || <User size={12} />
+                        )}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2">
+                          <span className="font-bold text-xs text-white">
+                            @{comment.profiles?.username || "foydalanuvchi"}
+                          </span>
+                          <span className="text-[10px] text-secondary font-mono">
+                            {new Date(comment.created_at).toLocaleDateString()}
+                          </span>
+                        </div>
+                        <p className="text-xs text-white/90 mt-1 leading-relaxed break-words font-sans">{comment.content}</p>
+                        
+                        <div className="flex items-center gap-4 mt-2 text-secondary text-xs">
+                          <button className="flex items-center gap-1 hover:text-white transition-colors">
+                            <ThumbsUp size={13} />
+                          </button>
+                          <button className="flex items-center gap-1 hover:text-white transition-colors">
+                            <ThumbsDown size={13} />
+                          </button>
+                          {user && user.id === comment.user_id && (
+                            <button
+                              onClick={() => handleDeleteComment(comment.id)}
+                              className="text-secondary hover:text-red-500 transition-colors"
+                              title="O'chirish"
+                            >
+                              <Trash2 size={13} />
+                            </button>
                           )}
                         </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center justify-between">
-                            <div>
-                              <span className="font-bold text-sm text-white mr-2">
-                                {comment.profiles?.full_name || comment.profiles?.username || t("anonymous_user_label", "Foydalanuvchi")}
-                              </span>
-                              <span className="text-[10px] text-secondary">
-                                @{comment.profiles?.username}
-                              </span>
-                            </div>
-                            <div className="flex items-center gap-2">
-                              <span className="text-[9px] text-secondary">
-                                {new Date(comment.created_at).toLocaleDateString()}
-                              </span>
-                              {user && user.id === comment.user_id && (
-                                <button
-                                  onClick={() => handleDeleteComment(comment.id)}
-                                  className="text-secondary hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity p-1"
-                                  title={t("delete_btn", "O'chirish")}
-                                >
-                                  <Trash2 size={12} />
-                                </button>
-                              )}
-                            </div>
-                          </div>
-                          <p className="text-sm text-secondary mt-1.5 leading-relaxed break-words">{comment.content}</p>
-                        </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </div>
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
 
-          {/* YouTube-style playlist sidebar (Takes 1 col) */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="glass-card p-0 border border-white/5 overflow-hidden shadow-2xl">
-              {/* Playlist Header */}
-              <div className="p-5 bg-white/[0.02] border-b border-white/5">
-                <span className="text-[10px] text-primary font-bold uppercase tracking-widest block mb-1">{t("playlist_header", "KURS PLEYLISTI")}</span>
-                <h3 className="font-display font-black text-base text-white tracking-tight uppercase line-clamp-1">
-                  {locale === 'ru' ? `${lesson.level} уровень` : locale === 'en' ? `${lesson.level} level` : `${lesson.level} daraja`}
-                </h3>
-                <span className="text-[11px] text-secondary font-medium block mt-1.5">
-                  {currentLessonIndex !== -1 ? currentLessonIndex + 1 : 1} / {playlistLessons.length} {t("lessons_count_label", "darslik")}
+          {/* Right Column: YouTube Playlist Sidebar (1 col) */}
+          <div className="lg:col-span-1 space-y-4">
+            <div className="bg-[#272727] border border-white/10 rounded-2xl p-4">
+              <div className="flex items-center justify-between border-b border-white/10 pb-3 mb-4">
+                <div>
+                  <span className="text-[10px] text-red-500 font-black font-mono uppercase tracking-widest block">KURS PLEYLISTI</span>
+                  <h3 className="font-display font-black text-sm text-white uppercase line-clamp-1 mt-0.5">
+                    {lesson.level}
+                  </h3>
+                </div>
+                <span className="text-xs font-mono font-bold text-white bg-white/10 px-2 py-0.5 rounded">
+                  {currentLessonIndex !== -1 ? currentLessonIndex + 1 : 1}/{playlistLessons.length}
                 </span>
               </div>
 
-              {/* Playlist items container */}
-              <div className="flex flex-col max-h-[420px] overflow-y-auto custom-scrollbar divide-y divide-white/5">
+              {/* Playlist Items */}
+              <div className="flex flex-col gap-3 max-h-[560px] overflow-y-auto custom-scrollbar pr-1">
                 {playlistLessons.map((item, index) => {
                   const isActive = item.id === lesson.id;
                   return (
-                    <Link 
+                    <div 
                       key={item.id} 
-                      href={`/gamedev/lessons/${item.id}`}
-                      className={`flex items-center gap-3 p-4 transition-all duration-300 group ${
+                      onClick={() => router.push(`/darslar/${item.id}`)}
+                      className={`group cursor-pointer flex gap-3 p-2 rounded-xl transition-all ${
                         isActive 
-                          ? "bg-primary/10 border-l-4 border-l-primary text-white" 
+                          ? "bg-red-500/15 border border-red-500/30 text-white" 
                           : "hover:bg-white/5 text-secondary hover:text-white"
                       }`}
                     >
-                      {/* Tartuib raqami yoki play icon */}
-                      <span className="w-5 shrink-0 text-center font-display text-xs font-black tabular-nums">
+                      {/* Index / Play Indicator */}
+                      <span className="w-4 shrink-0 text-center font-mono text-xs font-bold my-auto">
                         {isActive ? (
-                          <span className="text-primary flex justify-center animate-pulse">▶</span>
+                          <span className="text-red-500 flex justify-center animate-pulse">▶</span>
                         ) : (
                           index + 1
                         )}
                       </span>
 
-                      {/* Thumbnail */}
-                      <div className="w-20 aspect-video rounded-lg overflow-hidden bg-black/40 border border-white/10 relative flex-shrink-0">
+                      {/* 16:9 Thumbnail */}
+                      <div className="w-24 aspect-video rounded-lg overflow-hidden bg-black border border-white/10 relative shrink-0">
                         <img 
                           src={item.img} 
                           alt={item.title} 
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
                         />
-                        <div className="absolute inset-0 bg-black/35 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                          <Play size={10} className="text-white fill-current" />
-                        </div>
+                        <span className="absolute bottom-1 right-1 rounded bg-black/85 px-1 py-0.5 text-[9px] font-mono font-bold text-white">
+                          {item.duration || "12:30"}
+                        </span>
                       </div>
 
-                      {/* Title & Author */}
-                      <div className="flex-1 min-w-0">
-                        <h4 className={`font-bold text-[11px] leading-snug line-clamp-2 transition-colors ${
-                          isActive ? "text-primary" : "text-white group-hover:text-primary"
+                      {/* Metadata */}
+                      <div className="flex-1 min-w-0 flex flex-col justify-center">
+                        <h4 className={`font-sans text-xs font-bold leading-snug line-clamp-2 transition-colors ${
+                          isActive ? "text-red-400" : "text-white group-hover:text-red-400"
                         }`}>
                           {item.title}
                         </h4>
-                        <span className="text-[9px] text-secondary mt-1 block">{t("lesson_author_label", "Muallif")}: {item.author}</span>
+                        <span className="text-[10px] text-secondary mt-1 truncate">{item.author || "Maroqli Dev"}</span>
                       </div>
-                    </Link>
+                    </div>
                   );
                 })}
               </div>
-            </div>
-
-            {/* Barcha uchun bepul banner */}
-            <div className="glass-card p-6 border border-emerald-500/20 bg-gradient-to-br from-emerald-500/5 to-transparent text-center space-y-4">
-              <Award className="text-emerald-400 mx-auto" size={32} />
-              <h4 className="font-bold text-sm text-white">{t("free_for_all_title", "Barcha uchun bepul!")}</h4>
-              <p className="text-[11px] text-secondary leading-relaxed">
-                {t("free_for_all_desc", "Ushbu darslik Maroqli.uz jamoasi tomonidan barcha foydalanuvchilarga bepul taqdim etilmoqda.")}
-              </p>
             </div>
           </div>
         </div>
@@ -443,4 +560,3 @@ export default function LessonDetailsPage() {
     </main>
   );
 }
-

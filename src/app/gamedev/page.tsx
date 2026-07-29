@@ -76,7 +76,11 @@ export default function GamedevPage() {
   const [sysRequirements, setSysRequirements] = useState("OS: Windows 10, RAM: 8GB, GPU: GTX 1050");
   const [showUploadForm, setShowUploadForm] = useState(false);
   const [gameFile, setGameFile] = useState<File | null>(null);
+  const [coverFile, setCoverFile] = useState<File | null>(null);
+  const [coverUrl, setCoverUrl] = useState("");
+  const [externalDownloadUrl, setExternalDownloadUrl] = useState("");
   const [executablePath, setExecutablePath] = useState("");
+  const [uploadStatusText, setUploadStatusText] = useState("Yuklanmoqda...");
 
   // Past Projects Form States
   const [pastTitle, setPastTitle] = useState("");
@@ -258,19 +262,51 @@ export default function GamedevPage() {
     }
 
     setSubmitting(true);
+    setUploadStatusText("Sessiya tekshirilmoqda...");
     const slug = title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "") + "-" + Date.now();
 
     try {
-      let download_url = null;
+      // Refresh session token prior to upload to prevent "exp" claim timestamp check failure
+      try {
+        await supabase.auth.refreshSession();
+      } catch (sessErr) {
+        console.warn("Session refresh attempt before upload:", sessErr);
+      }
+
+      let cover = coverUrl.trim() || null;
+      if (coverFile) {
+        setUploadStatusText("Muqova rasmi yuklanmoqda...");
+        const coverExt = coverFile.name.split('.').pop();
+        const coverName = `${user.id}/${Date.now()}_cover.${coverExt}`;
+        const { error: coverErr } = await supabase.storage
+          .from('game_files')
+          .upload(coverName, coverFile, { upsert: true });
+
+        if (!coverErr) {
+          const { data: { publicUrl } } = supabase.storage
+            .from('game_files')
+            .getPublicUrl(coverName);
+          cover = publicUrl;
+        }
+      }
+
+      let download_url = externalDownloadUrl.trim() || null;
+
       if (gameFile) {
+        setUploadStatusText(`Fayl yuklanmoqda (${(gameFile.size/1024/1024).toFixed(1)} MB)...`);
         const fileExt = gameFile.name.split('.').pop();
         const fileName = `${user.id}/${Date.now()}_game.${fileExt}`;
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('game_files')
-          .upload(fileName, gameFile);
+          .upload(fileName, gameFile, { upsert: true });
 
-        if (uploadError) throw uploadError;
+        if (uploadError) {
+          if (uploadError.message?.includes('exp') || uploadError.message?.includes('claim') || uploadError.message?.includes('token')) {
+            throw new Error("Sessiya muddati tugagan. Iltimos sahifani yangilab, profilga qayta kiring hamda yuklashni qaytadan urinib ko'ring.");
+          }
+          throw uploadError;
+        }
 
         const { data: { publicUrl } } = supabase.storage
           .from('game_files')
@@ -278,6 +314,8 @@ export default function GamedevPage() {
 
         download_url = publicUrl;
       }
+
+      setUploadStatusText("Do'konga joylashtirilmoqda...");
 
       const { error } = await supabase.from("developed_games").insert({
         developer_id: user.id,
@@ -289,6 +327,7 @@ export default function GamedevPage() {
         language,
         sys_requirements: sysRequirements,
         download_url,
+        cover,
         executable_path: executablePath,
       });
 
@@ -303,6 +342,9 @@ export default function GamedevPage() {
       setPlatform("PC");
       setDescription("");
       setGameFile(null);
+      setCoverFile(null);
+      setCoverUrl("");
+      setExternalDownloadUrl("");
       setExecutablePath("");
 
       // Refresh dashboard data
@@ -311,6 +353,7 @@ export default function GamedevPage() {
       alert(err.message || "O'yin yuklashda xatolik yuz berdi.");
     } finally {
       setSubmitting(false);
+      setUploadStatusText("Yuklanmoqda...");
     }
   };
 
@@ -782,30 +825,62 @@ export default function GamedevPage() {
                             />
                           </div>
 
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                              <label className="text-xs font-semibold text-secondary block mb-1.5">O'yin Muqova Rasmi (Cover / Poster)</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  if (e.target.files && e.target.files.length > 0) {
+                                    setCoverFile(e.target.files[0]);
+                                  }
+                                }}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-xs focus:outline-none text-secondary file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:text-xs file:font-bold"
+                              />
+                              {coverFile && (
+                                <p className="text-[10px] text-primary mt-1">Muqova tanlandi: {coverFile.name}</p>
+                              )}
+                            </div>
+                            <div>
+                              <label className="text-xs font-semibold text-secondary block mb-1.5">Yoki Muqova rasm havolasi (Cover URL)</label>
+                              <input
+                                type="url"
+                                value={coverUrl}
+                                onChange={(e) => setCoverUrl(e.target.value)}
+                                className={inputClass}
+                                placeholder="https://.../cover.jpg"
+                              />
+                            </div>
+                          </div>
+
                           <div>
-                            <label className="text-xs font-semibold text-secondary block mb-1.5">Tizim talablari</label>
+                            <label className="text-xs font-semibold text-secondary block mb-1.5">Tizim talablari (Steam style)</label>
                             <input
                               type="text"
                               value={sysRequirements}
                               onChange={(e) => setSysRequirements(e.target.value)}
                               className={inputClass}
-                              placeholder="OS: Windows 10, CPU: Intel i5, RAM: 8GB, GPU: GTX 1050"
+                              placeholder="OS: Windows 10/11, CPU: Intel i5/AMD Ryzen 5, RAM: 8GB, GPU: GTX 1050"
                             />
                           </div>
 
-                          <div>
-                            <label className="text-xs font-semibold text-secondary block mb-1.5">Asosiy ishga tushiruvchi fayl nomi (Majburiy emas, Launcher uchun)</label>
+                          <div className="bg-primary/5 border border-primary/20 p-4 rounded-2xl space-y-2">
+                            <label className="text-xs font-bold text-primary block">🎮 Steam Direct Ishga Tushiruvchi Fayl (.exe)</label>
                             <input
                               type="text"
                               value={executablePath}
                               onChange={(e) => setExecutablePath(e.target.value)}
                               className={inputClass}
-                              placeholder="Masalan: MyGame.exe yoki Launcher.exe"
+                              placeholder="Masalan: Game.exe yoki Binaries/Win64/Game-Win64-Shipping.exe"
                             />
+                            <p className="text-[10px] text-secondary">
+                              💡 Maroqli Desktop Launcher foydalanuvchilari 1-bosish bilan o'yinni kompyuterlarida ishga tushirishlari uchun asosiy `.exe` fayl nomini yozing.
+                            </p>
                           </div>
 
                           <div>
-                            <label className="text-xs font-semibold text-secondary block mb-1.5">O'yin fayli (.zip, .exe, .rar - Majburiy emas)</label>
+                            <label className="text-xs font-semibold text-secondary block mb-1.5">O'yin arxiv fayli (.zip, .exe, .rar)</label>
                             <input
                               type="file"
                               accept=".zip,.exe,.rar"
@@ -821,13 +896,24 @@ export default function GamedevPage() {
                             )}
                           </div>
 
+                          <div>
+                            <label className="text-xs font-semibold text-secondary block mb-1.5">Yoki Tashqi yuklab olish havolasi (Google Drive, Telegram, Cloudflare, Mega va b.)</label>
+                            <input
+                              type="url"
+                              value={externalDownloadUrl}
+                              onChange={(e) => setExternalDownloadUrl(e.target.value)}
+                              className={inputClass}
+                              placeholder="Masalan: https://drive.google.com/file/d/... yoki https://t.me/..."
+                            />
+                          </div>
+
                           <div className="flex flex-wrap gap-4">
                             <button
                               type="submit"
                               disabled={submitting}
                               className="btn-primary !py-3 !px-8 text-sm disabled:opacity-50"
                             >
-                              {submitting ? "Yuklanmoqda..." : "Do'konga joylashtirish"}
+                              {submitting ? uploadStatusText : "Do'konga joylashtirish"}
                             </button>
                             <button
                               type="button"

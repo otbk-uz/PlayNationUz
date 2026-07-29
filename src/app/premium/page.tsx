@@ -141,6 +141,12 @@ export default function PremiumPage() {
 
     setSubmittingPayment(true);
     try {
+      try {
+        await supabase.auth.refreshSession();
+      } catch (sessErr) {
+        console.warn("Session refresh attempt before receipt upload:", sessErr);
+      }
+
       const plan = PLANS.find(p => p.key === selectedPlan);
       if (!plan) throw new Error("Plan not found");
 
@@ -151,7 +157,7 @@ export default function PremiumPage() {
 
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('receipts')
-        .upload(fileName, receiptFile);
+        .upload(fileName, receiptFile, { upsert: true });
 
       if (uploadError) throw uploadError;
 

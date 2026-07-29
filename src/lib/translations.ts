@@ -44,7 +44,7 @@ export const translations = {
     add: "Qo'shish",
 
     // Hero
-    hero_title: "O'zbekistonda gaming kelajagi",
+    hero_title: "Milliy Gaming Platformasi",
     hero_desc: "Turnirlar, jonli efirlar va hamjamiyat — barchasi bir joyda. O'zbekistonning eng yirik gaming platformasiga qo'shiling.",
     join_tournament: "Turnirga qo'shil",
     learn_more: "Ko'proq bilish",
@@ -424,7 +424,7 @@ export const translations = {
     add: "Добавить",
 
     // Hero
-    hero_title: "Будущее гейминга в Узбекистане",
+    hero_title: "Национальная Игровая Платформа",
     hero_desc: "Турниры, стримы и сообщество — всё в одном месте. Присоединяйтесь к крупнейшей игровой платформе Узбекистана.",
     join_tournament: "Присоединиться к турниру",
     learn_more: "Узнать больше",
@@ -803,7 +803,7 @@ export const translations = {
     add: "Add",
 
     // Hero
-    hero_title: "The Future of Gaming in Uzbekistan",
+    hero_title: "National Gaming Platform",
     hero_desc: "Tournaments, live streams and community — all in one place. Join the largest gaming platform in Uzbekistan.",
     join_tournament: "Join Tournament",
     learn_more: "Learn More",

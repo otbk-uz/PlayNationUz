@@ -305,12 +305,18 @@ const GameDetailPage = () => {
 
     setSubmittingPayment(true);
     try {
+      try {
+        await supabase.auth.refreshSession();
+      } catch (sessErr) {
+        console.warn("Session refresh attempt before receipt upload:", sessErr);
+      }
+
       const fileExt = receiptFile.name.split('.').pop();
       const fileName = `${user.id}/${Date.now()}_receipt.${fileExt}`;
 
       const { data: uploadData, error: uploadError } = await supabase.storage
         .from('receipts')
-        .upload(fileName, receiptFile);
+        .upload(fileName, receiptFile, { upsert: true });
 
       if (uploadError) throw uploadError;
 
