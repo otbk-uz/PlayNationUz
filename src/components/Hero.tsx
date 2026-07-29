@@ -105,15 +105,15 @@ const Hero = ({ stats }: { stats?: HeroStats }) => {
             >
               {locale === 'ru' ? (
                 <>
-                  Будущее <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-orange-500">гейминга</span> в Узбекистане
+                  Национальная <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-orange-500">Игровая</span> Платформа
                 </>
               ) : locale === 'en' ? (
                 <>
-                  Future of <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-orange-500">gaming</span> in Uzbekistan
+                  National <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-orange-500">Gaming</span> Platform
                 </>
               ) : (
                 <>
-                  O'zbekistonda <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-orange-500">gaming</span> kelajagi
+                  Milliy <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-orange-500">Gaming</span> Platformasi
                 </>
               )}
             </motion.h1>
