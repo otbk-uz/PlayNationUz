@@ -204,6 +204,11 @@ async function run() {
     console.log("Successfully pushed obfuscated code to GitHub!");
   } catch (gitErr) {
     console.error("Git operations failed:", gitErr.message);
+  } finally {
+    console.log("Cleaning up temporary dist-obfuscated folder...");
+    try {
+      fsStd.rmSync(targetDir, { recursive: true, force: true });
+    } catch (e) {}
   }
 }
 
