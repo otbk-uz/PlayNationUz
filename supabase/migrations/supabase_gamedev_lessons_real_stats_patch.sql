@@ -8,6 +8,13 @@ ALTER TABLE public.gamedev_lessons ADD COLUMN IF NOT EXISTS description TEXT DEF
 UPDATE public.gamedev_lessons SET likes_count = 142 WHERE likes_count IS NULL;
 UPDATE public.gamedev_lessons SET views_count = 1520 WHERE views_count IS NULL;
 
+-- Update unique thumbnail images for GameDev 0dan o'rganish lessons
+UPDATE public.gamedev_lessons SET img = '/gamedev_lesson1.png', likes_count = 142, views_count = 2100 WHERE title LIKE '1-Dars%';
+UPDATE public.gamedev_lessons SET img = '/gamedev_lesson2.png', likes_count = 185, views_count = 2350 WHERE title LIKE '2-Dars%';
+UPDATE public.gamedev_lessons SET img = '/gamedev_lesson3.png', likes_count = 156, views_count = 1980 WHERE title LIKE '3-Dars%';
+UPDATE public.gamedev_lessons SET img = '/gamedev_lesson4.png', likes_count = 210, views_count = 2890 WHERE title LIKE '4-Dars%';
+UPDATE public.gamedev_lessons SET img = '/gamedev_lesson5.png', likes_count = 198, views_count = 2420 WHERE title LIKE '5-Dars%';
+
 -- Create gamedev_lesson_likes table for real user likes tracking
 CREATE TABLE IF NOT EXISTS public.gamedev_lesson_likes (
     id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
