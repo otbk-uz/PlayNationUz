@@ -41,7 +41,7 @@ export interface Course {
 export const COURSES: Course[] = [
   {
     id: "gamedev-0dan-organish",
-    title: "GameDev 0dan o'rganish",
+    title: "GameDev \"0\" dan o'rganish",
     subtitle: "Noldan professional o'yin yaratish asoslari va C# kodlash",
     category: "GAMEDEV",
     level: "Boshlang'ich",

@@ -12,12 +12,12 @@ export interface Lesson {
 }
 
 export const DEFAULT_LESSONS: Lesson[] = [
-  // --- Playlist 1: GameDev 0dan o'rganish ---
+  // --- Playlist 1: GameDev "0" dan o'rganish ---
   {
     id: "gamedev-lesson-1",
     title: "1-Dars: Kirish va GameDev asoslari (O'yin qanday yaratiladi?)",
     author: "Maroqli.uz",
-    level: "GameDev 0dan o'rganish",
+    level: "GameDev \"0\" dan o'rganish",
     img: "/gamedev_lesson1.png",
     video_url: "cloudflare://aa830256ddb49a8d8df4a3800f5aa8e6",
     duration: "15:20",
@@ -29,7 +29,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     id: "gamedev-lesson-2",
     title: "2-Dars: Skriptlar va kodlash dunyosi (C# / GDScript)",
     author: "Maroqli.uz",
-    level: "GameDev 0dan o'rganish",
+    level: "GameDev \"0\" dan o'rganish",
     img: "/gamedev_lesson2.png",
     video_url: "cloudflare://ab69aedc0e3f7adf434e9d8bd760c8b6",
     duration: "22:45",
@@ -41,7 +41,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     id: "gamedev-lesson-3",
     title: "3-Dars: 2D va 3D grafika hamda animatsiyalar",
     author: "Maroqli.uz",
-    level: "GameDev 0dan o'rganish",
+    level: "GameDev \"0\" dan o'rganish",
     img: "/gamedev_lesson3.png",
     video_url: "cloudflare://1ec8924aa82dbdba2a5b62e9b3a4e0a9",
     duration: "18:10",
@@ -53,7 +53,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     id: "gamedev-lesson-4",
     title: "4-Dars: Birinchi 3D o'yinni yaratish va fizikasi",
     author: "Maroqli.uz",
-    level: "GameDev 0dan o'rganish",
+    level: "GameDev \"0\" dan o'rganish",
     img: "/gamedev_lesson4.png",
     video_url: "cloudflare://1169039cd2c13e50abd86b6fd073bbe6",
     duration: "30:00",
@@ -65,7 +65,7 @@ export const DEFAULT_LESSONS: Lesson[] = [
     id: "gamedev-lesson-5",
     title: "5-Dars: O'yinni eksport qilish va Maroqli do'konida sotish",
     author: "Maroqli.uz",
-    level: "GameDev 0dan o'rganish",
+    level: "GameDev \"0\" dan o'rganish",
     img: "/gamedev_lesson5.png",
     video_url: "cloudflare://e0109c50de2878ec123c4779264d13aa",
     duration: "25:15",

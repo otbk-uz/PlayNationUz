@@ -219,7 +219,7 @@ export default function LessonDetailsPage() {
           }
         }
 
-        const currentLevel = activeLesson?.level || "GameDev 0dan o'rganish";
+        const currentLevel = activeLesson?.level || 'GameDev "0" dan o\'rganish';
         const { data: listData } = await supabase
           .from("gamedev_lessons")
           .select("*")

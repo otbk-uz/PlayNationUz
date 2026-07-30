@@ -60,7 +60,7 @@ export default function AdminPage() {
   const [lessonForm, setLessonForm] = useState({
     title: '',
     author: 'Maroqli.uz',
-    level: "GameDev 0dan o'rganish",
+    level: `GameDev "0" dan o'rganish`,
     img: '',
     video_url: '',
     duration: ''
@@ -364,7 +364,7 @@ export default function AdminPage() {
         .insert({
           title: lessonForm.title,
           author: lessonForm.author || 'Maroqli.uz',
-          level: lessonForm.level || "GameDev 0dan o'rganish",
+          level: lessonForm.level || `GameDev "0" dan o'rganish`,
           img: lessonForm.img || 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=800&q=80',
           video_url: lessonForm.video_url,
           duration: lessonForm.duration || '15:00'
@@ -376,7 +376,7 @@ export default function AdminPage() {
       setLessonForm({
         title: '',
         author: 'Maroqli.uz',
-        level: "GameDev 0dan o'rganish",
+        level: `GameDev "0" dan o'rganish`,
         img: '',
         video_url: '',
         duration: ''
@@ -451,7 +451,7 @@ export default function AdminPage() {
   const onlineUsers = usersList.filter(u => {
     if (!u.last_seen) return false;
     const diffMs = Date.now() - new Date(u.last_seen).getTime();
-    return diffMs < 5 * 60 * 1000; // 5 minutes
+    return diffMs < 300000; // 5 minutes
   });
 
   // Sort users by last_seen DESC to get recent visits
@@ -607,7 +607,7 @@ export default function AdminPage() {
                     value={lessonForm.level}
                     onChange={(e) => setLessonForm({...lessonForm, level: e.target.value})}
                     className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
-                    placeholder="GameDev 0dan o'rganish"
+                    placeholder={`GameDev "0" dan o'rganish`}
                   />
                 </div>
                 <div>

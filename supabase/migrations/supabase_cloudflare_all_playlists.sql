@@ -8,12 +8,12 @@ DELETE FROM public.gamedev_lessons;
 -- 2. Barcha 4 ta pleylist darslarini Cloudflare Stream Video ID lari hamda Yangi Rasmlar bilan kiritish
 INSERT INTO public.gamedev_lessons (title, author, level, img, video_url, created_at) VALUES
 
--- Playlist 1: GameDev 0dan o'rganish
-('1-Dars: Kirish va GameDev asoslari (O''yin qanday yaratiladi?)', 'Maroqli.uz', 'GameDev 0dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://aa830256ddb49a8d8df4a3800f5aa8e6', '2026-01-01 00:00:00+00'),
-('2-Dars: Skriptlar va kodlash dunyosi (C# / GDScript)', 'Maroqli.uz', 'GameDev 0dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://ab69aedc0e3f7adf434e9d8bd760c8b6', '2026-01-02 00:00:00+00'),
-('3-Dars: 2D va 3D grafika hamda animatsiyalar', 'Maroqli.uz', 'GameDev 0dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://1ec8924aa82dbdba2a5b62e9b3a4e0a9', '2026-01-03 00:00:00+00'),
-('4-Dars: Birinchi 3D o''yinni yaratish va fizikasi', 'Maroqli.uz', 'GameDev 0dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://1169039cd2c13e50abd86b6fd073bbe6', '2026-01-04 00:00:00+00'),
-('5-Dars: O''yinni eksport qilish va Maroqli do''konida sotish', 'Maroqli.uz', 'GameDev 0dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://e0109c50de2878ec123c4779264d13aa', '2026-01-05 00:00:00+00'),
+-- Playlist 1: GameDev "0" dan o'rganish
+('1-Dars: Kirish va GameDev asoslari (O''yin qanday yaratiladi?)', 'Maroqli.uz', 'GameDev "0" dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://aa830256ddb49a8d8df4a3800f5aa8e6', '2026-01-01 00:00:00+00'),
+('2-Dars: Skriptlar va kodlash dunyosi (C# / GDScript)', 'Maroqli.uz', 'GameDev "0" dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://ab69aedc0e3f7adf434e9d8bd760c8b6', '2026-01-02 00:00:00+00'),
+('3-Dars: 2D va 3D grafika hamda animatsiyalar', 'Maroqli.uz', 'GameDev "0" dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://1ec8924aa82dbdba2a5b62e9b3a4e0a9', '2026-01-03 00:00:00+00'),
+('4-Dars: Birinchi 3D o''yinni yaratish va fizikasi', 'Maroqli.uz', 'GameDev "0" dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://1169039cd2c13e50abd86b6fd073bbe6', '2026-01-04 00:00:00+00'),
+('5-Dars: O''yinni eksport qilish va Maroqli do''konida sotish', 'Maroqli.uz', 'GameDev "0" dan o''rganish', '/images/lessons/gamedev.png', 'cloudflare://e0109c50de2878ec123c4779264d13aa', '2026-01-05 00:00:00+00'),
 
 -- Playlist 2: O'yin dizayni (boshlang'ich)
 ('1-Dars: O''yin dizaynining asosiy tamoyillari', 'Maroqli.uz', 'O''yin dizayni (boshlang''ich)', '/images/lessons/gamedesign.png', 'cloudflare://0227f4416dad7974318007a77d7c85db', '2026-01-06 00:00:00+00'),
