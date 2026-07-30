@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS public.courses (
     id TEXT PRIMARY KEY,
     title TEXT NOT NULL,
     category TEXT DEFAULT 'GameDev',
-    level TEXT DEFAULT 'Boshlang\'ich', -- Boshlang'ich, O'rta, Pro
+    level TEXT DEFAULT 'Boshlang''ich', -- Boshlang'ich, O'rta, Pro
     cover_img TEXT NOT NULL,
     description TEXT DEFAULT '',
     what_you_will_learn TEXT[] DEFAULT '{}',
