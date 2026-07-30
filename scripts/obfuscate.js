@@ -50,9 +50,25 @@ async function run() {
   // 1. Clean and recreate target directory
   if (fsStd.existsSync(targetDir)) {
     console.log("Cleaning old dist-obfuscated folder...");
-    fsStd.rmSync(targetDir, { recursive: true, force: true });
+    try {
+      fsStd.rmSync(targetDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 200 });
+    } catch (cleanErr) {
+      console.warn("Could not remove dist-obfuscated root dir directly, cleaning subdirectories instead:", cleanErr.message);
+      try {
+        const entries = fsStd.readdirSync(targetDir);
+        for (const entry of entries) {
+          if (entry !== '.git') {
+            fsStd.rmSync(path.join(targetDir, entry), { recursive: true, force: true });
+          }
+        }
+      } catch (subErr) {
+        console.warn("Subdirectory clean warning:", subErr.message);
+      }
+    }
   }
-  fsStd.mkdirSync(targetDir);
+  if (!fsStd.existsSync(targetDir)) {
+    fsStd.mkdirSync(targetDir, { recursive: true });
+  }
 
   // 2. Copy project files
   console.log("Copying files to dist-obfuscated...");
