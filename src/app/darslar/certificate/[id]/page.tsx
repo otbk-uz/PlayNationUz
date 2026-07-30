@@ -5,8 +5,9 @@ import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import { BackButton } from "@/components/ui/BackButton";
 import { useAuthStore } from "@/lib/store";
+import { supabase } from "@/lib/supabase";
 import { COURSES } from "@/lib/coursesData";
-import { Award, CheckCircle, Download, Printer, Share2, Sparkles, ShieldCheck } from "lucide-react";
+import { Award, CheckCircle, Download, Printer, Share2, Sparkles, ShieldCheck, AlertTriangle, Lock } from "lucide-react";
 
 export default function CertificatePage() {
   const params = useParams();
@@ -14,6 +15,8 @@ export default function CertificatePage() {
   const { user } = useAuthStore();
   const [mounted, setMounted] = useState(false);
   const [copied, setCopied] = useState(false);
+  const [isCompletedByUser, setIsCompletedByUser] = useState(false);
+  const [loadingCheck, setLoadingCheck] = useState(true);
   const certRef = useRef<HTMLDivElement>(null);
 
   const courseId = params.id as string;
@@ -29,9 +32,29 @@ export default function CertificatePage() {
 
   useEffect(() => {
     setMounted(true);
-  }, []);
+    if (user) {
+      supabase
+        .from("user_course_progress")
+        .select("lesson_id")
+        .eq("user_id", user.id)
+        .eq("course_id", course.id)
+        .eq("completed", true)
+        .then(({ data }) => {
+          if (data && data.length >= course.total_lessons) {
+            setIsCompletedByUser(true);
+          }
+          setLoadingCheck(false);
+        });
+    } else {
+      setLoadingCheck(false);
+    }
+  }, [user, course.id, course.total_lessons]);
 
   const handlePrint = () => {
+    if (!isCompletedByUser) {
+      alert("⚠️ Sertifikat rasmiy nusxasini chop etish uchun iltimos avval kursdagi barcha dars va testlarni 100% yakunlang.");
+      return;
+    }
     if (typeof window !== "undefined") {
       window.print();
     }
@@ -68,13 +91,30 @@ export default function CertificatePage() {
 
             <button
               onClick={handlePrint}
-              className="flex items-center gap-2 py-2 px-5 bg-gradient-to-r from-red-600 to-violet-600 hover:from-red-700 hover:to-violet-700 text-white rounded-full text-xs font-bold uppercase tracking-wider shadow-lg shadow-red-600/30 transition-all"
+              className={`flex items-center gap-2 py-2 px-5 rounded-full text-xs font-bold uppercase tracking-wider shadow-lg transition-all ${
+                isCompletedByUser
+                  ? "bg-gradient-to-r from-red-600 to-violet-600 hover:from-red-700 hover:to-violet-700 text-white shadow-red-600/30"
+                  : "bg-white/10 text-white/50 border border-white/10 cursor-not-allowed"
+              }`}
             >
               <Printer size={15} />
-              <span>Chop etish / PDF</span>
+              <span>{isCompletedByUser ? "Chop etish / PDF" : "Namuna (Chop etib bo'lmaydi)"}</span>
             </button>
           </div>
         </div>
+
+        {/* Top Sample Notice Banner if user hasn't finished course */}
+        {!isCompletedByUser && (
+          <div className="mb-6 p-4 rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs font-mono flex items-center gap-3 shadow-lg print:hidden">
+            <AlertTriangle size={20} className="shrink-0 text-amber-400" />
+            <div className="space-y-0.5">
+              <span className="font-bold text-amber-400 uppercase tracking-wider">SERTIFIKAT NAMUNASI:</span>
+              <p className="text-amber-200/90 leading-relaxed font-sans">
+                Siz ushbu kursni hali 100% yakunlamagansiz. Ushbu sahifada sertifikatning namunaviy ko'rinishi namoyish etilmoqda. Kursdagi barcha darslar va testlarni topshirganingizdan so'ng rasmiy tasdiqlangan sertifikat beriladi.
+              </p>
+            </div>
+          </div>
+        )}
 
         {/* Certificate Display Frame */}
         <div 
@@ -92,12 +132,25 @@ export default function CertificatePage() {
             <Award size={400} className="text-amber-400" />
           </div>
 
+          {/* Large Diagonal NAMUNA Watermark Stamp overlay if course not finished */}
+          {!isCompletedByUser && (
+            <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-30">
+              <span className="text-5xl sm:text-7xl font-black font-display uppercase tracking-widest text-amber-400/20 -rotate-12 border-8 border-dashed border-amber-400/25 px-10 py-3 rounded-3xl">
+                NAMUNA • SAMPLE
+              </span>
+            </div>
+          )}
+
           {/* Certificate Content */}
           <div className="relative z-10 space-y-6">
             {/* Header Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-amber-400/30 bg-amber-400/10 text-amber-300 font-mono text-xs font-black uppercase tracking-[0.3em]">
               <Sparkles size={16} />
-              <span>MAROQLI ACADEMY • OFFICIAL CERTIFICATE</span>
+              <span>
+                {isCompletedByUser 
+                  ? "MAROQLI ACADEMY • OFFICIAL CERTIFICATE" 
+                  : "MAROQLI ACADEMY • SERTIFIKAT NAMUNASI (PREVIEW)"}
+              </span>
             </div>
 
             <h1 className="text-3xl sm:text-5xl font-black font-display uppercase tracking-tight text-white print:text-black">
@@ -133,11 +186,11 @@ export default function CertificatePage() {
             <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-6 border-t border-white/10 print:border-gray-300 max-w-3xl mx-auto">
               {/* Verification & QR Code */}
               <div className="text-left font-mono text-[11px] text-secondary print:text-gray-600 space-y-1">
-                <div className="flex items-center gap-1.5 text-emerald-400 font-bold">
-                  <ShieldCheck size={16} />
-                  <span>Rasman Tasdiqlangan Sertifikat</span>
+                <div className={`flex items-center gap-1.5 font-bold ${isCompletedByUser ? "text-emerald-400" : "text-amber-400"}`}>
+                  {isCompletedByUser ? <ShieldCheck size={16} /> : <AlertTriangle size={16} />}
+                  <span>{isCompletedByUser ? "Rasman Tasdiqlangan Sertifikat" : "Sertifikat Namuna Ko'rinishi"}</span>
                 </div>
-                <div>ID: <span className="text-white font-bold print:text-black">{certNumber}</span></div>
+                <div>ID: <span className="text-white font-bold print:text-black">{isCompletedByUser ? certNumber : "CERT-MAROQLI-2026-NAMUNA"}</span></div>
                 <div>Sana: {issueDate}</div>
               </div>
 
@@ -146,7 +199,7 @@ export default function CertificatePage() {
                 <div className="w-full h-full rounded-full border-2 border-dashed border-black/40 flex flex-col items-center justify-center">
                   <Award size={22} className="mb-0.5" />
                   <span>MAROQLI</span>
-                  <span className="text-[8px]">SEAL</span>
+                  <span className="text-[8px]">{isCompletedByUser ? "SEAL" : "NAMUNA"}</span>
                 </div>
               </div>
 
