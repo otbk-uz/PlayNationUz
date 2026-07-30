@@ -10,7 +10,7 @@ import { WhiteLabelPlayer } from "@/components/WhiteLabelPlayer";
 import { 
   RefreshCw, Play, Send, Trash2, User, MessageSquare, ThumbsUp, ThumbsDown, 
   Share2, Bookmark, CheckCircle, Bell, ChevronDown, ChevronUp, Sparkles,
-  ListVideo, SkipForward, SkipBack, Eye, Radio, Flame, Check, HelpCircle, Award, X, AlertCircle
+  ListVideo, SkipForward, SkipBack, Eye, Radio, Flame, Check, HelpCircle, Award, X, AlertCircle, Lock
 } from "lucide-react";
 import Link from "next/link";
 import { getCachedData, setCachedData } from "@/lib/cache";
