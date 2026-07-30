@@ -190,7 +190,7 @@ export default function DarslarPage() {
         ) : filteredLessons.length === 0 ? (
           <div className="glass-card py-20 px-6 text-center flex flex-col items-center">
             <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mb-4">
-              <Youtube size={32} />
+              <Sparkles size={32} />
             </div>
             <h3 className="font-display text-xl font-bold text-white mb-2">Darsliklar topilmadi</h3>
             <p className="text-secondary text-sm max-w-md mb-6">
