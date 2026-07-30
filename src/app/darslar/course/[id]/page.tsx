@@ -234,7 +234,7 @@ export default function CourseDetailPage() {
                       <Sparkles size={20} className="text-red-400" />
                       <div>
                         <div className="font-bold text-xs text-white">
-                          {user?.full_name || user?.username || "Foydalanuvchi Ismi"}
+                          {user?.full_name || user?.username || "Otabek Ravshanov"}
                         </div>
                         <div className="text-[10px] text-secondary font-mono">{course.title} Sertifikati</div>
                       </div>

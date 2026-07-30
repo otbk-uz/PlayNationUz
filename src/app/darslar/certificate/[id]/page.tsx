@@ -19,7 +19,7 @@ export default function CertificatePage() {
   const courseId = params.id as string;
   const course = COURSES.find((c) => c.id === courseId) || COURSES[0];
 
-  const recipientName = user?.full_name || user?.username || "Maroqli Talabasi";
+  const recipientName = user?.full_name || user?.username || "Otabek Ravshanov";
   const issueDate = new Date().toLocaleDateString("uz-UZ", {
     year: "numeric",
     month: "long",
