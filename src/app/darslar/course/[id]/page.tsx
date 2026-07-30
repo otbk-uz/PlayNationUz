@@ -114,7 +114,6 @@ export default function CourseDetailPage() {
 
         {/* Hero Header Banner */}
         <div className="relative rounded-3xl overflow-hidden bg-[#14141c] border border-white/10 p-6 md:p-10 mb-8 shadow-2xl">
-          {/* Background Cover Image with Gradient Overlay */}
           <div className="absolute inset-0 -z-10">
             <img 
               src={course.cover_img} 
@@ -125,7 +124,6 @@ export default function CourseDetailPage() {
           </div>
 
           <div className="max-w-2xl space-y-4">
-            {/* Badges */}
             <div className="flex items-center gap-2">
               <span className="px-3 py-1 rounded-md bg-red-600/90 text-white font-mono text-[11px] font-black uppercase tracking-wider shadow">
                 {course.category}
@@ -144,7 +142,7 @@ export default function CourseDetailPage() {
             </p>
 
             <div className="flex items-center gap-6 text-xs font-mono font-bold text-white/80 pt-2 flex-wrap">
-              <span className="flex items-center gap-1.5 text-amber-400">
+              <span className="flex items-center gap-1.5 text-red-400">
                 <BookOpen size={15} />
                 <span>DARSLAR: {course.total_lessons}</span>
               </span>
@@ -162,10 +160,10 @@ export default function CourseDetailPage() {
           </div>
         </div>
 
-        {/* Main Grid: Left Tabs Content (2 cols) & Right Progress Sidebar (1 col) */}
+        {/* Main Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           
-          {/* Left Column: Tabs & Tab Content */}
+          {/* Left Column */}
           <div className="lg:col-span-2 space-y-6">
             
             {/* Tabs Header Navigation Bar */}
@@ -188,7 +186,6 @@ export default function CourseDetailPage() {
             {/* TAB 1: Tafsilot */}
             {activeTab === "Tafsilot" && (
               <div className="space-y-8">
-                {/* Bu kurs haqida */}
                 <div className="space-y-3">
                   <h3 className="font-display text-xl font-bold text-white uppercase tracking-tight">
                     Bu kurs haqida
@@ -198,7 +195,6 @@ export default function CourseDetailPage() {
                   </p>
                 </div>
 
-                {/* Siz nimani o'rganasiz */}
                 <div className="space-y-4">
                   <h3 className="font-display text-xl font-bold text-white uppercase tracking-tight">
                     Siz nimani o'rganasiz
@@ -214,13 +210,13 @@ export default function CourseDetailPage() {
                 </div>
 
                 {/* Certificate Preview Card */}
-                <div className="bg-gradient-to-r from-amber-950/30 via-[#181824] to-[#14141c] border border-amber-500/30 rounded-2xl p-6 space-y-4">
+                <div className="bg-gradient-to-r from-red-950/30 via-[#181824] to-[#14141c] border border-red-500/30 rounded-2xl p-6 space-y-4">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0">
+                    <div className="w-10 h-10 rounded-xl bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 shrink-0">
                       <Award size={22} />
                     </div>
                     <div>
-                      <span className="text-[10px] font-mono font-black uppercase text-amber-400 tracking-wider">
+                      <span className="text-[10px] font-mono font-black uppercase text-red-400 tracking-wider">
                         TUGATGANINGIZDA
                       </span>
                       <h4 className="font-display text-base font-bold text-white">
@@ -235,7 +231,7 @@ export default function CourseDetailPage() {
 
                   <div className="bg-black/60 border border-white/10 rounded-xl p-4 flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <Sparkles size={20} className="text-amber-400" />
+                      <Sparkles size={20} className="text-red-400" />
                       <div>
                         <div className="font-bold text-xs text-white">
                           {user?.full_name || user?.username || "Foydalanuvchi Ismi"}
@@ -246,7 +242,7 @@ export default function CourseDetailPage() {
 
                     <button
                       onClick={() => router.push(`/darslar/certificate/${course.id}`)}
-                      className="px-4 py-2 bg-amber-500 hover:bg-amber-600 text-black font-bold text-xs rounded-xl uppercase transition-colors"
+                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl uppercase transition-colors shadow-md"
                     >
                       Namuna ko'rish
                     </button>
@@ -258,7 +254,7 @@ export default function CourseDetailPage() {
             {/* TAB 2: Modullar */}
             {activeTab === "Modullar" && (
               <div className="space-y-6">
-                {course.modules.map((mod, mIdx) => (
+                {course.modules.map((mod) => (
                   <div key={mod.id} className="bg-[#14141c] border border-white/10 rounded-2xl overflow-hidden">
                     <div className="bg-white/5 px-5 py-4 border-b border-white/10 flex items-center justify-between">
                       <h4 className="font-display text-sm font-bold text-white uppercase tracking-wider">
@@ -270,7 +266,7 @@ export default function CourseDetailPage() {
                     </div>
 
                     <div className="divide-y divide-white/5">
-                      {mod.lessons.map((lesson, lIdx) => {
+                      {mod.lessons.map((lesson) => {
                         const isCompleted = userProgress[lesson.id];
                         return (
                           <div 
@@ -294,7 +290,7 @@ export default function CourseDetailPage() {
                                 <div className="flex items-center gap-3 text-[11px] text-secondary font-mono mt-0.5">
                                   <span>{lesson.duration}</span>
                                   <span>•</span>
-                                  <span className="text-amber-400 font-semibold">5 ta test mavjud</span>
+                                  <span className="text-red-400 font-semibold">5 ta test mavjud</span>
                                 </div>
                               </div>
                             </div>
@@ -318,14 +314,13 @@ export default function CourseDetailPage() {
                   <h3 className="font-display text-xl font-bold text-white uppercase tracking-tight">
                     Talabalar sharhlari ({reviews.length})
                   </h3>
-                  <div className="flex items-center gap-1 text-amber-400 font-bold text-base">
+                  <div className="flex items-center gap-1 text-red-500 font-bold text-base">
                     <Star size={18} className="fill-current" />
                     <span>4.9</span>
                     <span className="text-xs text-secondary font-normal">(48 baho)</span>
                   </div>
                 </div>
 
-                {/* Post Review Form */}
                 {isAuthenticated && user ? (
                   <form onSubmit={handlePostReview} className="bg-[#14141c] border border-white/10 rounded-2xl p-4 space-y-3">
                     <div className="flex items-center justify-between">
@@ -340,7 +335,7 @@ export default function CourseDetailPage() {
                           >
                             <Star 
                               size={18} 
-                              className={star <= newRating ? "text-amber-400 fill-current" : "text-white/20"} 
+                              className={star <= newRating ? "text-red-500 fill-current" : "text-white/20"} 
                             />
                           </button>
                         ))}
@@ -374,7 +369,6 @@ export default function CourseDetailPage() {
                   </div>
                 )}
 
-                {/* Reviews List */}
                 <div className="space-y-4">
                   {reviews.length === 0 ? (
                     <p className="text-center text-secondary text-xs py-8">Ushbu kursga hali sharhlar qoldirilmagan.</p>
@@ -390,7 +384,7 @@ export default function CourseDetailPage() {
                           </div>
                           <div className="flex items-center gap-0.5">
                             {[...Array(rev.rating)].map((_, i) => (
-                              <Star key={i} size={14} className="text-amber-400 fill-current" />
+                              <Star key={i} size={14} className="text-red-500 fill-current" />
                             ))}
                           </div>
                         </div>
@@ -425,38 +419,36 @@ export default function CourseDetailPage() {
             )}
           </div>
 
-          {/* Right Column: Progress & CTA Orange Sidebar (1 col) */}
+          {/* Right Column: Progress & CTA Crimson Red Sidebar */}
           <div className="lg:col-span-1 space-y-4">
             <div className="bg-[#14141c] border border-white/10 rounded-3xl p-6 shadow-2xl space-y-6 sticky top-24">
               
-              {/* Course Progress */}
               <div className="space-y-2">
                 <div className="flex justify-between text-xs font-mono text-secondary font-bold">
                   <span>Sizning progressingiz</span>
-                  <span className="text-amber-400 font-bold">{completedCount} / {course.total_lessons}</span>
+                  <span className="text-red-400 font-bold">{completedCount} / {course.total_lessons}</span>
                 </div>
                 <div className="h-2 w-full bg-white/10 rounded-full overflow-hidden">
                   <div 
-                    className="h-full bg-gradient-to-r from-orange-500 to-amber-400 rounded-full transition-all duration-500" 
+                    className="h-full bg-gradient-to-r from-red-600 to-violet-600 rounded-full transition-all duration-500" 
                     style={{ width: `${Math.round((completedCount / course.total_lessons) * 100)}%` }}
                   />
                 </div>
               </div>
 
-              {/* Orange Main CTA Button matching reference screenshot */}
+              {/* Official Maroqli Crimson Red & Violet CTA Button */}
               <button
                 onClick={() => router.push(`/darslar/${firstLessonId}`)}
-                className="w-full py-3.5 px-6 bg-gradient-to-r from-orange-600 to-amber-600 hover:from-orange-500 hover:to-amber-500 text-white rounded-2xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-orange-600/30 transition-all transform hover:scale-[1.02]"
+                className="w-full py-3.5 px-6 bg-gradient-to-r from-red-600 to-violet-600 hover:from-red-700 hover:to-violet-700 text-white rounded-2xl text-sm font-bold uppercase tracking-wider flex items-center justify-center gap-2 shadow-lg shadow-red-600/30 transition-all transform hover:scale-[1.02]"
               >
                 <span>{completedCount > 0 ? "Davom ettirish" : "Boshlash"}</span>
                 <ChevronRight size={18} />
               </button>
 
-              {/* Course Features Info List */}
               <div className="space-y-4 pt-2 border-t border-white/10 text-xs text-white/90">
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-secondary">
-                    <BookOpen size={16} className="text-orange-400" />
+                    <BookOpen size={16} className="text-red-400" />
                     <span>Darslar</span>
                   </span>
                   <span className="font-bold font-mono">{course.total_lessons}</span>
@@ -464,7 +456,7 @@ export default function CourseDetailPage() {
 
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-secondary">
-                    <Clock size={16} className="text-orange-400" />
+                    <Clock size={16} className="text-red-400" />
                     <span>Davomiyligi</span>
                   </span>
                   <span className="font-bold font-mono">{course.total_duration}</span>
@@ -472,14 +464,13 @@ export default function CourseDetailPage() {
 
                 <div className="flex items-center justify-between">
                   <span className="flex items-center gap-2 text-secondary">
-                    <Award size={16} className="text-orange-400" />
+                    <Award size={16} className="text-red-400" />
                     <span>Sertifikat</span>
                   </span>
                   <span className="font-bold font-mono text-emerald-400">Avtomatik</span>
                 </div>
               </div>
 
-              {/* Certificate Download CTA if finished */}
               {isCourseFinished && (
                 <div className="pt-2">
                   <button

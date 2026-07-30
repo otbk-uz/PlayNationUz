@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { Search, X, BookOpen, Clock, Award, Sparkles, Filter, ChevronDown, UserCheck } from "lucide-react";
+import { Search, X, BookOpen, Clock, Award, Sparkles, Filter, ChevronDown, UserCheck, Play, CheckCircle } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
@@ -17,7 +17,7 @@ export default function DarslarCatalogPage() {
   const [activeCatalogTab, setActiveCatalogTab] = useState<"Davom etayotgan" | "Yakunlangan" | "Saqlanganlar" | "Katalog">("Katalog");
   const [selectedLevel, setSelectedLevel] = useState<string>("Barcha darajalar");
   const [searchQuery, setSearchQuery] = useState<string>("");
-  const [userProgress, setUserProgress] = useState<Record<string, number>>({}); // course_id -> completed count
+  const [userProgress, setUserProgress] = useState<Record<string, number>>({});
 
   useEffect(() => {
     setMounted(true);
@@ -50,7 +50,7 @@ export default function DarslarCatalogPage() {
   // Calculate user course stats
   const ongoingCourses = COURSES.filter(c => (userProgress[c.id] || 0) > 0 && (userProgress[c.id] || 0) < c.total_lessons);
   const completedCourses = COURSES.filter(c => (userProgress[c.id] || 0) >= c.total_lessons);
-  const savedCourses: Course[] = []; // Saved courses list
+  const savedCourses: Course[] = [];
 
   // Filter courses by Level and Search Query
   const filteredCourses = COURSES.filter(course => {
@@ -75,9 +75,9 @@ export default function DarslarCatalogPage() {
     <main className="min-h-screen bg-[#0a0a0c] text-white relative overflow-hidden font-sans">
       <Navbar />
 
-      {/* Header Glow Effect */}
-      <div className="absolute inset-x-0 top-0 h-[450px] -z-10 bg-[radial-gradient(circle_at_50%_-10%,rgba(239,68,68,0.15),transparent_65%)]" />
-      <div className="absolute inset-x-0 top-0 h-[450px] -z-10 bg-[radial-gradient(circle_at_80%_0%,rgba(245,158,11,0.12),transparent_60%)]" />
+      {/* Official Maroqli Header Glow Effect (Red & Violet) */}
+      <div className="absolute inset-x-0 top-0 h-[450px] -z-10 bg-[radial-gradient(circle_at_50%_-10%,rgba(239,68,68,0.2),transparent_65%)]" />
+      <div className="absolute inset-x-0 top-0 h-[450px] -z-10 bg-[radial-gradient(circle_at_80%_0%,rgba(139,92,246,0.18),transparent_60%)]" />
 
       <div className="container-app pt-28 pb-24 relative z-10">
         <div className="mb-6">
@@ -89,7 +89,7 @@ export default function DarslarCatalogPage() {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 mb-4"
+            className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 mb-4"
           >
             <Sparkles size={16} className="fill-current" />
             <span className="font-display font-black uppercase tracking-[0.2em] text-[11px]">
@@ -101,11 +101,11 @@ export default function DarslarCatalogPage() {
             animate={{ opacity: 1, y: 0 }}
             className="font-display text-3xl sm:text-5xl font-black text-white tracking-tight leading-[1.05] uppercase"
           >
-            Barcha <span className="text-orange-500">Kurslar</span>
+            Barcha <span className="text-red-500">Kurslar</span>
           </motion.h1>
         </div>
 
-        {/* Top Navigation Tabs matching user reference screenshot */}
+        {/* Top Navigation Tabs matching official Maroqli theme */}
         <div className="flex border-b border-white/10 mb-8 overflow-x-auto no-scrollbar gap-8">
           {[
             { id: "Davom etayotgan", label: `Davom etayotgan`, count: ongoingCourses.length },
@@ -118,7 +118,7 @@ export default function DarslarCatalogPage() {
               onClick={() => setActiveCatalogTab(tab.id as any)}
               className={`py-3 text-sm font-bold transition-all border-b-2 whitespace-nowrap flex items-center gap-1.5 ${
                 activeCatalogTab === tab.id
-                  ? "text-orange-500 border-orange-500 font-black"
+                  ? "text-red-500 border-red-500 font-black"
                   : "text-secondary border-transparent hover:text-white"
               }`}
             >
@@ -128,10 +128,9 @@ export default function DarslarCatalogPage() {
           ))}
         </div>
 
-        {/* Search & Level Filter Bar matching user reference screenshot */}
+        {/* Search & Level Filter Bar */}
         {activeCatalogTab === "Katalog" && (
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4 mb-8">
-            {/* Search Input */}
             <div className="relative flex-1 w-full max-w-md">
               <div className="absolute left-4 text-secondary pointer-events-none">
                 <Search size={18} />
@@ -141,7 +140,7 @@ export default function DarslarCatalogPage() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Kurs nomi bo'yicha qidirish..."
-                className="w-full bg-[#181820] border border-white/10 rounded-2xl py-3 pl-11 pr-10 text-xs sm:text-sm text-white placeholder:text-secondary/70 focus:outline-none focus:border-orange-500 transition-all shadow-inner"
+                className="w-full bg-[#14141c] border border-white/10 rounded-2xl py-3 pl-11 pr-10 text-xs sm:text-sm text-white placeholder:text-secondary/70 focus:outline-none focus:border-red-500 transition-all shadow-inner"
               />
               {searchQuery && (
                 <button onClick={() => setSearchQuery("")} className="absolute right-4 text-secondary hover:text-white">
@@ -150,13 +149,12 @@ export default function DarslarCatalogPage() {
               )}
             </div>
 
-            {/* Level Filter Dropdown */}
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <Filter size={16} className="text-secondary shrink-0 hidden sm:block" />
               <select
                 value={selectedLevel}
                 onChange={(e) => setSelectedLevel(e.target.value)}
-                className="bg-[#181820] border border-white/10 rounded-2xl py-3 px-4 text-xs font-bold text-white focus:outline-none focus:border-orange-500 cursor-pointer w-full sm:w-auto shadow-inner"
+                className="bg-[#14141c] border border-white/10 rounded-2xl py-3 px-4 text-xs font-bold text-white focus:outline-none focus:border-red-500 cursor-pointer w-full sm:w-auto shadow-inner"
               >
                 <option value="Barcha darajalar">Barcha darajalar</option>
                 <option value="Boshlang'ich">Boshlang'ich</option>
@@ -167,10 +165,10 @@ export default function DarslarCatalogPage() {
           </div>
         )}
 
-        {/* Course Cards Grid matching reference screenshots */}
+        {/* Course Cards Grid */}
         {displayedList.length === 0 ? (
-          <div className="glass-card py-20 px-6 text-center flex flex-col items-center">
-            <div className="w-16 h-16 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-500 flex items-center justify-center mb-4">
+          <div className="glass-card py-20 px-6 text-center flex flex-col items-center border border-white/10 rounded-3xl">
+            <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mb-4">
               <Sparkles size={32} />
             </div>
             <h3 className="font-display text-xl font-bold text-white mb-2">Kurslar topilmadi</h3>
@@ -191,9 +189,8 @@ export default function DarslarCatalogPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 * idx }}
                   onClick={() => router.push(`/darslar/course/${course.id}`)}
-                  className="group cursor-pointer bg-[#14141c] hover:bg-[#1a1a25] border border-white/10 hover:border-orange-500/50 rounded-3xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col"
+                  className="group cursor-pointer bg-[#14141c] hover:bg-[#1a1a25] border border-white/10 hover:border-red-500/50 rounded-3xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col"
                 >
-                  {/* Course Banner Image with Category Badge */}
                   <div className="relative aspect-video w-full overflow-hidden bg-[#181820]">
                     <img
                       src={course.cover_img}
@@ -202,15 +199,14 @@ export default function DarslarCatalogPage() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-[#14141c] via-transparent to-transparent" />
                     
-                    <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-orange-600/90 text-white font-mono text-[10px] font-black uppercase tracking-wider shadow">
+                    <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-red-600/90 text-white font-mono text-[10px] font-black uppercase tracking-wider shadow">
                       {course.category}
                     </span>
                   </div>
 
-                  {/* Course Info */}
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
                     <div className="space-y-2">
-                      <h3 className="font-display text-lg font-bold text-white leading-snug group-hover:text-orange-400 transition-colors">
+                      <h3 className="font-display text-lg font-bold text-white leading-snug group-hover:text-red-400 transition-colors">
                         {course.title}
                       </h3>
                       <p className="text-xs text-secondary/80 line-clamp-2 leading-relaxed">
@@ -218,7 +214,6 @@ export default function DarslarCatalogPage() {
                       </p>
                     </div>
 
-                    {/* Stats Footer matching reference screenshots */}
                     <div className="pt-3 border-t border-white/10 flex items-center justify-between text-xs text-secondary font-mono">
                       <div className="flex items-center gap-2">
                         <span className="text-white/90 font-semibold">{course.level}</span>
