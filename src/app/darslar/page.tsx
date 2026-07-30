@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { Search, X, BookOpen, Clock, Award, Sparkles, Filter, ChevronDown, UserCheck, Play, CheckCircle } from "lucide-react";
+import { Search, X, BookOpen, Clock, Award, Filter, ChevronDown, UserCheck, Play, CheckCircle, GraduationCap, Bookmark, ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
@@ -18,14 +18,59 @@ export default function DarslarCatalogPage() {
   const [selectedLevel, setSelectedLevel] = useState<string>("Barcha darajalar");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [userProgress, setUserProgress] = useState<Record<string, number>>({});
+  const [savedCourseIds, setSavedCourseIds] = useState<string[]>([]);
 
   useEffect(() => {
     setMounted(true);
     fetchUserProgress();
+    loadSavedCourses();
   }, [user]);
 
+  const loadSavedCourses = () => {
+    if (typeof window !== "undefined") {
+      try {
+        const localSaved = localStorage.getItem("maroqli_saved_courses");
+        if (localSaved) {
+          setSavedCourseIds(JSON.parse(localSaved));
+        }
+      } catch (e) {
+        console.warn("Failed to load saved courses from localStorage", e);
+      }
+    }
+  };
+
+  const toggleSaveCourse = (e: React.MouseEvent, courseId: string) => {
+    e.stopPropagation();
+    let updated: string[];
+    if (savedCourseIds.includes(courseId)) {
+      updated = savedCourseIds.filter(id => id !== courseId);
+    } else {
+      updated = [...savedCourseIds, courseId];
+    }
+    setSavedCourseIds(updated);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("maroqli_saved_courses", JSON.stringify(updated));
+    }
+  };
+
   const fetchUserProgress = async () => {
-    if (!user) return;
+    // 1. Load from localStorage first
+    let localCounts: Record<string, number> = {};
+    if (typeof window !== "undefined") {
+      try {
+        const localProg = localStorage.getItem("maroqli_course_progress");
+        if (localProg) {
+          localCounts = JSON.parse(localProg);
+        }
+      } catch (e) {}
+    }
+
+    if (!user) {
+      setUserProgress(localCounts);
+      return;
+    }
+
+    // 2. Load from Supabase if logged in
     try {
       const { data } = await supabase
         .from("user_course_progress")
@@ -34,14 +79,17 @@ export default function DarslarCatalogPage() {
         .eq("completed", true);
 
       if (data) {
-        const counts: Record<string, number> = {};
+        const counts: Record<string, number> = { ...localCounts };
         data.forEach(item => {
-          counts[item.course_id] = (counts[item.course_id] || 0) + 1;
+          counts[item.course_id] = Math.max(counts[item.course_id] || 0, (counts[item.course_id] || 0) + 1);
         });
         setUserProgress(counts);
+      } else {
+        setUserProgress(localCounts);
       }
     } catch (e) {
       console.warn("Progress load warning:", e);
+      setUserProgress(localCounts);
     }
   };
 
@@ -50,7 +98,7 @@ export default function DarslarCatalogPage() {
   // Calculate user course stats
   const ongoingCourses = COURSES.filter(c => (userProgress[c.id] || 0) > 0 && (userProgress[c.id] || 0) < c.total_lessons);
   const completedCourses = COURSES.filter(c => (userProgress[c.id] || 0) >= c.total_lessons);
-  const savedCourses: Course[] = [];
+  const savedCourses = COURSES.filter(c => savedCourseIds.includes(c.id));
 
   // Filter courses by Level and Search Query
   const filteredCourses = COURSES.filter(course => {
@@ -91,7 +139,7 @@ export default function DarslarCatalogPage() {
             animate={{ opacity: 1, x: 0 }}
             className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 mb-4"
           >
-            <Sparkles size={16} className="fill-current" />
+            <GraduationCap size={16} />
             <span className="font-display font-black uppercase tracking-[0.2em] text-[11px]">
               MAROQLI ACADEMY • TA'LIM KATALOGI
             </span>
@@ -167,20 +215,36 @@ export default function DarslarCatalogPage() {
 
         {/* Course Cards Grid */}
         {displayedList.length === 0 ? (
-          <div className="glass-card py-20 px-6 text-center flex flex-col items-center border border-white/10 rounded-3xl">
-            <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center mb-4">
-              <Sparkles size={32} />
+          <div className="glass-card py-16 px-6 text-center flex flex-col items-center border border-white/10 rounded-3xl space-y-4">
+            <div className="w-16 h-16 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 flex items-center justify-center">
+              <BookOpen size={32} />
             </div>
-            <h3 className="font-display text-xl font-bold text-white mb-2">Kurslar topilmadi</h3>
-            <p className="text-secondary text-sm max-w-md mb-6">
-              {activeCatalogTab === "Davom etayotgan" ? "Hozircha davom etayotgan kurslaringiz mavjud emas." : "Ushbu bo'limda kurslar mavjud emas."}
-            </p>
+            <div className="space-y-1">
+              <h3 className="font-display text-xl font-bold text-white">Kurslar topilmadi</h3>
+              <p className="text-secondary text-sm max-w-md">
+                {activeCatalogTab === "Davom etayotgan" && "Hozircha davom etayotgan kurslaringiz mavjud emas. Katalogdan istalgan kursni boshlashingiz mumkin."}
+                {activeCatalogTab === "Yakunlangan" && "Hali hech bir kursni to'liq yakunlamagansiz. Darslarni ko'rib testlarni topshiring va sertifikatga ega bo'ling!"}
+                {activeCatalogTab === "Saqlanganlar" && "Hozircha saqlangan kurslar mavjud emas. Kurs kartasidagi saqlash tugmasini bosib saqlashingiz mumkin."}
+                {activeCatalogTab === "Katalog" && "Qidiruv natijalariga mos kurslar topilmadi."}
+              </p>
+            </div>
+
+            {activeCatalogTab !== "Katalog" && (
+              <button
+                onClick={() => setActiveCatalogTab("Katalog")}
+                className="mt-2 px-6 py-2.5 bg-gradient-to-r from-red-600 to-violet-600 hover:from-red-700 hover:to-violet-700 text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 shadow-lg shadow-red-600/30 transition-all"
+              >
+                <span>Katalogga o'tish</span>
+                <ArrowRight size={16} />
+              </button>
+            )}
           </div>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {displayedList.map((course, idx) => {
               const completedLessons = userProgress[course.id] || 0;
               const isStarted = completedLessons > 0;
+              const isSaved = savedCourseIds.includes(course.id);
 
               return (
                 <motion.div
@@ -189,7 +253,7 @@ export default function DarslarCatalogPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.08 * idx }}
                   onClick={() => router.push(`/darslar/course/${course.id}`)}
-                  className="group cursor-pointer bg-[#14141c] hover:bg-[#1a1a25] border border-white/10 hover:border-red-500/50 rounded-3xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col"
+                  className="group cursor-pointer bg-[#14141c] hover:bg-[#1a1a25] border border-white/10 hover:border-red-500/50 rounded-3xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col relative"
                 >
                   <div className="relative aspect-video w-full overflow-hidden bg-[#181820]">
                     <img
@@ -202,6 +266,19 @@ export default function DarslarCatalogPage() {
                     <span className="absolute top-3 left-3 px-3 py-1 rounded-md bg-red-600/90 text-white font-mono text-[10px] font-black uppercase tracking-wider shadow">
                       {course.category}
                     </span>
+
+                    {/* Save / Bookmark Button */}
+                    <button
+                      onClick={(e) => toggleSaveCourse(e, course.id)}
+                      className={`absolute top-3 right-3 p-2 rounded-full border transition-all ${
+                        isSaved 
+                          ? "bg-red-600 text-white border-red-500 shadow-lg scale-110" 
+                          : "bg-black/60 text-white/70 border-white/10 hover:bg-black/90 hover:text-white"
+                      }`}
+                      title={isSaved ? "Saqlanganlardan chiqarish" : "Saqlab qo'yish"}
+                    >
+                      <Bookmark size={16} className={isSaved ? "fill-current" : ""} />
+                    </button>
                   </div>
 
                   <div className="p-6 flex-1 flex flex-col justify-between space-y-4">
