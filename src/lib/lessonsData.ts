@@ -6,6 +6,8 @@ export interface Lesson {
   img: string;
   video_url: string;
   duration?: string;
+  likes_count?: number;
+  views_count?: number;
   created_at?: string;
 }
 

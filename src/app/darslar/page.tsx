@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { Plus, Play, GraduationCap, Layers, ChevronRight, Search, X, CheckCircle, Eye, Clock, Youtube } from "lucide-react";
+import { Plus, Play, GraduationCap, Layers, ChevronRight, Search, X, CheckCircle, Eye, Clock, Sparkles } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuthStore, useTranslation } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
@@ -64,7 +64,7 @@ export default function DarslarPage() {
     return matchesCategory && matchesSearch;
   });
 
-  // Group lessons by playlist level for Youtube-style Playlist Shelves (when no search query)
+  // Group lessons by playlist level for Playlist Shelves (when no search query)
   const playlistShelves = categories.map(category => ({
     name: category,
     lessons: filteredLessons.filter(l => l.level === category)
@@ -74,7 +74,7 @@ export default function DarslarPage() {
     <main className="min-h-screen bg-[#0f0f0f] text-white relative overflow-hidden font-sans">
       <Navbar />
 
-      {/* YouTube Glow Effect */}
+      {/* Header Glow Effect */}
       <div className="absolute inset-x-0 top-0 h-[500px] -z-10 bg-[radial-gradient(circle_at_50%_-10%,rgba(255,0,0,0.15),transparent_65%)]" />
       <div className="absolute inset-x-0 top-0 h-[500px] -z-10 bg-[radial-gradient(circle_at_80%_0%,rgba(139,92,246,0.12),transparent_60%)]" />
 
@@ -83,7 +83,7 @@ export default function DarslarPage() {
           <BackButton />
         </div>
 
-        {/* YouTube Header Section */}
+        {/* Studio Header Section */}
         <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-6 mb-8 border-b border-white/10 pb-8">
           <div>
             <motion.div
@@ -91,9 +91,9 @@ export default function DarslarPage() {
               animate={{ opacity: 1, x: 0 }}
               className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-red-500/30 bg-red-500/10 text-red-500 mb-4"
             >
-              <Youtube size={16} className="fill-current" />
+              <Sparkles size={16} className="fill-current" />
               <span className="font-display font-black uppercase tracking-[0.2em] text-[11px]">
-                YouTube Studio • GameDev Hub
+                MAROQLI ACADEMY • GameDev Hub
               </span>
             </motion.div>
             <motion.h1
@@ -109,7 +109,7 @@ export default function DarslarPage() {
               transition={{ delay: 0.1 }}
               className="text-secondary text-sm sm:text-base mt-2 max-w-xl leading-relaxed"
             >
-              O'yin yaratish bo'yicha YouTube 1ga1 formatidagi professional video darslar, pleylistlar va amaliy loyihalar (Bepul).
+              O'yin yaratish bo'yicha Maroqli.uz platformasining 1ga1 formatidagi professional video darslari, pleylistlar va amaliy loyihalar (Bepul).
             </motion.p>
           </div>
 
