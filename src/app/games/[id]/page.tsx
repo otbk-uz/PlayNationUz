@@ -642,7 +642,8 @@ const GameDetailPage = () => {
                   {game.download_url && (
                     <a
                       href={game.download_url}
-                      download
+                      target="_blank"
+                      rel="noopener noreferrer"
                       className="w-full py-3.5 bg-primary hover:bg-primary-hover text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-lg shadow-primary/20"
                     >
                       <Download size={14} />

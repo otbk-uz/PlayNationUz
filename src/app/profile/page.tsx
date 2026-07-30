@@ -719,7 +719,8 @@ const ProfilePage = () => {
                               {gameDetails.download_url && (
                                 <a
                                   href={gameDetails.download_url}
-                                  download
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                   className="mt-3 w-full py-2.5 bg-primary hover:bg-primary-hover text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5 shadow-lg shadow-primary/20"
                                 >
                                   <Download size={12} />

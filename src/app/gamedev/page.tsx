@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { Rocket, DollarSign, Download, UploadCloud, Plus, RefreshCw, Layers, MapPin, Users, Calendar, Gift, Trash2, Sparkles, Package, TrendingUp, PlayCircle, Star } from "lucide-react";
+import { Rocket, DollarSign, Download, UploadCloud, Plus, RefreshCw, Layers, MapPin, Users, Calendar, Gift, Trash2, Sparkles, Package, TrendingUp, PlayCircle, Star, AlertCircle, Check, Link2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuthStore, useTranslation } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
@@ -293,26 +293,44 @@ export default function GamedevPage() {
       let download_url = externalDownloadUrl.trim() || null;
 
       if (gameFile) {
-        setUploadStatusText(`Fayl yuklanmoqda (${(gameFile.size/1024/1024).toFixed(1)} MB)...`);
-        const fileExt = gameFile.name.split('.').pop();
-        const fileName = `${user.id}/${Date.now()}_game.${fileExt}`;
-
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('game_files')
-          .upload(fileName, gameFile, { upsert: true });
-
-        if (uploadError) {
-          if (uploadError.message?.includes('exp') || uploadError.message?.includes('claim') || uploadError.message?.includes('token')) {
-            throw new Error("Sessiya muddati tugagan. Iltimos sahifani yangilab, profilga qayta kiring hamda yuklashni qaytadan urinib ko'ring.");
+        // Validation: If file size is larger than 50MB
+        if (gameFile.size > 50 * 1024 * 1024) {
+          if (externalDownloadUrl.trim()) {
+            // User provided an external URL, use it directly without attempting to upload >50MB to Supabase Storage
+            download_url = externalDownloadUrl.trim();
+          } else {
+            throw new Error(`⚠️ Fayl hajmi ruxsat etilgan chegaradan katta (${(gameFile.size / 1024 / 1024).toFixed(1)} MB)!\n\nSupabase serveriga to'g'ridan-to'g'ri faqat 50MB gacha bo'lgan fayllar yuklanadi. Katta o'yinlar uchun faylingizni Google Drive, Telegram, Cloudflare, Mega yoki MediaFire-ga joylab, ssilkasini 'Tashqi yuklab olish havolasi (URL)' maydoniga kiriting!`);
           }
-          throw uploadError;
+        } else {
+          // File is <= 50MB, proceed with Supabase Storage upload
+          setUploadStatusText(`Fayl yuklanmoqda (${(gameFile.size/1024/1024).toFixed(1)} MB)...`);
+          const fileExt = gameFile.name.split('.').pop();
+          const fileName = `${user.id}/${Date.now()}_game.${fileExt}`;
+
+          const { data: uploadData, error: uploadError } = await supabase.storage
+            .from('game_files')
+            .upload(fileName, gameFile, { upsert: true });
+
+          if (uploadError) {
+            if (uploadError.message?.includes('exp') || uploadError.message?.includes('claim') || uploadError.message?.includes('token')) {
+              throw new Error("Sessiya muddati tugagan. Iltimos sahifani yangilab, profilga qayta kiring hamda yuklashni qaytadan urinib ko'ring.");
+            }
+            if (uploadError.message?.includes('exceeded') || uploadError.message?.includes('maximum') || uploadError.message?.includes('size')) {
+              throw new Error(`⚠️ Fayl hajmi ruxsat etilgan 50MB chegaradan oshib ketdi. Katta o'yinlar uchun faylingizni Google Drive yoki Telegram-ga yuklab, ssilkasini 'Tashqi yuklab olish havolasi' maydoniga kiriting!`);
+            }
+            throw uploadError;
+          }
+
+          const { data: { publicUrl } } = supabase.storage
+            .from('game_files')
+            .getPublicUrl(fileName);
+
+          download_url = publicUrl;
         }
+      }
 
-        const { data: { publicUrl } } = supabase.storage
-          .from('game_files')
-          .getPublicUrl(fileName);
-
-        download_url = publicUrl;
+      if (!download_url) {
+        throw new Error("Iltimos, o'yin faylini biriktiring (50MB gacha) YOKI 'Tashqi yuklab olish havolasi' maydoniga havolasini kiriting!");
       }
 
       setUploadStatusText("Do'konga joylashtirilmoqda...");
@@ -350,7 +368,11 @@ export default function GamedevPage() {
       // Refresh dashboard data
       fetchDashboardData();
     } catch (err: any) {
-      alert(err.message || "O'yin yuklashda xatolik yuz berdi.");
+      let msg = err.message || "O'yin yuklashda xatolik yuz berdi.";
+      if (msg.includes("exceeded the maximum allowed size")) {
+        msg = "⚠️ Fayl hajmi ruxsat etilgan 50MB chegaradan oshib ketdi!\n\nKatta o'yinlar uchun faylingizni Google Drive, Telegram, Mega yoki Cloudflare-ga yuklab, ssilkasini 'Tashqi yuklab olish havolasi' maydoniga kiriting!";
+      }
+      alert(msg);
     } finally {
       setSubmitting(false);
       setUploadStatusText("Yuklanmoqda...");
@@ -879,32 +901,76 @@ export default function GamedevPage() {
                             </p>
                           </div>
 
-                          <div>
-                            <label className="text-xs font-semibold text-secondary block mb-1.5">O'yin arxiv fayli (.zip, .exe, .rar)</label>
-                            <input
-                              type="file"
-                              accept=".zip,.exe,.rar"
-                              onChange={(e) => {
-                                if (e.target.files && e.target.files.length > 0) {
-                                  setGameFile(e.target.files[0]);
-                                }
-                              }}
-                              className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none text-secondary file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:text-xs file:font-bold"
-                            />
-                            {gameFile && (
-                              <p className="text-[10px] text-primary mt-1.5">Tanlandi: {gameFile.name} ({(gameFile.size/1024/1024).toFixed(2)} MB)</p>
-                            )}
-                          </div>
+                          <div className="glass-card p-5 border-violet/30 bg-violet/5 space-y-4 rounded-2xl">
+                            <div className="flex items-center gap-2 text-violet font-bold text-sm">
+                              <Download size={18} />
+                              <span>📦 O'yin Faylini Joylashtirish Manbai</span>
+                            </div>
+                            
+                            <p className="text-xs text-secondary leading-relaxed">
+                              💡 <strong className="text-white">Katta o'yinlar (50MB+):</strong> Faylingizni Google Drive, Telegram, Cloudflare, Mega yoki MediaFire-ga yuklab, havolasini pastdagi <strong className="text-primary">"Tashqi yuklab olish havolasi"</strong> maydoniga kiriting. Bu holda yuklash instant (1 soniyada) bajariladi!
+                            </p>
 
-                          <div>
-                            <label className="text-xs font-semibold text-secondary block mb-1.5">Yoki Tashqi yuklab olish havolasi (Google Drive, Telegram, Cloudflare, Mega va b.)</label>
-                            <input
-                              type="url"
-                              value={externalDownloadUrl}
-                              onChange={(e) => setExternalDownloadUrl(e.target.value)}
-                              className={inputClass}
-                              placeholder="Masalan: https://drive.google.com/file/d/... yoki https://t.me/..."
-                            />
+                            <div className="space-y-3">
+                              <div>
+                                <label className="text-xs font-bold text-white block mb-1">
+                                  🔗 Tashqi yuklab olish havolasi (Tavsiya etiladi - Google Drive, Telegram, Mega va b.)
+                                </label>
+                                <input
+                                  type="url"
+                                  value={externalDownloadUrl}
+                                  onChange={(e) => setExternalDownloadUrl(e.target.value)}
+                                  className={inputClass}
+                                  placeholder="Masalan: https://drive.google.com/file/d/... yoki https://t.me/..."
+                                />
+                              </div>
+
+                              <div className="relative flex py-1 items-center">
+                                <div className="flex-grow border-t border-white/10"></div>
+                                <span className="flex-shrink mx-3 text-[10px] uppercase font-bold text-secondary tracking-widest">YOKI (50MB gacha kichik fayllar)</span>
+                                <div className="flex-grow border-t border-white/10"></div>
+                              </div>
+
+                              <div>
+                                <label className="text-xs font-semibold text-secondary block mb-1.5">
+                                  📁 To'g'ridan-to'g'ri fayl biriktirish (Faqat 50MB gacha bo'lgan kichik fayllar uchun)
+                                </label>
+                                <input
+                                  type="file"
+                                  accept=".zip,.exe,.rar"
+                                  onChange={(e) => {
+                                    if (e.target.files && e.target.files.length > 0) {
+                                      setGameFile(e.target.files[0]);
+                                    }
+                                  }}
+                                  className="w-full bg-white/5 border border-white/10 rounded-xl py-3 px-4 text-xs focus:outline-none text-secondary file:mr-3 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:text-xs file:font-bold"
+                                />
+                                {gameFile && (
+                                  <div className={`mt-2 p-3 rounded-xl border text-xs font-semibold flex items-start gap-2 ${
+                                    gameFile.size > 50 * 1024 * 1024 
+                                      ? "bg-red-500/10 border-red-500/30 text-red-400" 
+                                      : "bg-emerald-500/10 border-emerald-500/30 text-emerald-400"
+                                  }`}>
+                                    {gameFile.size > 50 * 1024 * 1024 ? (
+                                      <>
+                                        <AlertCircle size={18} className="shrink-0 mt-0.5" />
+                                        <div>
+                                          <p className="font-bold">⚠️ Fayl hajmi juda katta: {(gameFile.size/1024/1024).toFixed(1)} MB!</p>
+                                          <p className="font-normal text-[11px] mt-0.5 leading-relaxed">
+                                            Supabase serveriga to'g'ridan-to'g'ri faqat 50MB gacha bo'lgan fayllar yuklanadi. Iltimos, o'yiningizni Google Drive/Telegram-ga joylab, yuqoridagi <strong>"Tashqi yuklab olish havolasi"</strong> maydoniga ssilkasini kiriting!
+                                          </p>
+                                        </div>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <Check size={16} className="shrink-0 mt-0.5" />
+                                        <span>Fayl tanlandi: {gameFile.name} ({(gameFile.size/1024/1024).toFixed(2)} MB)</span>
+                                      </>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                            </div>
                           </div>
 
                           <div className="flex flex-wrap gap-4">
