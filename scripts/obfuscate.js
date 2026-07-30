@@ -189,8 +189,11 @@ async function run() {
     console.log("Preparing git commit in dist-obfuscated...");
     execSync('git init', { cwd: targetDir, stdio: 'inherit' });
     execSync('git config user.name "Maroqli CI"', { cwd: targetDir, stdio: 'inherit' });
-    execSync('git config user.email "ci@maroqli.uz"', { cwd: targetDir, stdio: 'inherit' });
-    execSync('git remote add origin https://github.com/otbk-uz/maroqli-uz.git', { cwd: targetDir, stdio: 'inherit' });
+    try {
+      execSync('git remote add origin https://github.com/otbk-uz/maroqli-uz.git', { cwd: targetDir, stdio: 'ignore' });
+    } catch (e) {
+      execSync('git remote set-url origin https://github.com/otbk-uz/maroqli-uz.git', { cwd: targetDir, stdio: 'ignore' });
+    }
     execSync('git checkout -b main', { cwd: targetDir, stdio: 'inherit' });
     execSync('git add .', { cwd: targetDir, stdio: 'inherit' });
     execSync('git commit -m "build: publish obfuscated public release"', { cwd: targetDir, stdio: 'inherit' });
