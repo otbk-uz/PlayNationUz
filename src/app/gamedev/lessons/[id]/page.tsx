@@ -66,6 +66,7 @@ export default function LessonDetailsPage() {
   const [autoPlayNext, setAutoPlayNext] = useState(true);
 
   // Quiz & Certificate states
+  const [videoWatched, setVideoWatched] = useState(false);
   const [showQuizModal, setShowQuizModal] = useState(false);
   const [quizAnswers, setQuizAnswers] = useState<Record<number, number>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
@@ -122,6 +123,22 @@ export default function LessonDetailsPage() {
     setQuizSubmitted(false);
     setQuizScore(0);
     setQuizPassed(false);
+    setVideoWatched(false);
+
+    // Check if user already completed this lesson previously
+    if (user) {
+      supabase
+        .from("user_course_progress")
+        .select("completed")
+        .eq("user_id", user.id)
+        .eq("lesson_id", lessonId)
+        .maybeSingle()
+        .then(({ data }) => {
+          if (data?.completed) {
+            setVideoWatched(true);
+          }
+        });
+    }
 
     const loadCachedLesson = () => {
       const cachedLesson = getCachedData<Lesson>(`lesson_${lessonId}`);
@@ -418,6 +435,7 @@ export default function LessonDetailsPage() {
               <WhiteLabelPlayer 
                 url={lesson.video_url} 
                 userIdentifier={user?.email || user?.username} 
+                onEnded={() => setVideoWatched(true)}
               />
             </div>
 
@@ -432,15 +450,26 @@ export default function LessonDetailsPage() {
                 <span>Oldingi dars</span>
               </button>
 
-              {/* 5-Question Quiz Trigger Button */}
+              {/* 5-Question Quiz Trigger Button (Unlocked only after video is watched) */}
               {quizzes.length > 0 && (
-                <button
-                  onClick={() => setShowQuizModal(true)}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2 rounded-xl text-xs font-black uppercase tracking-wider bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black shadow-lg shadow-amber-500/20 transition-all"
-                >
-                  <HelpCircle size={16} />
-                  <span>5 talik Testni yechish</span>
-                </button>
+                videoWatched ? (
+                  <button
+                    onClick={() => setShowQuizModal(true)}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-wider bg-gradient-to-r from-red-600 to-violet-600 hover:from-red-700 hover:to-violet-700 text-white shadow-lg shadow-red-600/30 transition-all animate-pulse"
+                  >
+                    <HelpCircle size={16} />
+                    <span>5 TALIK TESTNI YECHISH</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => alert("🔒 Testni yechish uchun iltimos videodarslikni oxirigacha ko'rib chiqing.")}
+                    className="w-full sm:w-auto flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-white/5 border border-white/10 text-secondary hover:text-white transition-all cursor-not-allowed"
+                    title="Video darslik tugagach test ochiladi"
+                  >
+                    <Lock size={15} className="text-amber-400" />
+                    <span>5 TALIK TESTNI YECHISH (Video tugagach ochiladi)</span>
+                  </button>
+                )
               )}
 
               <button

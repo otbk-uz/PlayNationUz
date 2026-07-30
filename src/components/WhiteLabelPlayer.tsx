@@ -6,9 +6,10 @@ import { Play, Pause, Volume2, VolumeX, Maximize, Minimize, Lock, Crown } from "
 interface PlayerProps {
   url: string;
   userIdentifier?: string;
+  onEnded?: () => void;
 }
 
-export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
+export function WhiteLabelPlayer({ url, userIdentifier, onEnded }: PlayerProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   const iframeRef = useRef<HTMLIFrameElement>(null);
@@ -389,6 +390,9 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
             // YT.PlayerState.PLAYING is 1, PAUSED is 2, ENDED is 0
             if (event.data === 1) {
               setIsPlaying(true);
+            } else if (event.data === 0) {
+              setIsPlaying(false);
+              onEnded?.();
             } else {
               setIsPlaying(false);
             }
@@ -407,16 +411,27 @@ export function WhiteLabelPlayer({ url, userIdentifier }: PlayerProps) {
       interval = setInterval(() => {
         if (isYoutube && ytPlayer && ytReady) {
           try {
-            setCurrentTime(ytPlayer.getCurrentTime() || 0);
-            if (duration === 0) setDuration(ytPlayer.getDuration() || 0);
+            const curr = ytPlayer.getCurrentTime() || 0;
+            const dur = duration || ytPlayer.getDuration() || 0;
+            setCurrentTime(curr);
+            if (duration === 0) setDuration(dur);
+
+            if (dur > 0 && curr >= dur - 3) {
+              onEnded?.();
+            }
           } catch (e) { }
         } else if (!isYoutube && videoRef.current) {
-          setCurrentTime(videoRef.current.currentTime || 0);
+          const curr = videoRef.current.currentTime || 0;
+          const dur = videoRef.current.duration || 0;
+          setCurrentTime(curr);
+          if (dur > 0 && curr >= dur - 3) {
+            onEnded?.();
+          }
         }
       }, 500);
     }
     return () => clearInterval(interval);
-  }, [isPlaying, isYoutube, ytPlayer, ytReady, duration]);
+  }, [isPlaying, isYoutube, ytPlayer, ytReady, duration, onEnded]);
 
   // Handle HTML5 Native Video loaded data
   const handleLoadedMetadata = () => {
