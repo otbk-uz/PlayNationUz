@@ -154,12 +154,14 @@ export default function LessonDetailsPage() {
           setLikeCount(activeLesson.likes_count ?? 142);
 
           // Increment view count in Supabase asynchronously
-          supabase
-            .from("gamedev_lessons")
-            .update({ views_count: newViews })
-            .eq("id", lessonId)
-            .then(() => {})
-            .catch((e) => console.warn("View count update warning:", e));
+          try {
+            await supabase
+              .from("gamedev_lessons")
+              .update({ views_count: newViews })
+              .eq("id", lessonId);
+          } catch (e) {
+            console.warn("View count update warning:", e);
+          }
 
           // Check if current user has liked this lesson
           if (user) {
