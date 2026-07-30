@@ -209,42 +209,81 @@ export default function CourseDetailPage() {
                   </div>
                 </div>
 
-                {/* Certificate Preview Card */}
-                <div className="bg-gradient-to-r from-red-950/30 via-[#181824] to-[#14141c] border border-red-500/30 rounded-2xl p-6 space-y-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-red-500/20 border border-red-500/30 flex items-center justify-center text-red-400 shrink-0">
-                      <Award size={22} />
-                    </div>
-                    <div>
-                      <span className="text-[10px] font-mono font-black uppercase text-red-400 tracking-wider">
-                        TUGATGANINGIZDA
-                      </span>
-                      <h4 className="font-display text-base font-bold text-white">
-                        Shunday sertifikat olasiz
-                      </h4>
-                    </div>
-                  </div>
-
-                  <p className="text-xs text-secondary leading-relaxed">
-                    Ushbu kursdagi barcha darslarni ko'rib, har bir dars so'ngidagi 5 talik bilimni tekshirish testlarini 100% topshirganingizda, sizga rasmiy Maroqli Academy sertifikati taqdim etiladi.
-                  </p>
-
-                  <div className="bg-black/60 border border-white/10 rounded-xl p-4 flex items-center justify-between gap-4">
+                {/* Certificate Sample Preview Mockup Box */}
+                <div className="bg-gradient-to-r from-red-950/40 via-[#161622] to-[#14141c] border border-amber-500/30 rounded-3xl p-6 space-y-5 relative overflow-hidden shadow-2xl">
+                  {/* Top Header */}
+                  <div className="flex items-center justify-between gap-4">
                     <div className="flex items-center gap-3">
-                      <Sparkles size={20} className="text-red-400" />
+                      <div className="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/30 flex items-center justify-center text-amber-400 shrink-0 shadow">
+                        <Award size={22} />
+                      </div>
                       <div>
-                        <div className="font-bold text-xs text-white">
-                          {user?.full_name || user?.username || "Otabek Ravshanov"}
-                        </div>
-                        <div className="text-[10px] text-secondary font-mono">{course.title} Sertifikati</div>
+                        <span className="text-[10px] font-mono font-black uppercase text-amber-400 tracking-widest">
+                          TUGATGANINGIZDA • SERTIFIKAT NAMUNASI
+                        </span>
+                        <h4 className="font-display text-base font-bold text-white">
+                          Rasmiy Sertifikat Namunasi
+                        </h4>
                       </div>
                     </div>
 
+                    <span className="px-3 py-1 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 font-mono text-[10px] font-black uppercase tracking-wider">
+                      NAMUNA PREVIEW
+                    </span>
+                  </div>
+
+                  <p className="text-xs text-secondary leading-relaxed">
+                    Ushbu kursdagi barcha darslarni ko'rib, har bir dars so'ngidagi 5 talik testlarni 100% topshirganingizda, sizga avtomatik ravishda quyidagi rasmiy Maroqli Academy sertifikati taqdim etiladi.
+                  </p>
+
+                  {/* Visual Certificate Document Mockup Frame with NAMUNA Watermark */}
+                  <div className="relative bg-gradient-to-b from-[#181824] to-[#0f0f16] border-2 border-dashed border-amber-500/40 rounded-2xl p-5 text-center overflow-hidden shadow-inner group cursor-pointer"
+                       onClick={() => router.push(`/darslar/certificate/${course.id}`)}>
+                    
+                    {/* Diagonal NAMUNA Watermark Stamp */}
+                    <div className="absolute inset-0 flex items-center justify-center pointer-events-none select-none z-20">
+                      <span className="text-4xl sm:text-5xl font-black font-display uppercase tracking-widest text-amber-400/15 -rotate-12 border-4 border-dashed border-amber-400/20 px-8 py-2 rounded-2xl">
+                        NAMUNA • SAMPLE
+                      </span>
+                    </div>
+
+                    {/* Miniature Certificate Content */}
+                    <div className="relative z-10 space-y-3">
+                      <div className="text-[9px] font-mono font-black text-amber-400 uppercase tracking-[0.2em]">
+                        MAROQLI ACADEMY • CERTIFICATE PREVIEW
+                      </div>
+
+                      <h5 className="font-display text-base sm:text-lg font-black text-white uppercase">
+                        Tugatganlik Haqida Sertifikat
+                      </h5>
+
+                      <div className="text-[11px] font-serif text-amber-300 font-bold border-b border-amber-400/30 pb-1 max-w-xs mx-auto">
+                        {user?.full_name || user?.username || "Otabek Ravshanov"}
+                      </div>
+
+                      <p className="text-[10px] text-secondary font-mono">
+                        "{course.title}" kursini muvaffaqiyatli yakunlagani uchun
+                      </p>
+
+                      <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-secondary border-t border-white/10">
+                        <span>ID: CERT-MAROQLI-2026-XXXX</span>
+                        <span className="text-amber-400 font-bold">NAMUNA KO'RINISHI</span>
+                        <span>MAROQLI SEAL</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Bar */}
+                  <div className="flex items-center justify-between gap-4 pt-1">
+                    <span className="text-[11px] text-secondary font-mono">
+                      Kursni bitirib to'liq sertifikatni yuklab oling.
+                    </span>
+
                     <button
                       onClick={() => router.push(`/darslar/certificate/${course.id}`)}
-                      className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-bold text-xs rounded-xl uppercase transition-colors shadow-md"
+                      className="px-5 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-black font-black text-xs uppercase tracking-wider rounded-xl shadow-lg shadow-amber-500/20 transition-all shrink-0"
                     >
-                      Namuna ko'rish
+                      Namuna sertifikatni ko'rish
                     </button>
                   </div>
                 </div>
