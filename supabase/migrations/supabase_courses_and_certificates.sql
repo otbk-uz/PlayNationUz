@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS public.courses (
     what_you_will_learn TEXT[] DEFAULT '{}',
     total_lessons INTEGER DEFAULT 5,
     total_duration TEXT DEFAULT '2 soat',
-    mentor_name TEXT DEFAULT 'Maroqli Mentor',
+    mentor_name TEXT DEFAULT 'Maroqli',
     mentor_avatar TEXT DEFAULT '',
     created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL
 );

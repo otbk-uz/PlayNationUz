@@ -68,7 +68,7 @@ export const COURSES: Course[] = [
             id: "gamedev-lesson-1",
             title: "1-Dars: Kirish va GameDev asoslari (O'yin qanday yaratiladi?)",
             duration: "15:20",
-            video_url: "cloudflare://aa830256ddb49a8d8df4a3800f5aa8e6",
+            video_url: "cloudflare://5ea6794871f988c845f520056f938266",
             img: "/gamedev_lesson1.png",
             quizzes: [
               {
@@ -137,7 +137,7 @@ export const COURSES: Course[] = [
             id: "gamedev-lesson-2",
             title: "2-Dars: Skriptlar va kodlash dunyosi (C# / GDScript)",
             duration: "22:45",
-            video_url: "cloudflare://ab69aedc0e3f7adf434e9d8bd760c8b6",
+            video_url: "cloudflare://7f07f450e5017c13cd36cb830d27ae4b",
             img: "/gamedev_lesson2.png",
             quizzes: [
               {
@@ -197,7 +197,7 @@ export const COURSES: Course[] = [
             id: "gamedev-lesson-3",
             title: "3-Dars: 2D va 3D grafika hamda animatsiyalar",
             duration: "18:10",
-            video_url: "cloudflare://1ec8924aa82dbdba2a5b62e9b3a4e0a9",
+            video_url: "cloudflare://6da1158fa1ce7e93a7020757db0cd46d",
             img: "/gamedev_lesson3.png",
             quizzes: [
               {
@@ -246,7 +246,7 @@ export const COURSES: Course[] = [
             id: "gamedev-lesson-4",
             title: "4-Dars: Birinchi 3D o'yinni yaratish va fizikasi",
             duration: "30:00",
-            video_url: "cloudflare://1169039cd2c13e50abd86b6fd073bbe6",
+            video_url: "cloudflare://99a9b0bb5fcdcb48c6fd7bc64cca410b",
             img: "/gamedev_lesson4.png",
             quizzes: [
               {
@@ -305,7 +305,7 @@ export const COURSES: Course[] = [
             id: "gamedev-lesson-5",
             title: "5-Dars: O'yinni eksport qilish va Maroqli do'konida sotish",
             duration: "25:15",
-            video_url: "cloudflare://e0109c50de2878ec123c4779264d13aa",
+            video_url: "cloudflare://e8fa266bbb7834f2214bec7952013876",
             img: "/gamedev_lesson5.png",
             quizzes: [
               {
@@ -387,7 +387,7 @@ export const COURSES: Course[] = [
             id: "gamedesign-lesson-1",
             title: "1-Dars: O'yin dizaynining asosiy tamoyillari",
             duration: "20:00",
-            video_url: "cloudflare://0227f4416dad7974318007a77d7c85db",
+            video_url: "cloudflare://aa830256ddb49a8d8df4a3800f5aa8e6",
             img: "/lesson1.png",
             quizzes: [
               {
@@ -456,7 +456,7 @@ export const COURSES: Course[] = [
             id: "gamedesign-lesson-2",
             title: "2-Dars: O'yinlardagi qiyinchilik va balans",
             duration: "19:30",
-            video_url: "cloudflare://33972dbb7e690eb5e9bcf31f6e3f408a",
+            video_url: "cloudflare://ab69aedc0e3f7adf434e9d8bd760c8b6",
             img: "/lesson2.png",
             quizzes: [
               {
@@ -505,7 +505,7 @@ export const COURSES: Course[] = [
             id: "gamedesign-lesson-3",
             title: "3-Dars: O'yinchini zeriktirmaslik siri - O'yin dizaynida ritm",
             duration: "21:15",
-            video_url: "cloudflare://8bbc33cdd5bee21c5ff6f3952cd5dd1c",
+            video_url: "cloudflare://1ec8924aa82dbdba2a5b62e9b3a4e0a9",
             img: "/lesson3.png",
             quizzes: [
               {
@@ -577,7 +577,7 @@ export const COURSES: Course[] = [
             id: "math-lesson-1",
             title: "1-Dars: Vektorlar",
             duration: "16:40",
-            video_url: "cloudflare://5ea6794871f988c845f520056f938266",
+            video_url: "cloudflare://0227f4416dad7974318007a77d7c85db",
             img: "/math_lesson1.png",
             quizzes: [
               {
@@ -621,7 +621,7 @@ export const COURSES: Course[] = [
             id: "math-lesson-2",
             title: "2-Dars: Sinus to'lqinlari",
             duration: "14:50",
-            video_url: "cloudflare://7f07f450e5017c13cd36cb830d27ae4b",
+            video_url: "cloudflare://33972dbb7e690eb5e9bcf31f6e3f408a",
             img: "/math_lesson2.png",
             quizzes: [
               {
@@ -665,7 +665,7 @@ export const COURSES: Course[] = [
             id: "math-lesson-3",
             title: "3-Dars: Kuchlar",
             duration: "18:20",
-            video_url: "cloudflare://6da1158fa1ce7e93a7020757db0cd46d",
+            video_url: "cloudflare://8bbc33cdd5bee21c5ff6f3952cd5dd1c",
             img: "/math_lesson3.png",
             quizzes: [
               {
@@ -709,7 +709,7 @@ export const COURSES: Course[] = [
             id: "math-lesson-4",
             title: "4-Dars: Matritsalar va Transformatsiyalar",
             duration: "23:10",
-            video_url: "cloudflare://99a9b0bb5fcdcb48c6fd7bc64cca410b",
+            video_url: "cloudflare://1169039cd2c13e50abd86b6fd073bbe6",
             img: "/lesson4.png",
             quizzes: [
               {
@@ -753,7 +753,7 @@ export const COURSES: Course[] = [
             id: "math-lesson-5",
             title: "5-Dars: Kvaternionlar va Burilishlar",
             duration: "27:00",
-            video_url: "cloudflare://e8fa266bbb7834f2214bec7952013876",
+            video_url: "cloudflare://e0109c50de2878ec123c4779264d13aa",
             img: "/lesson5.png",
             quizzes: [
               {
