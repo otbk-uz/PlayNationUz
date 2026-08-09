@@ -20,6 +20,7 @@ import {
   Home,
   GraduationCap,
   Globe,
+  ChevronDown,
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuthStore, useTranslation } from "@/lib/store";
@@ -87,25 +88,33 @@ export default function FloatingConsoleHUD() {
 
   const unreadCount = notifications.filter((n) => !n.is_read).length;
 
-  const navLinks = [
+  const [showOthersMenu, setShowOthersMenu] = useState(false);
+
+  const mainNavLinks = [
     { name: t("home", "Bosh sahifa"), href: "/", icon: Home },
-    { name: t("tournaments", "Turnirlar"), href: "/tournaments", icon: Trophy },
     { name: t("games", "O'yinlar"), href: "/games", icon: Gamepad2 },
+    { name: t("tournaments", "Turnirlar"), href: "/tournaments", icon: Trophy },
+  ];
+
+  const otherNavLinks = [
     { name: t("streamers", "Streamerlar"), href: "/streamers", icon: Radio },
     { name: t("premium", "Premium"), href: "/premium", icon: Crown },
     { name: t("leaderboard", "Reyting"), href: "/leaderboard", icon: TrendingUp },
     { name: t("gamedev", "GameDev"), href: "/gamedev", icon: Code2 },
-    { name: t("darslar", "Videodarslar"), href: "/darslar", icon: GraduationCap },
     { name: t("forum", "Forum"), href: "/forum", icon: MessageSquare },
     { name: t("news", "Yangiliklar"), href: "/news", icon: Newspaper },
   ];
 
   if (user && user.role === "ADMIN") {
-    navLinks.push({ name: "Admin", href: "/admin", icon: ShieldAlert });
+    otherNavLinks.push({ name: "Admin", href: "/admin", icon: ShieldAlert });
   }
+
+  const allNavLinks = [...mainNavLinks, ...otherNavLinks];
 
   const isRouteActive = (href: string) =>
     pathname === href || (href !== "/" && pathname.startsWith(href));
+
+  const isOtherActive = otherNavLinks.some((link) => isRouteActive(link.href));
 
   if (!mounted) return null;
 
@@ -143,14 +152,14 @@ export default function FloatingConsoleHUD() {
         </div>
 
         {/* Nav Links */}
-        <nav className="z-10 flex flex-1 items-center justify-center gap-0.5">
-          {navLinks.map((link) => {
+        <nav className="z-10 flex flex-1 items-center justify-center gap-1">
+          {mainNavLinks.map((link) => {
             const isActive = isRouteActive(link.href);
             return (
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative rounded-full px-2.5 py-1.5 text-[10px] font-display font-bold uppercase tracking-wider transition-colors duration-200 whitespace-nowrap xl:text-[11px] ${
+                className={`relative rounded-full px-3 py-1.5 text-[11px] font-display font-bold uppercase tracking-wider transition-colors duration-200 whitespace-nowrap xl:text-xs ${
                   isActive ? "text-white" : "text-secondary hover:text-white"
                 }`}
               >
@@ -165,6 +174,65 @@ export default function FloatingConsoleHUD() {
               </Link>
             );
           })}
+
+          {/* Boshqalar Dropdown */}
+          <div className="relative">
+            <button
+              onClick={() => setShowOthersMenu(!showOthersMenu)}
+              className={`relative flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-display font-bold uppercase tracking-wider transition-all duration-200 xl:text-xs ${
+                isOtherActive
+                  ? "border border-primary/40 bg-primary/10 text-white shadow-[0_0_15px_rgba(255,51,85,0.2)]"
+                  : "text-secondary hover:text-white hover:bg-white/5"
+              }`}
+            >
+              <span>{t("others", "Boshqalar")}</span>
+              <ChevronDown
+                size={13}
+                className={`transition-transform duration-200 ${
+                  showOthersMenu ? "rotate-180 text-white" : "text-secondary"
+                }`}
+              />
+            </button>
+
+            <AnimatePresence>
+              {showOthersMenu && (
+                <>
+                  {/* Backdrop overlay to dismiss menu on outside click */}
+                  <div
+                    className="fixed inset-0 z-40 bg-transparent"
+                    onClick={() => setShowOthersMenu(false)}
+                  />
+                  <motion.div
+                    initial={{ opacity: 0, y: 8, scale: 0.96 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.96 }}
+                    transition={{ duration: 0.16 }}
+                    className="glass-card absolute left-0 z-50 mt-2 w-52 overflow-hidden rounded-2xl border border-white/10 p-1.5 shadow-[0_15px_40px_rgba(0,0,0,0.7)] backdrop-blur-2xl bg-[#0e0e13]/95"
+                  >
+                    {otherNavLinks.map((link) => {
+                      const isActive = isRouteActive(link.href);
+                      const Icon = link.icon;
+                      return (
+                        <Link
+                          key={link.href}
+                          href={link.href}
+                          onClick={() => setShowOthersMenu(false)}
+                          className={`flex items-center gap-2.5 rounded-xl px-3 py-2.5 text-xs font-display font-bold uppercase tracking-wider transition-all duration-150 ${
+                            isActive
+                              ? "bg-primary/15 text-primary border border-primary/30"
+                              : "text-secondary hover:bg-white/5 hover:text-white"
+                          }`}
+                        >
+                          <Icon size={16} className={isActive ? "text-primary" : "text-secondary"} />
+                          <span>{link.name}</span>
+                        </Link>
+                      );
+                    })}
+                  </motion.div>
+                </>
+              )}
+            </AnimatePresence>
+          </div>
         </nav>
 
         {/* Right actions */}
@@ -483,7 +551,7 @@ export default function FloatingConsoleHUD() {
 
             <div className="relative z-10 flex h-full flex-col justify-between">
               <nav className="flex flex-col gap-2">
-                {navLinks.map((link, idx) => {
+                {allNavLinks.map((link, idx) => {
                   const isActive = isRouteActive(link.href);
                   const Icon = link.icon;
                   return (

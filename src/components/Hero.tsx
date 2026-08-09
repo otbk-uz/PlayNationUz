@@ -57,13 +57,6 @@ const Hero = ({ stats }: { stats?: HeroStats }) => {
       gradient: "from-orange-500 to-amber-600" 
     },
     { 
-      name: t("lessons", "Dev Darslari"), 
-      desc: t("lessons_desc", "O'yin yaratish bo'yicha maxsus darsliklar va o'quv videolari."), 
-      href: "/darslar",
-      icon: <Play size={24} fill="currentColor" />, 
-      gradient: "from-cyan-500 to-blue-600" 
-    },
-    { 
       name: t("forum", "Forum"), 
       desc: t("forum_desc", "Boshqa o'yinchilar bilan fikr almashing va savol-javob qiling."), 
       href: "/forum", 

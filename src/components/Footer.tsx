@@ -23,7 +23,6 @@ const Footer = () => {
       title: t("footer_community", "Hamjamiyat"),
       links: [
         { label: t("forum", "Forum"), href: "/forum" },
-        { label: t("darslar", "Videodarslar"), href: "/darslar" },
         { label: t("gamedev", "GameDev"), href: "/gamedev" },
         { label: t("news", "Yangiliklar"), href: "/news" },
       ],

@@ -56,19 +56,6 @@ export default function AdminPage() {
   const [newsFile, setNewsFile] = useState<File | null>(null);
   const [savingNews, setSavingNews] = useState(false);
 
-  // Lesson form state
-  const [lessonForm, setLessonForm] = useState({
-    title: '',
-    author: 'Maroqli.uz',
-    level: `GameDev "0" dan o'rganish`,
-    img: '',
-    video_url: '',
-    duration: ''
-  });
-  const [selectedPlaylist, setSelectedPlaylist] = useState<string>(`GameDev "0" dan o'rganish`);
-  const [isCustomPlaylist, setIsCustomPlaylist] = useState<boolean>(false);
-  const [customPlaylistName, setCustomPlaylistName] = useState<string>('');
-  const [savingLesson, setSavingLesson] = useState(false);
 
   // Premium modal state
   const [premiumModalOpen, setPremiumModalOpen] = useState(false);
@@ -353,57 +340,6 @@ export default function AdminPage() {
     }
   };
 
-  const handlePostLesson = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!lessonForm.title || !lessonForm.video_url) {
-      alert("Dars sarlavhasi va video havolasini kiriting!");
-      return;
-    }
-    
-    setSavingLesson(true);
-    try {
-      let finalVideoUrl = lessonForm.video_url.trim();
-
-      // Cloudflare Stream ID auto-detection (32-character hex ID)
-      const cfMatch = finalVideoUrl.match(/([a-f0-9]{32})/i);
-      if (cfMatch && !finalVideoUrl.includes("youtube.com") && !finalVideoUrl.includes("youtu.be")) {
-        finalVideoUrl = `cloudflare://${cfMatch[1]}`;
-      }
-
-      let finalLevel = isCustomPlaylist ? customPlaylistName.trim() : selectedPlaylist;
-      if (!finalLevel) finalLevel = `GameDev "0" dan o'rganish`;
-
-      const { error } = await supabase
-        .from('gamedev_lessons')
-        .insert({
-          title: lessonForm.title.trim(),
-          author: lessonForm.author.trim() || 'Maroqli.uz',
-          level: finalLevel,
-          img: lessonForm.img.trim() || '/gamedev_lesson1.png',
-          video_url: finalVideoUrl,
-          duration: lessonForm.duration.trim() || '15:00'
-        });
-        
-      if (error) throw error;
-      
-      alert(`✅ Video darslik muvaffaqiyatli qo'shildi!\nPlaylist: ${finalLevel}\nVideo URL: ${finalVideoUrl}`);
-      setLessonForm({
-        title: '',
-        author: 'Maroqli.uz',
-        level: `GameDev "0" dan o'rganish`,
-        img: '',
-        video_url: '',
-        duration: ''
-      });
-      setCustomPlaylistName('');
-      setIsCustomPlaylist(false);
-    } catch (err: any) {
-      console.error(err);
-      alert("Xatolik: " + (err.message || "Darsni saqlashda xatolik yuz berdi."));
-    } finally {
-      setSavingLesson(false);
-    }
-  };
 
 
 
@@ -586,119 +522,7 @@ export default function AdminPage() {
           </div>
         </div>
 
-        {/* Video Lesson Management */}
-        <div className="mb-12">
-          <h2 className="text-xl font-bold mb-6">Video Darslik Qo'shish</h2>
-          <div className="glass-card p-6 md:p-8 border border-white/5 rounded-2xl">
-            <form onSubmit={handlePostLesson} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-secondary mb-2">Dars sarlavhasi (Majburiy)</label>
-                  <input 
-                    type="text" 
-                    value={lessonForm.title}
-                    onChange={(e) => setLessonForm({...lessonForm, title: e.target.value})}
-                    required
-                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
-                    placeholder="Masalan: 1-Dars: Kirish va GameDev asoslari"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-bold text-secondary mb-2">Muallif / Kanal</label>
-                  <input 
-                    type="text" 
-                    value={lessonForm.author}
-                    onChange={(e) => setLessonForm({...lessonForm, author: e.target.value})}
-                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
-                    placeholder="Maroqli.uz"
-                  />
-                </div>
-              </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                  <label className="block text-sm font-bold text-secondary mb-2">Playlist / Kurs nomi (Tanlang yoki Yangi Yozing)</label>
-                  <select 
-                    value={isCustomPlaylist ? "NEW" : selectedPlaylist}
-                    onChange={(e) => {
-                      if (e.target.value === "NEW") {
-                        setIsCustomPlaylist(true);
-                      } else {
-                        setIsCustomPlaylist(false);
-                        setSelectedPlaylist(e.target.value);
-                      }
-                    }}
-                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white font-bold"
-                  >
-                    <option value={`GameDev "0" dan o'rganish`}>GameDev "0" dan o'rganish</option>
-                    <option value="O'yin dizayni (boshlang'ich)">O'yin dizayni (boshlang'ich)</option>
-                    <option value="O'yinlar matematika nazariyasi">O'yinlar matematika nazariyasi</option>
-                    <option value="Blender 3D boshlang'ich darslari">Blender 3D boshlang'ich darslari</option>
-                    <option value="NEW">+ Yangi playlist nomi yozish...</option>
-                  </select>
-
-                  {isCustomPlaylist && (
-                    <input 
-                      type="text" 
-                      value={customPlaylistName}
-                      onChange={(e) => setCustomPlaylistName(e.target.value)}
-                      required
-                      className="w-full mt-2 bg-background border border-red-500/50 rounded-xl px-4 py-3 outline-none text-white text-sm"
-                      placeholder="Yangi playlist nomini yozing..."
-                    />
-                  )}
-                </div>
-
-                <div>
-                  <label className="block text-sm font-bold text-secondary mb-2">Davomiyligi (Masalan: 15:20)</label>
-                  <input 
-                    type="text" 
-                    value={lessonForm.duration}
-                    onChange={(e) => setLessonForm({...lessonForm, duration: e.target.value})}
-                    className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white"
-                    placeholder="15:20"
-                  />
-                </div>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-secondary mb-2">
-                  Cloudflare Stream ID yoki Video URL (Majburiy)
-                </label>
-                <input 
-                  type="text" 
-                  value={lessonForm.video_url}
-                  onChange={(e) => setLessonForm({...lessonForm, video_url: e.target.value})}
-                  required
-                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white font-mono text-xs"
-                  placeholder="Cloudflare Stream ID (masalan: aa830256ddb49a8d8df4a3800f5aa8e6) yoki YouTube link"
-                />
-                <span className="text-[11px] text-secondary/70 mt-1 block">
-                  💡 Cloudflare Stream ID sini joylasangiz (masalan: <code className="text-red-400">aa830256ddb49a8d8df4a3800f5aa8e6</code>), tizim avtomatik taniydi!
-                </span>
-              </div>
-
-              <div>
-                <label className="block text-sm font-bold text-secondary mb-2">Rasm preview (Image URL)</label>
-                <input 
-                  type="text" 
-                  value={lessonForm.img}
-                  onChange={(e) => setLessonForm({...lessonForm, img: e.target.value})}
-                  className="w-full bg-background border border-white/10 rounded-xl px-4 py-3 outline-none focus:border-primary/50 text-white font-mono text-xs"
-                  placeholder="/gamedev_lesson1.png yoki rasm havolasi (Bo'sh qolsa avto tanlanadi)"
-                />
-              </div>
-
-              <button 
-                type="submit" 
-                disabled={savingLesson}
-                className="btn-primary px-8 py-3 w-full md:w-auto"
-              >
-                {savingLesson ? "Yuklanmoqda..." : "Darslikni chop etish"}
-              </button>
-            </form>
-          </div>
-        </div>
 
 
 
