@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import { Gamepad2, Star, Search, Monitor, Smartphone, ShoppingCart, ArrowRight, Sparkles, Crown } from "lucide-react";
+import { Gamepad2, Star, Search, Monitor, Smartphone, ShoppingCart, ArrowRight, Sparkles, Crown, Heart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { BackButton } from "@/components/ui/BackButton";
@@ -34,6 +34,67 @@ const GamesPage = () => {
   const [filter, setFilter] = useState("ALL");
   const [search, setSearch] = useState("");
   const [debouncedSearch, setDebouncedSearch] = useState("");
+  const [wishlistIds, setWishlistIds] = useState<Set<string | number>>(new Set());
+
+  useEffect(() => {
+    if (user) {
+      const fetchWishlist = async () => {
+        try {
+          const { data } = await supabase
+            .from('game_wishlist')
+            .select('game_id')
+            .eq('user_id', user.id);
+
+          if (data) {
+            setWishlistIds(new Set(data.map(item => item.game_id)));
+          }
+        } catch (err) {
+          console.warn("Wishlist fetch error:", err);
+        }
+      };
+      fetchWishlist();
+    }
+  }, [user]);
+
+  const handleToggleWishlist = async (gameId: string | number) => {
+    if (!user) {
+      window.location.href = "/login";
+      return;
+    }
+
+    const isCurrentlyWishlisted = wishlistIds.has(gameId);
+    setWishlistIds(prev => {
+      const next = new Set(prev);
+      if (isCurrentlyWishlisted) next.delete(gameId);
+      else next.add(gameId);
+      return next;
+    });
+
+    try {
+      if (isCurrentlyWishlisted) {
+        await supabase
+          .from('game_wishlist')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('game_id', gameId);
+      } else {
+        await supabase
+          .from('game_wishlist')
+          .insert({
+            user_id: user.id,
+            game_id: gameId
+          });
+      }
+    } catch (err) {
+      console.error("Wishlist update error:", err);
+      setWishlistIds(prev => {
+        const next = new Set(prev);
+        if (isCurrentlyWishlisted) next.add(gameId);
+        else next.delete(gameId);
+        return next;
+      });
+    }
+  };
 
   // Debounce search
   useEffect(() => {
@@ -255,6 +316,24 @@ const GamesPage = () => {
                         {g.platform === "PC" ? <Monitor size={10} /> : <Smartphone size={10} />}
                         {g.platform}
                       </span>
+                    </div>
+
+                    <div className="absolute top-4 right-4">
+                      <button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleToggleWishlist(g.id);
+                        }}
+                        className={`p-2 rounded-full backdrop-blur-md border transition-all active:scale-90 ${
+                          wishlistIds.has(g.id)
+                            ? "bg-rose-500/20 border-rose-500/40 text-rose-400"
+                            : "bg-black/60 border-white/10 text-white/70 hover:text-white hover:bg-black/80"
+                        }`}
+                        title="Xohlayman ro'yxatiga qo'shish"
+                      >
+                        <Heart size={14} className={wishlistIds.has(g.id) ? "fill-rose-500 text-rose-500" : ""} />
+                      </button>
                     </div>
 
                     <div className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded-full flex items-center gap-1">

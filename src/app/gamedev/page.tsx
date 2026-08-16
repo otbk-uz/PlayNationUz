@@ -80,6 +80,9 @@ export default function GamedevPage() {
   const [coverUrl, setCoverUrl] = useState("");
   const [externalDownloadUrl, setExternalDownloadUrl] = useState("");
   const [executablePath, setExecutablePath] = useState("");
+  const [gameDemoUrl, setGameDemoUrl] = useState("");
+  const [screenshotFiles, setScreenshotFiles] = useState<File[]>([]);
+  const [screenshotUrlsInput, setScreenshotUrlsInput] = useState("");
   const [uploadStatusText, setUploadStatusText] = useState("Yuklanmoqda...");
 
   // Past Projects Form States
@@ -290,6 +293,29 @@ export default function GamedevPage() {
         }
       }
 
+      let screenshotsList: string[] = [];
+      if (screenshotUrlsInput.trim()) {
+        screenshotsList.push(...screenshotUrlsInput.split(/[\n,]+/).map(s => s.trim()).filter(Boolean));
+      }
+      if (screenshotFiles && screenshotFiles.length > 0) {
+        setUploadStatusText("O'yin screenshot rasmlari yuklanmoqda...");
+        for (let i = 0; i < screenshotFiles.length; i++) {
+          const sFile = screenshotFiles[i];
+          const sExt = sFile.name.split('.').pop();
+          const sName = `${user.id}/${Date.now()}_screenshot_${i}_${Math.random().toString(36).substring(7)}.${sExt}`;
+          const { error: sErr } = await supabase.storage
+            .from('game_files')
+            .upload(sName, sFile, { upsert: true });
+
+          if (!sErr) {
+            const { data: { publicUrl } } = supabase.storage
+              .from('game_files')
+              .getPublicUrl(sName);
+            screenshotsList.push(publicUrl);
+          }
+        }
+      }
+
       let download_url = externalDownloadUrl.trim() || null;
 
       if (gameFile) {
@@ -347,6 +373,8 @@ export default function GamedevPage() {
         download_url,
         cover,
         executable_path: executablePath,
+        demo_url: gameDemoUrl.trim() || null,
+        screenshots: screenshotsList.length > 0 ? screenshotsList : null,
       });
 
       if (error) throw error;
@@ -364,6 +392,9 @@ export default function GamedevPage() {
       setCoverUrl("");
       setExternalDownloadUrl("");
       setExecutablePath("");
+      setGameDemoUrl("");
+      setScreenshotFiles([]);
+      setScreenshotUrlsInput("");
 
       // Refresh dashboard data
       fetchDashboardData();
@@ -874,6 +905,48 @@ export default function GamedevPage() {
                                 placeholder="https://.../cover.jpg"
                               />
                             </div>
+                          </div>
+
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                            <div>
+                              <label className="text-xs font-semibold text-secondary block mb-1.5">O'yin Demosi havolasi (Demo Video/Link/File)</label>
+                              <input
+                                type="url"
+                                value={gameDemoUrl}
+                                onChange={(e) => setGameDemoUrl(e.target.value)}
+                                className={inputClass}
+                                placeholder="https://youtube.com/watch?v=... yoki https://drive.google.com/..."
+                              />
+                              <p className="text-[10px] text-secondary mt-1">💡 Demo video (YouTube) yoki yuklab olinadigan demo havolasi</p>
+                            </div>
+                            <div>
+                              <label className="text-xs font-semibold text-secondary block mb-1.5">O'yinga oid Screenshot Rasmlar (Fayllar)</label>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                multiple
+                                onChange={(e) => {
+                                  if (e.target.files) {
+                                    setScreenshotFiles(Array.from(e.target.files));
+                                  }
+                                }}
+                                className="w-full bg-white/5 border border-white/10 rounded-xl py-2.5 px-4 text-xs focus:outline-none text-secondary file:mr-3 file:py-1 file:px-3 file:rounded-lg file:border-0 file:bg-primary/20 file:text-primary file:text-xs file:font-bold"
+                              />
+                              {screenshotFiles.length > 0 && (
+                                <p className="text-[10px] text-primary mt-1">{screenshotFiles.length} ta rasmlar tanlandi</p>
+                              )}
+                            </div>
+                          </div>
+
+                          <div>
+                            <label className="text-xs font-semibold text-secondary block mb-1.5">Yoki Screenshot Rasm havolalari (Vergul bilan ajratilgan)</label>
+                            <input
+                              type="text"
+                              value={screenshotUrlsInput}
+                              onChange={(e) => setScreenshotUrlsInput(e.target.value)}
+                              className={inputClass}
+                              placeholder="https://.../img1.jpg, https://.../img2.jpg"
+                            />
                           </div>
 
                           <div>

@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
-import { ArrowLeft, Monitor, Smartphone, Star, Shield, Cpu, ChevronRight, Check, ShoppingCart, Key, Crown, Clock, X, Upload, FileText, Download, Gamepad2 } from "lucide-react";
+import { ArrowLeft, Monitor, Smartphone, Star, Shield, Cpu, ChevronRight, Check, ShoppingCart, Key, Crown, Clock, X, Upload, FileText, Download, Gamepad2, Heart, PlayCircle, Eye } from "lucide-react";
 import { motion } from "framer-motion";
 import { useAuthStore } from "@/lib/store";
 import api from "@/lib/api";
@@ -39,7 +39,8 @@ interface GameDetail {
     full_name: string;
   };
   cover: string | null;
-  screenshots: { id: number; image: string }[];
+  demo_url?: string | null;
+  screenshots: (string | { id: number; image: string })[];
   reviews: Review[];
   download_url?: string | null;
   executable_path?: string | null;
@@ -68,6 +69,11 @@ const GameDetailPage = () => {
   const [newReview, setNewReview] = useState("");
   const [rating, setRating] = useState(5);
   const [reviewLoading, setReviewLoading] = useState(false);
+
+  // Wishlist and modal states
+  const [isWishlisted, setIsWishlisted] = useState(false);
+  const [wishlistLoading, setWishlistLoading] = useState(false);
+  const [selectedImageModal, setSelectedImageModal] = useState<string | null>(null);
 
   // Electron launch states
   const [isElectron, setIsElectron] = useState(false);
@@ -201,7 +207,8 @@ const GameDetailPage = () => {
               full_name: gameData.profiles?.full_name || 'Developer'
             },
             cover: gameData.cover || null,
-            screenshots: [],
+            demo_url: gameData.demo_url || null,
+            screenshots: Array.isArray(gameData.screenshots) ? gameData.screenshots : [],
             download_url: gameData.download_url,
             executable_path: gameData.executable_path || null,
             reviews: reviewsData ? reviewsData.map((r: any) => ({
@@ -218,6 +225,20 @@ const GameDetailPage = () => {
         }
         
         if (isAuthenticated && user) {
+          try {
+            const { data: wishData } = await supabase
+              .from('game_wishlist')
+              .select('id')
+              .eq('user_id', user.id)
+              .eq('game_id', id)
+              .maybeSingle();
+
+            if (wishData) {
+              setIsWishlisted(true);
+            }
+          } catch (wErr) {
+            console.warn("Wishlist check warning:", wErr);
+          }
           const { data: libraryData, error: libraryError } = await supabase
             .from('bought_games')
             .select('*')
@@ -248,6 +269,52 @@ const GameDetailPage = () => {
 
     fetchGameData();
   }, [id, isAuthenticated]);
+
+  const getEmbedUrl = (url: string | null) => {
+    if (!url) return "";
+    const ytMatch = url.match(/(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/i);
+    if (ytMatch && ytMatch[1]) {
+      return `https://www.youtube.com/embed/${ytMatch[1]}`;
+    }
+    return "";
+  };
+
+  const handleToggleWishlist = async () => {
+    if (!isAuthenticated || !user) {
+      router.push("/login");
+      return;
+    }
+    if (!game) return;
+
+    setWishlistLoading(true);
+    try {
+      if (isWishlisted) {
+        const { error } = await supabase
+          .from('game_wishlist')
+          .delete()
+          .eq('user_id', user.id)
+          .eq('game_id', game.id);
+
+        if (error) throw error;
+        setIsWishlisted(false);
+      } else {
+        const { error } = await supabase
+          .from('game_wishlist')
+          .insert({
+            user_id: user.id,
+            game_id: game.id
+          });
+
+        if (error) throw error;
+        setIsWishlisted(true);
+      }
+    } catch (err: any) {
+      console.error("Wishlist toggle error:", err);
+      alert("Xohlayman ro'yxatini yangilashda xatolik yuz berdi.");
+    } finally {
+      setWishlistLoading(false);
+    }
+  };
 
   const handlePostReview = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -465,16 +532,68 @@ const GameDetailPage = () => {
               </p>
             </div>
 
-            {/* Screenshots */}
-            {game.screenshots && game.screenshots.length > 0 && (
-              <div className="space-y-4">
-                <h3 className="text-lg font-black text-white">Screenshotlar</h3>
-                <div className="grid grid-cols-2 gap-4">
-                  {game.screenshots.map((s: any) => (
-                    <div key={s.id} className="aspect-video bg-white/5 rounded-xl border border-white/5 overflow-hidden">
-                      <img src={s.image} alt="Screenshot" className="w-full h-full object-cover" />
+            {/* Demo Section */}
+            {game.demo_url && (
+              <div className="glass-card p-6 md:p-8 space-y-4 border-violet/30 bg-gradient-to-br from-violet/10 to-transparent">
+                <h3 className="font-black text-white flex items-center gap-2 text-lg">
+                  <PlayCircle size={22} className="text-violet animate-pulse" />
+                  <span>O'yin Demosi (Demo Version)</span>
+                </h3>
+                
+                {getEmbedUrl(game.demo_url) ? (
+                  <div className="aspect-video w-full rounded-2xl overflow-hidden bg-black/60 border border-white/10 shadow-2xl">
+                    <iframe
+                      src={getEmbedUrl(game.demo_url)}
+                      title={`${game.title} Demo Video`}
+                      className="w-full h-full"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-white/5 p-5 rounded-2xl border border-white/10">
+                    <div>
+                      <h4 className="font-bold text-white text-base">O'yin bepul demo versiyasi mavjud</h4>
+                      <p className="text-xs text-secondary mt-1">To'liq xarid qilishdan oldin o'yinning demo variantini sinab ko'ring</p>
                     </div>
-                  ))}
+                    <a
+                      href={game.demo_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="px-6 py-3 bg-violet hover:bg-violet/90 text-white font-bold rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-glow-violet shrink-0"
+                    >
+                      <Download size={15} />
+                      <span>Demoning yuklab olish</span>
+                    </a>
+                  </div>
+                )}
+              </div>
+            )}
+
+            {/* Screenshots Gallery */}
+            {game.screenshots && game.screenshots.length > 0 && (
+              <div className="glass-card p-6 md:p-8 space-y-4">
+                <h3 className="font-black text-white flex items-center gap-2 text-lg">
+                  <Gamepad2 size={20} className="text-primary" />
+                  <span>O'yin Skrinshotlari ({game.screenshots.length})</span>
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+                  {game.screenshots.map((s: any, idx: number) => {
+                    const imgUrl = typeof s === 'string' ? s : s.image;
+                    return (
+                      <div
+                        key={idx}
+                        onClick={() => setSelectedImageModal(imgUrl)}
+                        className="aspect-video bg-white/5 rounded-2xl border border-white/10 overflow-hidden cursor-pointer group relative hover:border-primary/50 transition-all"
+                      >
+                        <img src={imgUrl} alt={`Screenshot ${idx + 1}`} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-1 text-white">
+                          <Eye size={16} />
+                          <span className="text-xs font-bold">Ko'rish</span>
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             )}
@@ -691,6 +810,20 @@ const GameDetailPage = () => {
                 </div>
               )}
 
+              {/* "Xohlayman" (Wishlist) Toggle Button */}
+              <button
+                onClick={handleToggleWishlist}
+                disabled={wishlistLoading}
+                className={`w-full py-3.5 px-4 rounded-xl font-display font-bold text-xs uppercase tracking-wider transition-all flex items-center justify-center gap-2 border ${
+                  isWishlisted
+                    ? "bg-rose-500/15 border-rose-500/40 text-rose-400 hover:bg-rose-500/25 shadow-glow"
+                    : "bg-white/5 border-white/10 text-white hover:bg-white/10 hover:border-white/20"
+                }`}
+              >
+                <Heart size={16} className={isWishlisted ? "fill-rose-500 text-rose-500" : "text-white"} />
+                <span>{isWishlisted ? "Xohlayman (Qo'shilgan)" : "Xohlayman ro'yxatiga qo'shish"}</span>
+              </button>
+
               <div className="text-[10px] text-secondary leading-normal text-center opacity-75">
                 Tasdiqlangandan so'ng o'yin CD-keyi taqdim etiladi va kutubxonangizga (/profile/library) qo'shiladi.
               </div>
@@ -854,6 +987,21 @@ const GameDetailPage = () => {
                 </button>
               </div>
             </form>
+          </div>
+        </div>
+      )}
+
+      {/* Screenshot Lightbox Modal */}
+      {selectedImageModal && (
+        <div className="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4" onClick={() => setSelectedImageModal(null)}>
+          <div className="relative max-w-5xl w-full max-h-[90vh] flex flex-col items-center justify-center" onClick={(e) => e.stopPropagation()}>
+            <button
+              onClick={() => setSelectedImageModal(null)}
+              className="absolute -top-12 right-0 text-white/80 hover:text-white bg-white/10 p-2 rounded-full transition-colors"
+            >
+              <X size={20} />
+            </button>
+            <img src={selectedImageModal} alt="Enlarged screenshot" className="max-w-full max-h-[85vh] object-contain rounded-2xl border border-white/10 shadow-2xl" />
           </div>
         </div>
       )}

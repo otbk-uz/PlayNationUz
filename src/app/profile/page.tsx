@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "../../components/Navbar";
-import { User, Settings, Shield, Award, LogOut, ChevronRight, Star, Camera, Check, X, Edit3, Crown, Gamepad2, Download, Zap, TrendingUp } from "lucide-react";
+import { User, Settings, Shield, Award, LogOut, ChevronRight, Star, Camera, Check, X, Edit3, Crown, Gamepad2, Download, Zap, TrendingUp, Heart, Trash2, ShoppingCart } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useAuthStore, useTranslation } from "@/lib/store";
 import { supabase } from "@/lib/supabase";
@@ -45,6 +45,8 @@ const ProfilePage = () => {
 
   const [libraryGames, setLibraryGames] = useState<any[]>([]);
   const [loadingLibrary, setLoadingLibrary] = useState(false);
+  const [wishlistGames, setWishlistGames] = useState<any[]>([]);
+  const [loadingWishlist, setLoadingWishlist] = useState(false);
 
   // Electron launch states for Library
   const [isElectron, setIsElectron] = useState(false);
@@ -173,6 +175,43 @@ const ProfilePage = () => {
       fetchLibrary();
     }
   }, [activeSetting, libraryGames.length, profileData?.role]);
+
+  useEffect(() => {
+    if (activeSetting === "my_wishlist") {
+      const fetchWishlist = async () => {
+        setLoadingWishlist(true);
+        try {
+          const { data, error } = await supabase
+            .from('game_wishlist')
+            .select('id, game_id, created_at, developed_games(*)')
+            .eq('user_id', user?.id)
+            .order('created_at', { ascending: false });
+
+          if (!error && data) {
+            setWishlistGames(data.map((item: any) => ({
+              id: item.id,
+              game_id: item.game_id,
+              game_details: item.developed_games
+            })));
+          }
+        } catch (err) {
+          console.error("Wishlist fetch error:", err);
+        } finally {
+          setLoadingWishlist(false);
+        }
+      };
+      fetchWishlist();
+    }
+  }, [activeSetting, user?.id]);
+
+  const handleRemoveFromWishlist = async (wishlistId: string) => {
+    try {
+      await supabase.from('game_wishlist').delete().eq('id', wishlistId);
+      setWishlistGames(prev => prev.filter(item => item.id !== wishlistId));
+    } catch (err) {
+      console.error("Remove wishlist error:", err);
+    }
+  };
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -592,6 +631,7 @@ const ProfilePage = () => {
             </div>
             <div className="divide-y divide-white/5">
               {[
+                { key: "my_wishlist", label: "Xohlayman (Mening Wishlistim)" },
                 ...(profileData.role === "GAMER" || profileData.role === "ADMIN" ? [{ key: "my_library", label: t("my_library", "Mening Kutubxonam") }] : []),
                 ...((streamerData !== null || profileData.role === "ADMIN") ? [{ key: "streaming_settings", label: t("streaming_settings", "Striming sozlamalari") }] : []),
                 { key: "account_security", label: t("account_security", "Hisob xavfsizligi") },
@@ -640,7 +680,8 @@ const ProfilePage = () => {
               <div className="flex items-center space-x-3 mb-6">
                 <Settings size={24} className="text-primary" />
                 <h3 className="text-xl font-bold">
-                  {activeSetting === "my_team" ? t("my_team", "Mening Jamoam") :
+                  {activeSetting === "my_wishlist" ? "Xohlayman (Mening Wishlistim)" :
+                   activeSetting === "my_team" ? t("my_team", "Mening Jamoam") :
                    activeSetting === "my_library" ? t("my_library", "Mening Kutubxonam") :
                    activeSetting === "streaming_settings" ? t("streaming_settings", "Striming sozlamalari") :
                    activeSetting === "account_security" ? t("account_security", "Hisob xavfsizligi") :
@@ -650,7 +691,83 @@ const ProfilePage = () => {
                 </h3>
               </div>
 
-              {activeSetting === "my_library" ? (
+              {activeSetting === "my_wishlist" ? (
+                <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
+                  <p className="text-secondary text-xs">Siz 'Xohlayman' ro'yxatiga qo'shgan va kelajakda sotib olmoqchi bo'lgan o'yinlaringiz.</p>
+
+                  {loadingWishlist ? (
+                    <div className="py-12 flex items-center justify-center">
+                      <div className="w-8 h-8 border-2 border-rose-500 border-t-transparent rounded-full animate-spin" />
+                    </div>
+                  ) : wishlistGames.length === 0 ? (
+                    <div className="text-center py-12 bg-white/5 border border-white/10 rounded-2xl">
+                      <Heart size={40} className="text-rose-500/30 mx-auto mb-4" />
+                      <p className="text-secondary text-sm">'Xohlayman' ro'yxatida hali o'yinlar mavjud emas.</p>
+                      <Link
+                        href="/games"
+                        onClick={() => setActiveSetting(null)}
+                        className="btn-primary mt-4 inline-flex py-2 px-5 text-xs font-bold uppercase tracking-wider"
+                      >
+                        Do'konga o'tish
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="space-y-4">
+                      {wishlistGames.map((item) => {
+                        const gameDetails = item.game_details || {};
+
+                        return (
+                          <div key={item.id} className="bg-white/5 border border-white/10 rounded-2xl overflow-hidden flex flex-col sm:flex-row gap-4 p-4 relative group hover:border-rose-500/30 transition-all duration-300">
+                            {/* Cover */}
+                            <div className="w-full sm:w-24 aspect-video sm:aspect-[4/3] rounded-xl overflow-hidden bg-white/5 shrink-0 flex items-center justify-center">
+                              {gameDetails.cover ? (
+                                <img
+                                  src={gameDetails.cover}
+                                  alt={gameDetails.title}
+                                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                />
+                              ) : (
+                                <div className="w-full h-full bg-brand-gradient-soft flex items-center justify-center">
+                                  <Gamepad2 size={24} className="text-secondary" />
+                                </div>
+                              )}
+                            </div>
+
+                            {/* Info */}
+                            <div className="flex-1 min-w-0 flex flex-col justify-between">
+                              <div>
+                                <h4 className="font-bold text-base text-white truncate mb-1">{gameDetails.title}</h4>
+                                <p className="text-[10px] text-secondary font-bold uppercase tracking-wider mb-2">
+                                  {gameDetails.platform} • {Number(gameDetails.price) === 0 ? "BEPUL" : `${Number(gameDetails.price).toLocaleString()} UZS`}
+                                </p>
+                              </div>
+
+                              <div className="flex items-center gap-2 mt-2">
+                                <Link
+                                  href={`/games/${gameDetails.id}`}
+                                  onClick={() => setActiveSetting(null)}
+                                  className="flex-1 py-2 px-3 bg-primary hover:bg-primary-hover text-white rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-1.5"
+                                >
+                                  <ShoppingCart size={13} />
+                                  <span>O'yinga o'tish</span>
+                                </Link>
+
+                                <button
+                                  onClick={() => handleRemoveFromWishlist(item.id)}
+                                  className="p-2 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 border border-rose-500/20 rounded-xl transition-colors"
+                                  title="Ro'yxatdan o'chirish"
+                                >
+                                  <Trash2 size={15} />
+                                </button>
+                              </div>
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
+              ) : activeSetting === "my_library" ? (
                 <div className="space-y-6 max-h-[70vh] overflow-y-auto pr-2 custom-scrollbar">
                   <p className="text-secondary text-xs">{t("my_library_desc", "Siz sotib olgan va faollashtirgan o'yinlar ro'yxati.")}</p>
 
