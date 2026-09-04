@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dunyoni almashtirib to'siqning rangidan sirg'alib o'tasan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/ikki-dunyo/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Ikki Dunyo — UzIndieGame" />
+  <meta property="og:description" content="Dunyoni almashtirib to'siqning rangidan sirg'alib o'tasan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/ikki-dunyo.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/ikki-dunyo/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ikki Dunyo — UzIndieGame" />
+  <meta name="twitter:description" content="Dunyoni almashtirib to'siqning rangidan sirg'alib o'tasan." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/ikki-dunyo.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Ikki Dunyo</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="ikki-dunyo";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🌗 Ikki Dunyo</h1>
+      <p class="tag">Ikki olam ustma-ust — to'siq rangiga qarshi olamga o'ting!</p>
+    </header>
+
+    <div class="hud">
+      <div class="hud-item">
+        <span class="hud-label">Ball</span>
+        <span id="score" class="hud-value">0</span>
+      </div>
+      <div class="hud-item world-indicator">
+        <span class="hud-label">Olam</span>
+        <span id="worldName" class="hud-value">A</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Rekord</span>
+        <span id="best" class="hud-value">0</span>
+      </div>
+    </div>
+
+    <div class="board">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <!-- Start overlay -->
+      <div id="startOverlay" class="overlay">
+        <div class="panel">
+          <h2>🌗 Ikki Dunyo</h2>
+          <p class="rule">To'siq bilan <b>bir xil rangda</b> bo'lsang — o'lasan. <b>Qarama-qarshi</b> olamga o'tib xavfsiz o'tib ket!</p>
+          <p class="hint">Bo'sh tugma / bosish — olamni almashtirish</p>
+          <button id="startBtn" class="btn">Boshlash</button>
+        </div>
+      </div>
+
+      <!-- Game over overlay -->
+      <div id="overOverlay" class="overlay hidden">
+        <div class="panel">
+          <h2>O'yin tugadi</h2>
+          <p class="score-line">Ball: <span id="finalScore">0</span></p>
+          <p class="score-line muted">Rekord: <span id="finalBest">0</span></p>
+          <button id="retryBtn" class="btn">Qayta o'ynash</button>
+        </div>
+      </div>
+    </div>
+
+    <footer><p>UzIndieGame community · shu papka mustaqil deploy qilinadi</p></footer>
+  </div>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

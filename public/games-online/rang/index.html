@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Cheklangan yurishda butun taxtani bitta rangga bo&#39;ya. Burchakdan boshlab rang tanla — Flood-It boshqotirmasi." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/rang/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Rang Bosqini — UzIndieGame" />
+  <meta property="og:description" content="Cheklangan yurishda butun taxtani bitta rangga bo&#39;ya. Flood-It boshqotirmasi." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/rang.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/rang/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/rang.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Rang Bosqini — taxtani bo'ya</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="rang";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="movePill">0/0</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <div class="colorbar" id="colorbar"></div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🎨</div>
+        <h1>RANG BOSQINI</h1>
+        <p class="sub" id="cardSub">Taxtaning <b>chap-yuqori burchagi</b> sening hududing. Pastdagi ranglardan birini tanlasang, butun hududing o'sha rangga bo'yaladi va yondosh <b>bir xil rangli</b> kataklar qo'shiladi. Maqsad — <b>cheklangan yurishda</b> butun taxtani bitta rangga bo'yash!</p>
+        <div class="keys" id="cardKeys">
+          <b>Rang tanlash</b> — pastdagi tugmalar yoki 1–6 raqamlari<br>
+          <b>Qaytadan</b> — R yoki ↺
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

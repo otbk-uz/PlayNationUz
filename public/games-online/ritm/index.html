@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Ritmga mos sakra va sirg&#39;al! Cheksiz yugurish — zarbaga tushsang kombo o&#39;sadi, tezlik oshadi. Rekordingni yangila." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/ritm/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Ritm Yugurish — UzIndieGame" />
+  <meta property="og:description" content="Ritmga mos sakra va sirg&#39;al! Cheksiz yugurish, zarbaga tushsang kombo o&#39;sadi." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/ritm.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/ritm/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/ritm.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Ritm Yugurish — zarbaga sakra</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="ritm";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="scorePill">0</div>
+      <div class="pill" id="bestPill">Rekord 0</div>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <!-- Mobil boshqaruv -->
+    <div class="touch" id="touch">
+      <button class="tbtn slide" id="btnSlide" aria-label="Sirg'al">⤓</button>
+      <button class="tbtn jump" id="btnJump" aria-label="Sakrash">⤴</button>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🎵</div>
+        <h1>RITM YUGURISH</h1>
+        <p class="sub" id="cardSub">Qahramon o'zi yuguradi — sen faqat <b>sakra</b> va <b>sirg'al</b>. To'siqlar zarba (beat) bilan keladi: past nayzadan <b>sakra</b>, tepadagi to'sindan <b>sirg'al</b>. Harakatni aynan <b>zarbaga</b> mosla — kombo o'sadi, ochko ko'payadi. Tezlik tobora oshadi!</p>
+        <div class="keys" id="cardKeys">
+          <b>Sakrash</b> — Space / W / ↑ (yoki o'ng tugma)<br>
+          <b>Sirg'alish</b> — S / ↓ (yoki chap tugma)
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

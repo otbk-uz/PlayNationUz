@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Lanka — xalq epchillik o'yini. Lankani oyoq bilan tepib havoda ushlab tur, tushirmasdan nishon soniga yet. Pseudo-3D refleks o'yini." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/lanka/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Lanka — tushirmay tep" />
+  <meta property="og:description" content="Lankani oyoq bilan tepib havoda ushlab tur — xalq epchillik o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/lanka.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/lanka/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/lanka.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Lanka — tushirmay tep</title>
+  <meta name="theme-color" content="#3a5570" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="lanka";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="targetPill">🎯 5</div>
+      <div class="pill" id="statePill">🦶 0/5</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">TEP 🦶</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🦶</div>
+        <h1>LANKA</h1>
+        <p class="sub" id="cardSub">Mahalla epchillik o'yini! <b>Lanka</b> (patli og'irlik) pastga tushadi — u <b>oyoq balandligiga</b> tushganda <b>tep</b> va yana yuqoriga uchir. Personaj lanka ostiga o'zi yuguradi; sen faqat <b>vaqtida tep</b>. Tushirmasdan nishon soniga yetsang — bosqich o'tadi!</p>
+        <div class="keys" id="cardKeys">
+          <b>Tepish</b> — ekranni bos yoki Probel (chiziq yashil bo'lganda)<br>
+          <b>Maslahat</b> — lanka eng pastda (yashil zona) bo'lganda tepsang balandroq uchadi
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

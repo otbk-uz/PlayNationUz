@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Arqon tortish — xalq kuch o'yini. Ritmga mos, yashil zonada tortib ip belgisini o'z tomoningga o'tkaz. Raqib jamoani yeng. Pseudo-3D." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/arqon/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Arqon tortish — kuch sinovi" />
+  <meta property="og:description" content="Ritmga mos tortib raqib jamoani yeng — xalq arqon tortish o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/arqon.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/arqon/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/arqon.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Arqon tortish — kuch sinovi</title>
+  <meta name="theme-color" content="#3d5474" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="arqon";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="comboPill">kombo 0</div>
+      <div class="pill" id="statePill">⚖ teng</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">TORT 💪</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🪢</div>
+        <h1>ARQON TORTISH</h1>
+        <p class="sub" id="cardSub">Kuch va ritm sinovi! Raqib jamoa 🤖 ipni doim o'ziga tortadi. Pastdagi ko'rsatkich <b>yashil zona</b>ga kelganda <b>TORT</b> — kuchli tortasan. Ketma-ket to'g'ri ursang <b>kombo</b> o'sadi. Markaziy tasmani o'z (o'ng) chizig'ingga o'tkazsang — g'alaba!</p>
+        <div class="keys" id="cardKeys">
+          <b>Tortish</b> — ekranni bos yoki Probel (ko'rsatkich yashil zonada)<br>
+          <b>Maslahat</b> — noto'g'ri vaqtda tortsang toyasan (kombo uziladi)
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

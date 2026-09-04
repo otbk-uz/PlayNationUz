@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Bitta arqon bilan tebranib, momentum bilan uchasan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/ip/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Ip — UzIndieGame" />
+  <meta property="og:description" content="Bitta arqon bilan tebranib, momentum bilan uchasan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/ip.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/ip/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ip — UzIndieGame" />
+  <meta name="twitter:description" content="Bitta arqon bilan tebranib, momentum bilan uchasan." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/ip.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>🕸️ Ip</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="ip";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🕸️ Ip</h1>
+      <p class="tag">Bitta arqon — otil, tebran, uch</p>
+    </header>
+
+    <div class="board">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <!-- Start overlay -->
+      <div id="startOverlay" class="overlay">
+        <div class="card">
+          <h2>🕸️ Ip</h2>
+          <p class="rule">Bosib turing — arqon otiladi va tebranasiz; qo'ying — uchasiz</p>
+          <button id="startBtn" class="btn">Boshlash</button>
+        </div>
+      </div>
+
+      <!-- Game over overlay -->
+      <div id="overOverlay" class="overlay hidden">
+        <div class="card">
+          <h2 class="danger">Yiqildingiz!</h2>
+          <p class="score">Masofa: <span id="finalScore">0</span> m</p>
+          <p class="best">Rekord: <span id="finalBest">0</span> m</p>
+          <button id="againBtn" class="btn">Qayta o'ynash</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="hud">
+      <span>Masofa: <b id="hudScore">0</b> m</span>
+      <span>Rekord: <b id="hudBest">0</b> m</span>
+    </div>
+
+    <footer><p>UzIndieGame community · shu papka mustaqil deploy qilinadi</p></footer>
+  </div>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

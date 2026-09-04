@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Chillak (chillik) — xalq o'yini. Kaltak bilan chillakni urib, kuch va burchakni to'g'ri tanlab imkon qadar uzoqqa uchir. Pseudo-3D masofa o'yini." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/chillak/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Chillak — masofaga uchir" />
+  <meta property="og:description" content="Kaltak bilan chillakni nishon masofaga uchir — pseudo-3D xalq o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/chillak.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/chillak/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/chillak.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Chillak — masofaga uchir</title>
+  <meta name="theme-color" content="#5b7ea6" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="chillak";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="targetPill">🎯 30 qadam</div>
+      <div class="pill" id="statePill">Kuch tanla</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">BOS 🏏</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🏏</div>
+        <h1>CHILLAK</h1>
+        <p class="sub" id="cardSub">Mahalla o'yini! Kaltak bilan <b>chillak</b>ni (kalta tayoq) urib uzoqqa uchir. Avval <b>kuch</b>ni tanla (bir bosishda), so'ng <b>burchak</b>ni (≈45° eng uzoqqa ketadi). Chillak qizil <b>nishon chizig'idan</b> 🎯 uzoqqa tushsa — bosqich o'tadi!</p>
+        <div class="keys" id="cardKeys">
+          <b>Bitta tugma</b> — ekranni bos yoki Probel (KUCH → BURCHAK)<br>
+          <b>Maslahat</b> — kuch yuqori, burchak ~45° bo'lsa eng uzoqqa uchadi
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

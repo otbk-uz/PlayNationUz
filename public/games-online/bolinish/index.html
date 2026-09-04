@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Bir tugma, uch yo'lak — birlash yoki bo'lin." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/bolinish/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Bo'linish — UzIndieGame" />
+  <meta property="og:description" content="Bir tugma, uch yo'lak — birlash yoki bo'lin." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/bolinish.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/bolinish/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bo'linish — UzIndieGame" />
+  <meta name="twitter:description" content="Bir tugma, uch yo'lak — birlash yoki bo'lin." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/bolinish.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>🔵 Bo'linish</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="style.css" />
+<script>window.__UZG_SLUG="bolinish";</script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1 class="title">🔵 Bo'linish</h1>
+      <p class="tagline">Bo'lin yoki birlash — to'g'ri yo'lakni tanla!</p>
+    </header>
+
+    <div class="hud">
+      <div class="hud-item">
+        <span class="hud-label">Ball</span>
+        <span id="score" class="hud-value">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Rekord</span>
+        <span id="best" class="hud-value">0</span>
+      </div>
+    </div>
+
+    <div class="stage">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <div id="startOverlay" class="overlay">
+        <div class="overlay-card">
+          <h2>🔵 Bo'linish</h2>
+          <p class="rule">Birlashgan = o'rta yo'lak. Bo'lingan = yuqori + past yo'lak. To'siq qaysi yo'lakda bo'lsa, o'sha yo'lakda bo'lma!</p>
+          <button id="startBtn" class="btn">Boshlash</button>
+          <p class="hint">Bo'sh joy (Probel), bosish yoki tegin</p>
+        </div>
+      </div>
+
+      <div id="overOverlay" class="overlay hidden">
+        <div class="overlay-card">
+          <h2 class="danger">O'yin tugadi</h2>
+          <p class="score-line">Ball: <span id="finalScore">0</span></p>
+          <p class="score-line muted">Rekord: <span id="finalBest">0</span></p>
+          <button id="retryBtn" class="btn">Qayta o'ynash</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="foot">Bir tugma: birlash / bo'lin. To'siqlardan o'tib ball to'pla.</p>
+  </main>
+
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

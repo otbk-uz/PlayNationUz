@@ -532,8 +532,49 @@ const GameDetailPage = () => {
               </p>
             </div>
 
+            {/* Web Online Play Section */}
+            {(game.platform === "WEB" || game.demo_url?.includes("/games-online/")) && (
+              <div className="glass-card p-6 md:p-8 space-y-4 border-violet/40 bg-gradient-to-br from-violet/15 via-white/[0.02] to-transparent shadow-glow-violet">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+                  <div>
+                    <h3 className="font-black text-white flex items-center gap-2 text-xl">
+                      <Gamepad2 size={24} className="text-violet animate-pulse" />
+                      <span>Onlayn Brauzer O'yini</span>
+                    </h3>
+                    <p className="text-xs text-secondary mt-1">
+                      Ushbu o'yinni yuklab olmasdan to'g'ridan-to mezoniy brauzeringizda bepul o'ynashingiz mumkin.
+                    </p>
+                  </div>
+                  <Link
+                    href={isAuthenticated ? `/games/play/${game.slug}` : `/login?redirect=/games/play/${game.slug}`}
+                    className="px-6 py-3.5 bg-violet hover:bg-violet/90 text-white font-black rounded-xl text-xs uppercase tracking-wider transition-all flex items-center gap-2 shadow-glow-violet shrink-0 active:scale-95"
+                  >
+                    <PlayCircle size={18} />
+                    <span>🎮 ONLAYN O'YNASH</span>
+                  </Link>
+                </div>
+
+                <div className="aspect-[16/9] w-full rounded-2xl overflow-hidden bg-black/80 border border-white/10 relative group">
+                  <iframe
+                    src={game.demo_url || `/games-online/${game.slug}/index.html`}
+                    title={`${game.title} Online Play`}
+                    className="w-full h-full border-0 pointer-events-none"
+                  />
+                  <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px] group-hover:backdrop-blur-none group-hover:bg-black/10 transition-all flex items-center justify-center">
+                    <Link
+                      href={isAuthenticated ? `/games/play/${game.slug}` : `/login?redirect=/games/play/${game.slug}`}
+                      className="px-6 py-3 bg-violet text-white font-bold rounded-full text-xs uppercase tracking-wider shadow-2xl flex items-center gap-2 group-hover:scale-105 transition-transform"
+                    >
+                      <PlayCircle size={18} />
+                      <span>To'liq ekranda o'ynash</span>
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            )}
+
             {/* Demo Section */}
-            {game.demo_url && (
+            {game.demo_url && !game.demo_url.includes("/games-online/") && game.platform !== "WEB" && (
               <div className="glass-card p-6 md:p-8 space-y-4 border-violet/30 bg-gradient-to-br from-violet/10 to-transparent">
                 <h3 className="font-black text-white flex items-center gap-2 text-lg">
                   <PlayCircle size={22} className="text-violet animate-pulse" />
@@ -758,7 +799,15 @@ const GameDetailPage = () => {
                       </div>
                     </div>
                   )}
-                  {game.download_url && (
+                  {(game.platform === "WEB" || game.demo_url?.includes("/games-online/")) ? (
+                    <Link
+                      href={`/games/play/${game.slug}`}
+                      className="w-full py-4 bg-violet hover:bg-violet/90 text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center justify-center gap-2 shadow-lg shadow-violet/25 active:scale-95"
+                    >
+                      <PlayCircle size={18} />
+                      <span>🎮 ONLAYN O'YNASH</span>
+                    </Link>
+                  ) : game.download_url && (
                     <a
                       href={game.download_url}
                       target="_blank"

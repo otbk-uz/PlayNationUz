@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Bosqich bo&#39;m-bo&#39;sh ko&#39;rinadi — yo&#39;l ko&#39;rinmas. Paypaslab yur: to&#39;g&#39;ri qadam yonadi, soxta plitka qulaydi, eshikka yet." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/korinmas/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Ko&#39;rinmas Yo&#39;l — UzIndieGame" />
+  <meta property="og:description" content="Bosqich bo&#39;m-bo&#39;sh ko&#39;rinadi — yo&#39;l ko&#39;rinmas. Paypaslab yur: to&#39;g&#39;ri qadam yonadi, soxta plitka qulaydi, eshikka yet." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/korinmas.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/korinmas/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/korinmas.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Ko'rinmas Yo'l — paypaslab yo'l top</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="korinmas";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <!-- HUD -->
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill danger" id="deathPill">☠ 0</div>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <!-- Mobil boshqaruv -->
+    <div class="touch" id="touch">
+      <div class="dpad">
+        <button class="tbtn" id="btnLeft" aria-label="Chap">◀</button>
+        <button class="tbtn" id="btnRight" aria-label="O'ng">▶</button>
+      </div>
+      <button class="tbtn jump" id="btnJump" aria-label="Sakrash">⤴</button>
+    </div>
+
+    <!-- Boshlash / g'alaba paneli -->
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🌫️</div>
+        <h1>KO'RINMAS YO'L</h1>
+        <p class="sub" id="cardSub">Bosqich bo'm-bo'sh ko'rinadi — lekin yo'l bor, faqat <b>ko'rinmas</b>. Paypaslab yur: to'g'ri qadam bossang platforma bir lahza yonadi. Havoni bossang — qulaysan. Ba'zi platformalar <b>soxta</b>, ba'zi devorlar ko'rinmas. 🚪 eshikka yet.</p>
+        <div class="keys" id="cardKeys">
+          <b>Yurish</b> — A/D yoki ← → · <b>Sakrash</b> — Space / W / ↑<br>
+          Har o'lim izing xaritada qoladi — eslab qol, keyin uch.
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

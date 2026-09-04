@@ -1,0 +1,70 @@
+.wrap { width: 100%; max-width: 860px; }
+header { text-align: center; margin-bottom: 16px; }
+.tag { color: var(--muted); margin-top: 6px; font-size: 14px; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
+}
+.hidden { display: none !important; }
+
+.field { margin-bottom: 14px; }
+label { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+input {
+  width: 100%;
+  background: #0d1117;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 16px;
+}
+#roomInput { text-transform: uppercase; letter-spacing: 4px; text-align: center; font-weight: 700; }
+
+.row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.or { color: var(--muted); font-size: 13px; }
+.join { display: flex; gap: 8px; flex: 1; min-width: 180px; }
+.join input { max-width: 120px; }
+
+button.small { padding: 8px 14px; font-size: 13px; }
+
+.server-note { margin-top: 14px; font-size: 12px; color: var(--muted); }
+.server-note a { color: var(--accent); cursor: pointer; }
+
+.room-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.code { font-size: 26px; font-weight: 800; letter-spacing: 6px; color: var(--accent); }
+.muted { color: var(--muted); font-size: 13px; }
+.players { list-style: none; margin: 14px 0; display: flex; flex-direction: column; gap: 8px; }
+.players li {
+  display: flex; align-items: center; gap: 10px;
+  background: #0d1117; border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 14px;
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); }
+.badge { margin-left: auto; font-size: 11px; color: var(--muted); }
+
+canvas {
+  width: 100%; max-width: 800px; height: auto;
+  background: #0b0f16; border-radius: 12px; border: 1px solid var(--line);
+  touch-action: none;
+}
+.controls-hint { text-align: center; margin-top: 10px; }
+
+.scores { margin: 14px 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.scores li { font-size: 15px; }
+h2 { text-align: center; margin-bottom: 6px; }
+
+.status { text-align: center; color: var(--muted); font-size: 13px; min-height: 18px; }
+
+@media (max-width: 640px) {
+  h1 { font-size: 28px; }
+  .controls-mobile { display: flex; }
+}
+
+/* Yulduz scorebar */
+.scorebar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; font-weight: 800; font-size: 16px; }
+#lead { color: var(--accent); }
+.timer { color: var(--text); background: #0d1117; border: 1px solid var(--line); border-radius: 8px; padding: 4px 14px; font-variant-numeric: tabular-nums; }

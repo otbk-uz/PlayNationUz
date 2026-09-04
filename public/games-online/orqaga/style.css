@@ -1,0 +1,112 @@
+/* Orqaga — o'yinga xos qatlam.
+   Umumiy chrome (tokenlar, body, h1, tugma, board, overlay, footer)
+   ../_shared/neon.css'dan keladi. Bu yerda faqat o'ziga xos qismlar. */
+
+body { -webkit-user-select: none; user-select: none; }
+
+/* HUD (rewind metri) */
+.hud {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  backdrop-filter: blur(8px);
+}
+.hud b { color: var(--accent); }
+.meter-wrap { display: flex; align-items: center; gap: 8px; }
+.meter-label { color: var(--muted); font-size: 12px; }
+.meter {
+  display: inline-block;
+  width: 120px;
+  height: 10px;
+  background: #0d1117;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  overflow: hidden;
+}
+.meter i {
+  display: block;
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(90deg, #0891b2, var(--cyan));
+  transition: width 0.05s linear;
+}
+.meter i.low { background: linear-gradient(90deg, #b5361f, var(--danger)); }
+
+/* Canvas o'ziga xos maydoni */
+canvas {
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  background: #0a0e14;
+}
+
+/* Overlay kartasi (o'yin nomlanishi .card) */
+.card { max-width: 340px; padding: 22px; }
+.card h2 { font-size: 26px; margin-bottom: 12px; }
+.card .rule { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 18px; }
+.card .rule b { color: var(--text); }
+.danger { color: var(--danger); }
+.good { color: var(--green); }
+
+/* Tugmalar (o'yinga xos .btn variantlari) */
+.btn {
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 11px 20px;
+  cursor: pointer;
+  box-shadow: none;
+  transition: transform 0.05s, border-color 0.15s, background 0.15s;
+}
+.btn:hover { filter: none; }
+.btn:active { transform: scale(0.96); }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #061018; box-shadow: 0 0 20px rgba(34,211,238,0.35); }
+.btn.primary:hover { background: #6fe4ff; }
+
+/* Boshqaruv (d-pad + rewind) */
+.controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+.dpad { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.pad-mid { display: flex; gap: 6px; }
+.pad {
+  width: 52px;
+  height: 46px;
+  font-size: 18px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  cursor: pointer;
+}
+.pad:active { background: #21262d; transform: scale(0.94); }
+.btn.rewind {
+  background: #10233d;
+  border-color: var(--accent);
+  color: var(--accent);
+  font-size: 17px;
+  padding: 16px 22px;
+  flex: 1;
+  min-width: 140px;
+  max-width: 220px;
+}
+.btn.rewind.active {
+  background: var(--accent);
+  color: #061018;
+}

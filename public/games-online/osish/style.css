@@ -1,0 +1,64 @@
+/* O'sish — o'yinga xos qatlam.
+   Umumiy chrome (tokenlar, body, h1, tugma, board, overlay, HUD, footer)
+   ../_shared/neon.css'dan keladi. Bu yerda faqat o'ziga xos qismlar. */
+
+/* Canvas o'ziga xos maydoni */
+canvas {
+  max-width: 480px;
+  aspect-ratio: 1 / 1;
+  background: #0a0e14;
+  display: block;
+}
+
+/* Overlay kartasi (.card nomlanishi) */
+.card { max-width: 340px; }
+.card h2 { font-size: 26px; margin-bottom: 12px; }
+.card p { color: var(--muted); font-size: 14px; line-height: 1.5; margin-bottom: 18px; }
+
+/* Tugma (o'yinga xos yashil .btn) */
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 16px;
+  color: #06210f;
+  background: var(--green);
+  border: none;
+  border-radius: 10px;
+  padding: 11px 26px;
+  cursor: pointer;
+  box-shadow: 0 0 20px rgba(52,211,153,0.35);
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: scale(0.96); }
+
+/* Boshqaruv (d-pad) */
+.controls {
+  margin: 18px auto 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.pad-row { display: flex; gap: 8px; }
+.pad {
+  font: inherit;
+  font-size: 20px;
+  width: 58px;
+  height: 52px;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.12s ease, transform 0.06s ease;
+}
+.pad:hover { background: #1d2430; }
+.pad:active { transform: scale(0.94); background: #232b38; }
+
+.hint { text-align: center; color: var(--muted); font-size: 12px; margin-top: 12px; }
+
+@media (max-width: 420px) {
+  .pad { width: 52px; height: 48px; }
+}

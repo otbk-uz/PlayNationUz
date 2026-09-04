@@ -1,0 +1,69 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Qorong'i labirint — ping (echolocation) bilan yo'l topasan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/aks-ovoz/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Aks-Ovoz — UzIndieGame" />
+  <meta property="og:description" content="Qorong'i labirint — ping (echolocation) bilan yo'l topasan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/aks-ovoz.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/aks-ovoz/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aks-Ovoz — UzIndieGame" />
+  <meta name="twitter:description" content="Qorong'i labirint — ping (echolocation) bilan yo'l topasan." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/aks-ovoz.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+<title>🔊 Aks-Ovoz</title>
+<link rel="stylesheet" href="./_shared/neon.css" />
+<link rel="stylesheet" href="style.css" />
+
+<div class="wrap">
+  <header class="app-header">
+    <h1>🔊 Aks-Ovoz</h1>
+    <p class="tagline">Ekran qorong'i — ping bilan devorlarni yorit va chiqishni top</p>
+  </header>
+
+  <div class="hud">
+    <div class="hud-item"><span class="hud-label">Bosqich</span><span id="hudLevel" class="hud-value">1</span></div>
+    <div class="hud-item"><span class="hud-label">Ping</span><span id="hudPings" class="hud-value">0</span></div>
+    <div class="hud-item"><span class="hud-label">Vaqt</span><span id="hudTime" class="hud-value">0s</span></div>
+    <div class="hud-item"><span class="hud-label">Rekord</span><span id="hudBest" class="hud-value">—</span></div>
+  </div>
+
+  <div class="stage">
+    <canvas id="game" width="480" height="480"></canvas>
+
+    <div id="overlay" class="overlay">
+      <div class="overlay-card">
+        <h2 id="overlayTitle">🔊 Aks-Ovoz</h2>
+        <p id="overlayText">Ekran qorong'i — Ping bosib devorlarni bir lahza yorit va chiqishni top.</p>
+        <p class="overlay-sub" id="overlaySub">Harakat: strelka yoki WASD. Ping: Bo'sh joy (Probel) yoki Ping tugmasi.</p>
+        <button id="overlayBtn" class="btn btn-primary">Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button id="pingBtn" class="btn btn-ping">🔊 Ping (Probel)</button>
+    <div class="dpad">
+      <button class="btn btn-dir" data-dir="up" aria-label="Yuqoriga">▲</button>
+      <div class="dpad-mid">
+        <button class="btn btn-dir" data-dir="left" aria-label="Chapga">◀</button>
+        <button class="btn btn-dir" data-dir="down" aria-label="Pastga">▼</button>
+        <button class="btn btn-dir" data-dir="right" aria-label="O'ngga">▶</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="app-footer">
+    <p class="muted">Devorlarni yodda saqla. Kamroq ping — yaxshiroq natija.</p>
+  </footer>
+</div>
+
+<script src="./_shared/fx.js"></script>
+<script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+<script src="./_shared/cats-badge.js"></script>
+<script src="./_shared/analytics.js"></script>
+<script src="game.js"></script>
+<script src="./assets/cf-analytics.js"></script>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Qutbni almashtirib magnit kuchi bilan yo'l topasan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/magnit/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Magnit — UzIndieGame" />
+  <meta property="og:description" content="Qutbni almashtirib magnit kuchi bilan yo'l topasan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/magnit.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/magnit/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Magnit — UzIndieGame" />
+  <meta name="twitter:description" content="Qutbni almashtirib magnit kuchi bilan yo'l topasan." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/magnit.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>🧲 Magnit</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="magnit";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🧲 Magnit</h1>
+      <p class="tag">Qutbingni almashtir — magnitlar seni tortsin yoki itarsin</p>
+    </header>
+
+    <div class="hud">
+      <span>Bosqich: <b id="hud-level">1</b></span>
+      <span>Qutb: <b id="hud-pole">+</b></span>
+      <span>Urinish: <b id="hud-tries">0</b></span>
+      <span>Rekord: <b id="hud-best">—</b></span>
+    </div>
+
+    <div class="board">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <div id="overlay" class="overlay">
+        <div class="card">
+          <h2>🧲 Magnit</h2>
+          <p>Sen — magnit shar. O'zing harakatlanmaysan: magnit tugunlar seni
+             kuch bilan tortadi yoki itaradi.</p>
+          <ul>
+            <li><b>Qarama-qarshi</b> qutb — <b>tortadi</b> (yaqinlashadi).</li>
+            <li><b>Bir xil</b> qutb — <b>itaradi</b> (uzoqlashadi).</li>
+            <li>Kuch masofaga bog'liq: qancha yaqin — shuncha kuchli.</li>
+          </ul>
+          <p><b>Boshqaruv:</b> <span class="key">Space</span> yoki pastdagi tugma —
+             qutbni <span class="red">+</span> / <span class="blue">−</span> almashtiradi.</p>
+          <p>Yashil <b>chiqish</b>ga yet. Qizil <b>tikan</b>lardan saqlan.</p>
+          <button id="btn-start" class="primary">Boshlash</button>
+        </div>
+      </div>
+
+      <div id="win" class="overlay hidden">
+        <div class="card">
+          <h2>🏆 G'alaba!</h2>
+          <p id="win-text">Barcha bosqichlarni yakunlading.</p>
+          <button id="btn-again" class="primary">Qaytadan</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button id="btn-toggle" class="pole">Qutb: <b id="btn-pole">+</b></button>
+      <button id="btn-restart" class="ghost">Bosqichni qayta</button>
+    </div>
+
+    <footer><p>UzIndieGame community · bu papka mustaqil deploy qilinadi</p></footer>
+  </div>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Vazifa bajar, bo'rini top — yoki sezdirmay buz (mafiya)." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/bori/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Kim Bo'ri? — UzIndieGame" />
+  <meta property="og:description" content="Vazifa bajar, bo'rini top — yoki sezdirmay buz (mafiya)." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/bori.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/bori/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Kim Bo'ri? — UzIndieGame" />
+  <meta name="twitter:description" content="Vazifa bajar, bo'rini top — yoki sezdirmay buz (mafiya)." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/bori.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Kim Bo'ri? — mafiya + vazifalar</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="bori";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🐺 Kim Bo'ri?</h1>
+      <p class="tag">Vazifalarni bajar, bo'rini top — yoki sezdirmay buz! (online)</p>
+    </header>
+
+    <section id="lobby" class="panel">
+      <div class="field"><label>Ismingiz</label><input id="nick" maxlength="16" placeholder="Masalan: Ali" /></div>
+      <div class="row">
+        <button id="createBtn">Yangi xona ochish</button>
+        <span class="or">yoki</span>
+        <div class="join"><input id="roomInput" maxlength="4" placeholder="KOD" /><button id="joinBtn" class="ghost">Kirish</button></div>
+      </div>
+      <p id="serverNote" class="server-note"></p>
+    </section>
+
+    <section id="room" class="panel hidden">
+      <div class="room-head"><div>Xona kodi: <span id="roomCode" class="code">----</span></div><button id="copyBtn" class="ghost small">Nusxa</button></div>
+      <p class="muted">Kamida 3 o'yinchi. Rollar tasodifiy: 1-2 Bo'ri, qolganlar Qishloqchi.</p>
+      <ul id="playerList" class="players"></ul>
+      <button id="startBtn" class="hidden">Boshlash</button>
+      <p id="waitNote" class="muted"></p>
+    </section>
+
+    <section id="game" class="panel hidden">
+      <div class="scorebar">
+        <span id="roleTag" class="role-tag"></span>
+        <span id="phaseTag"></span>
+        <span id="timer" class="timer">--</span>
+      </div>
+
+      <div id="taskArea">
+        <div class="progress-wrap"><div id="progressBar" class="progress-bar"></div><span id="progressText">0%</span></div>
+        <div class="action-row">
+          <button id="taskBtn" class="big">🔧 Vazifa bajar</button>
+          <button id="sabBtn" class="big danger hidden">😈 Sabotaj</button>
+        </div>
+      </div>
+
+      <div id="voteArea" class="hidden">
+        <p class="muted">Kim bo'ri? — bittasiga ovoz bering:</p>
+        <ul id="voteList" class="players"></ul>
+        <p id="voteInfo" class="muted"></p>
+      </div>
+
+      <p id="revealMsg" class="reveal"></p>
+    </section>
+
+    <section id="over" class="panel hidden">
+      <h2 id="overTitle">O'yin tugadi</h2>
+      <p id="overReason" class="muted"></p>
+      <ol id="scoreList" class="scores"></ol>
+      <p class="muted">6 soniyadan keyin xonaga qaytamiz...</p>
+    </section>
+
+    <p id="status" class="status"></p>
+  </div>
+  <script src="./_shared/config.js"></script>
+  <script src="./net.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

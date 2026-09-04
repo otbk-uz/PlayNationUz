@@ -1,0 +1,128 @@
+/* Bir Nafas — o'yinga xos joylashuv.
+   Umumiy chrome (tokenlar, body, h1, .tag, tugmalar, h2 gradienti) ../_shared/neon.css'dan.
+   Bu o'yin o'z DOM tuzilishidan foydalanadi (.stage, .panel, .hud-item ...),
+   shuning uchun quyidagilar saqlanadi. */
+
+.head {
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* HUD — ikki ustunli, kenglikni to'ldiradi */
+.hud-item {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+}
+
+.hud-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hud-value {
+  font-size: 24px;
+  font-weight: 700;
+  text-shadow: 0 0 14px rgba(34, 211, 238, 0.4);
+}
+
+/* Kvadrat o'yin maydoni (canvas ramkasi) */
+.stage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  overflow: hidden;
+  background: var(--bg);
+  box-shadow: 0 0 40px rgba(34, 211, 238, 0.08), 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+#game {
+  display: block;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+}
+
+/* Overlaylar — .stage'da padding yo'q, shuning uchun to'liq qoplaydi */
+.overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: rgba(7, 11, 20, 0.82);
+  backdrop-filter: blur(3px);
+  text-align: center;
+  padding: 24px;
+}
+
+.overlay.hidden {
+  display: none;
+}
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 28px 24px;
+  max-width: 340px;
+  width: 100%;
+  backdrop-filter: blur(8px);
+}
+
+.panel h2 {
+  font-size: 24px;
+  margin-bottom: 14px;
+}
+
+.rule {
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+
+.rule.muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.over-stats {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 18px 0;
+}
+
+.over-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.big {
+  font-size: 30px;
+  font-weight: 800;
+  color: var(--cyan);
+}
+
+.hint {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  margin-top: 14px;
+}
+
+.hint b {
+  color: var(--text);
+}

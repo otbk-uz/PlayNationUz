@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Har yurishingda devorlar o'sadi — qamalmay chiqib ulgur." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/osish/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="O'sish — UzIndieGame" />
+  <meta property="og:description" content="Har yurishingda devorlar o'sadi — qamalmay chiqib ulgur." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/osish.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/osish/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="O'sish — UzIndieGame" />
+  <meta name="twitter:description" content="Har yurishingda devorlar o'sadi — qamalmay chiqib ulgur." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/osish.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>🌱 O'sish</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="osish";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🌱 O'sish</h1>
+      <p class="tag">Har qadamingda devorlar ham o'sadi — chiqishga yetib ol!</p>
+    </header>
+
+    <div class="hud">
+      <div class="stat"><span class="label">Bosqich</span><span id="level" class="value">1</span></div>
+      <div class="stat"><span class="label">Qadam</span><span id="steps" class="value">0</span></div>
+      <div class="stat"><span class="label">Rekord</span><span id="best" class="value">0</span></div>
+    </div>
+
+    <div class="board">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <div id="overlay" class="overlay">
+        <div class="card">
+          <h2 id="ov-title">🌱 O'sish</h2>
+          <p id="ov-text">Har qadamingizda devorlar ham o'sib, bo'sh kataklarni bosib boradi.
+             Devorlar sizni qamab olmasidan yashil chiqishga yeting.</p>
+          <button id="ov-btn" class="btn">Boshlash</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls" aria-label="Boshqaruv">
+      <button class="pad" data-dir="up" aria-label="Yuqoriga">▲</button>
+      <div class="pad-row">
+        <button class="pad" data-dir="left" aria-label="Chapga">◀</button>
+        <button class="pad" data-dir="down" aria-label="Pastga">▼</button>
+        <button class="pad" data-dir="right" aria-label="O'ngga">▶</button>
+      </div>
+    </div>
+
+    <p class="hint">Boshqaruv: strelka tugmalari yoki WASD · Mobil uchun pastdagi tugmalar</p>
+
+    <footer><p>UzIndieGame community · bu papka mustaqil deploy qilinadi</p></footer>
+  </div>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Sirtmoq — orbital sling. Ustunga bog'langan yulduzni to'g'ri paytda qo'yib yubor, tangens bo'ylab uchib keyingi ustunga ilinsin. Zanjirlab manzilga yet. Pseudo-3D." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/sirtmoq/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Sirtmoq — orbital sling" />
+  <meta property="og:description" content="Aylanayotgan yulduzni to'g'ri paytda qo'yib yubor va ustundan ustunga ilintir." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/sirtmoq.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/sirtmoq/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/sirtmoq.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Sirtmoq — orbital sling</title>
+  <meta name="theme-color" content="#14224e" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="sirtmoq";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="progPill">🔗 0/3</div>
+      <div class="pill" id="statePill">❤ 3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">QO'YIB YUBOR 🔗</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🔗</div>
+        <h1>SIRTMOQ</h1>
+        <p class="sub" id="cardSub">Yulduz ustunga bog'lanib <b>aylanadi</b>. Uni to'g'ri paytda <b>QO'YIB YUBOR</b> — u aylanish yo'nalishi (tangens) bo'ylab uchib ketadi. Nishonni to'g'ri olsang, yulduz <b>keyingi ustunga ilinadi</b> va yana aylanaboshlaydi. Ustundan ustunga uzmasdan olib borib <b>bayroqli ustun</b>ga yet! Oq nuqtali yo'l — qayerga uchishini ko'rsatadi (yashil = ilinadi).</p>
+        <div class="keys" id="cardKeys">
+          <b>Qo'yib yuborish</b> — ekranni bos yoki Probel<br>
+          <b>Maslahat</b> — halqa yashil bo'lganda qo'yib yubor
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

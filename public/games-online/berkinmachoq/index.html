@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Berkinmachoq — izlovchining ko'rish konusidan bekinib, butalar ortida yashirinib xavfsiz 'chur'ga yet. 2.5D izometrik yashirin o'yin." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/berkinmachoq/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Berkinmachoq — UzIndieGame" />
+  <meta property="og:description" content="Izlovchidan bekinib xavfsiz churga yet — 2.5D izometrik berkinmachoq." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/berkinmachoq.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/berkinmachoq/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/berkinmachoq.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Berkinmachoq — bekinib churga yet</title>
+  <meta name="theme-color" content="#0a1428" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="berkinmachoq";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="statePill">🙈 Bekin</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <div class="dpad">
+        <button class="tbtn" id="btnUp" data-dir="up">▲</button>
+        <button class="tbtn" id="btnLeft" data-dir="left">◀</button>
+        <button class="tbtn" id="btnWait" data-dir="mid">·</button>
+        <button class="tbtn" id="btnRight" data-dir="right">▶</button>
+        <button class="tbtn" id="btnDown" data-dir="down">▼</button>
+      </div>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🙈</div>
+        <h1>BERKINMACHOQ</h1>
+        <p class="sub" id="cardSub">Izlovchi 👁 maydonni aylanib <b>ko'rish konusi</b> bilan seni qidiradi. <b>Butalar</b> 🌳 ortiga bekinib, devorlar panasida yashirinib, ko'rinmay xavfsiz <b>churga</b> 🏁 yetib bor. Konusda uzoq qolsang — tutilasan!</p>
+        <div class="keys" id="cardKeys">
+          <b>Yurish</b> — strelka / WASD yoki ekran tugmalari<br>
+          <b>Yashirin</b> — buta ichida ko'rinmaysan · konusdan uzoq tur
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

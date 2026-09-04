@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="3D party! Yakka (botlar bilan) yoki onlayn do'stlar bilan. Svet o'chganda yugur, yonganda haykaldek QOT. Qurol va kuchlarni ol — oxirigacha jon saqla." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/blackout/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="BLACKOUT — UzIndieGame" />
+  <meta property="og:description" content="3D party! Yakka (botlar bilan) yoki onlayn do'stlar bilan. Svet o'chganda yugur, yonganda haykaldek QOT. Qurol va kuchlarni ol — oxirigacha jon saqla." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/blackout.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/blackout/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="BLACKOUT — UzIndieGame" />
+  <meta name="twitter:description" content="3D party! Yakka (botlar bilan) yoki onlayn do'stlar bilan. Svet o'chganda yugur, yonganda haykaldek QOT. Qurol va kuchlarni ol — oxirigacha jon saqla." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/blackout.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>BLACKOUT — svet o'chganda harakatlan</title>
+  <!-- import map: vendored postprocessing addonlari 'three' ni lokal faylga bog'laydi (CDN yo'q) -->
+  <script type="importmap">
+  { "imports": { "three": "./vendor/three.module.js" } }
+  </script>
+  <style>
+    :root { --hp:#34d399; --hp2:#f43f5e; --accent:#fbbf24; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; overflow: hidden; background: #05060a; color: #eaf2ff;
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; user-select: none; -webkit-user-select: none; touch-action: none; }
+    #app { position: fixed; inset: 0; }
+    canvas { display: block; width: 100%; height: 100%; }
+
+    /* — HUD — */
+    .hud { position: fixed; inset: 0; pointer-events: none; z-index: 5; }
+    .topbar { position: absolute; top: 14px; left: 0; right: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; }
+    .phase { font-weight: 900; font-size: clamp(14px,3.4vw,21px); letter-spacing: 1.5px; text-shadow: 0 2px 14px rgba(0,0,0,.8);
+      padding: 6px 13px; border-radius: 11px; backdrop-filter: blur(6px); transition: all .2s; opacity: .95; }
+    .phase.dark { background: rgba(30,41,80,.5); color: #a9c2ff; border: 1px solid rgba(120,160,255,.3); }
+    .phase.light { background: rgba(251,191,36,.22); color: #ffe9a8; border: 1px solid rgba(251,191,36,.6); text-shadow: 0 0 18px rgba(251,191,36,.7); }
+    .timer { font-weight: 800; font-size: clamp(14px,3.4vw,19px); padding: 6px 11px; border-radius: 9px;
+      background: rgba(10,15,28,.5); border: 1px solid rgba(120,160,255,.2); backdrop-filter: blur(6px); opacity: .95; }
+    .alive { font-size: 11px; color: #8ea3c7; margin-top: 2px; }
+
+    /* kompakt olov chizig'i — endi jon har personaj boshida ham ko'rinadi, shu bar kichik */
+    .hpwrap { position: absolute; left: 14px; bottom: 14px; width: min(190px, 34vw); opacity: .92; }
+    .hpbar { height: 9px; border-radius: 7px; background: rgba(10,15,28,.55); border: 1px solid rgba(120,160,255,.22); overflow: hidden; }
+    .hpfill { height: 100%; width: 100%; border-radius: 7px; background: linear-gradient(90deg,var(--hp),#22d3ee); transition: width .25s, background .25s; }
+    .hplabel { font-size: 10px; color: #cfe0ff; margin-bottom: 3px; font-weight: 700; letter-spacing: .8px; }
+    .items { display: flex; gap: 7px; margin-top: 8px; }
+    .item { font-size: 12px; font-weight: 700; padding: 6px 10px; border-radius: 9px; background: rgba(10,15,28,.6);
+      border: 1px solid rgba(120,160,255,.25); display: none; }
+    .item.on { display: inline-flex; align-items: center; gap: 6px; }
+    .item.weapon { color: #fca5a5; border-color: rgba(244,63,94,.5); }
+    .item.ult { color: #fde68a; border-color: rgba(251,191,36,.5); }
+
+    /* qorong'i / caught overlaylar */
+    .vignette { position: fixed; inset: 0; pointer-events: none; z-index: 4; opacity: 0; transition: opacity .12s;
+      box-shadow: inset 0 0 220px 60px rgba(244,63,94,.55); }
+    .vignette.show { opacity: 1; }
+    .flash { position: fixed; inset: 0; pointer-events: none; z-index: 4; background: #fff7e0; opacity: 0; }
+
+    /* — mobil boshqaruv — */
+    .touch { position: fixed; inset: 0; z-index: 6; display: none; }
+    .stick { position: absolute; left: 22px; bottom: 22px; width: 130px; height: 130px; border-radius: 50%;
+      background: rgba(120,160,255,.08); border: 1px solid rgba(120,160,255,.22); pointer-events: auto; }
+    .knob { position: absolute; left: 40px; top: 40px; width: 50px; height: 50px; border-radius: 50%;
+      background: rgba(160,190,255,.35); border: 1px solid rgba(200,220,255,.5); }
+    .btns { position: absolute; right: 22px; bottom: 30px; display: flex; flex-direction: column; gap: 14px; pointer-events: auto; }
+    .bbtn { width: 74px; height: 74px; border-radius: 50%; font-size: 26px; display: flex; align-items: center; justify-content: center;
+      background: rgba(10,15,28,.5); border: 1px solid rgba(120,160,255,.3); color: #eaf2ff; }
+    .bbtn:active { background: rgba(251,191,36,.25); }
+
+    /* — panellar — */
+    .panel { position: fixed; inset: 0; z-index: 10; display: flex; align-items: center; justify-content: center; padding: 24px;
+      background: radial-gradient(1200px 700px at 50% 40%, rgba(15,20,40,.7), rgba(5,6,10,.92)); backdrop-filter: blur(4px); }
+    .card { max-width: 480px; text-align: center; background: rgba(14,18,32,.85); border: 1px solid rgba(120,160,255,.22);
+      border-radius: 20px; padding: 30px 26px; box-shadow: 0 30px 80px rgba(0,0,0,.6);
+      max-height: calc(100vh - 48px); overflow-y: auto; }   /* past ekranlarda tugmalar doim ochiladi */
+    .card h1 { font-size: 44px; font-weight: 900; letter-spacing: 4px;
+      background: linear-gradient(90deg,#fbbf24,#f43f5e,#a78bfa); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .card p { color: #b9c8e6; font-size: 14px; line-height: 1.6; margin: 14px 0; }
+    .card .keys { font-size: 12.5px; color: #8ea3c7; margin: 14px 0 20px; line-height: 1.9; }
+    .card .keys b { color: #eaf2ff; }
+    .btn { display: inline-block; cursor: pointer; pointer-events: auto; font-size: 16px; font-weight: 800; color: #04121a;
+      background: linear-gradient(135deg,#fbbf24,#f59e0b); padding: 13px 30px; border-radius: 12px; border: none;
+      box-shadow: 0 0 26px rgba(251,191,36,.4); }
+    .btn:active { filter: brightness(1.08); }
+    .btn2 { background: rgba(120,160,255,.14); color: #cfe0ff; box-shadow: none; border: 1px solid rgba(120,160,255,.3); margin-top: 10px; }
+    .btn:disabled { opacity: .5; cursor: default; filter: none; }
+    /* onlayn lobbi */
+    .tin { width: 100%; box-sizing: border-box; font-size: 15px; padding: 11px 14px; border-radius: 10px; margin-top: 6px;
+      background: rgba(10,15,28,.7); border: 1px solid rgba(120,160,255,.25); color: #eaf2ff; pointer-events: auto; }
+    .tin.code { text-transform: uppercase; letter-spacing: 4px; text-align: center; font-weight: 800; }
+    .orline { color: #6a7ea3; font-size: 12px; margin: 12px 0; text-transform: uppercase; letter-spacing: 2px; }
+    .joinrow { display: flex; gap: 8px; }
+    .joinrow .tin { flex: 1; margin-top: 0; }
+    .joinrow .btn { padding: 11px 18px; margin-top: 0; }
+    .roomcode { font-size: 42px; font-weight: 900; letter-spacing: 8px; color: #fbbf24; text-shadow: 0 0 24px rgba(251,191,36,.5); margin: 6px 0 4px; }
+    #lobby-players { display: flex; flex-direction: column; gap: 6px; }
+    #lobby-players .lp { font-size: 14.5px; font-weight: 700; padding: 8px 12px; border-radius: 8px; background: rgba(120,160,255,.08); border: 1px solid rgba(120,160,255,.16); }
+    .lobby-msg { font-size: 12.5px; color: #8ea3c7; margin-top: 12px; min-height: 16px; }
+    .result { font-size: 26px; font-weight: 900; margin-bottom: 6px; }
+    .win { color: #34d399; } .lose { color: #f43f5e; }
+    .hidden { display: none !important; }
+    .back { position: fixed; top: 12px; right: 14px; z-index: 11; pointer-events: auto; font-size: 12px; color: #8ea3c7; text-decoration: none;
+      background: rgba(10,15,28,.5); padding: 7px 12px; border-radius: 9px; border: 1px solid rgba(120,160,255,.2); }
+
+    /* start-panel selektorlar */
+    .pickrow { margin: 14px 0; text-align: left; }
+    .pickrow .lbl { font-size: 11px; text-transform: uppercase; letter-spacing: 1.5px; color: #8ea3c7; margin-bottom: 8px; }
+    .pick { display: flex; flex-wrap: wrap; gap: 8px; }
+    .pick .opt { cursor: pointer; pointer-events: auto; font-size: 13px; font-weight: 700; padding: 7px 12px; border-radius: 999px;
+      background: rgba(120,160,255,.08); border: 1px solid rgba(120,160,255,.2); color: #b9c8e6; }
+    .pick .opt.sel { background: linear-gradient(135deg,#fbbf24,#f59e0b); color: #04121a; border-color: transparent; }
+    .pick .dot { width: 30px; height: 30px; border-radius: 50%; cursor: pointer; pointer-events: auto; border: 2px solid rgba(255,255,255,.15); }
+    .pick .dot.sel { border-color: #fff; box-shadow: 0 0 12px rgba(255,255,255,.5); }
+    .pick .opt.locked, .pick .dot.locked { opacity: .55; }
+    .pick .opt.locked { color: #f0d9a0; border-color: rgba(240,217,160,.35); }
+    .pick .dot.locked { display: flex; align-items: center; justify-content: center; font-size: 12px; color: #fff; text-shadow: 0 1px 2px #000; }
+    .pick .opt .px { font-size: 11px; opacity: .85; margin-left: 4px; }
+
+    /* konfetti (g'alaba) */
+    #confetti { position: fixed; inset: 0; pointer-events: none; z-index: 60; overflow: hidden; }
+    #confetti .conf { position: absolute; top: -20px; width: 10px; height: 14px; border-radius: 2px; animation: conffall linear forwards; }
+    @keyframes conffall { to { transform: translateY(105vh) rotate(720deg); } }
+
+    /* kuzatuv (spectate) banneri — o'lgach chiqadi, o'yin davom etadi */
+    #spectate { display: none; position: absolute; left: 50%; bottom: 92px; transform: translateX(-50%);
+      align-items: center; justify-content: center; text-align: center; z-index: 8; pointer-events: none;
+      font-size: 14px; font-weight: 700; color: #ffd9d9; background: rgba(30,8,12,.66);
+      border: 1px solid rgba(244,63,94,.4); border-radius: 999px; padding: 8px 18px; backdrop-filter: blur(6px);
+      box-shadow: 0 8px 30px rgba(0,0,0,.5); }
+    #spectate b { color: #fff; }
+    /* end-panel silliq chiqadi (birdaniga "top" emas) */
+    #endPanel:not(.hidden) .card { animation: panelIn .45s cubic-bezier(.2,.9,.25,1) both; }
+    @keyframes panelIn { from { opacity: 0; transform: translateY(24px) scale(.94); } to { opacity: 1; transform: none; } }
+
+    /* G'ALABA SAHNASI — dopamin (PUBG uslubi) */
+    #victory { display: none; position: fixed; inset: 0; z-index: 11; flex-direction: column; align-items: center;
+      justify-content: flex-start; padding-top: 11vh; pointer-events: none; text-align: center;
+      background: radial-gradient(120% 80% at 50% 0%, rgba(30,20,4,.55), rgba(0,0,0,0) 55%); }
+    #victory .vbig { font-size: clamp(40px, 9vw, 92px); font-weight: 900; letter-spacing: 3px; color: #ffe9a8;
+      text-shadow: 0 0 44px rgba(251,191,36,.75), 0 6px 30px rgba(0,0,0,.6); }
+    #victory .vbig.me { color: #ffd24a; text-shadow: 0 0 50px rgba(255,210,74,.9), 0 6px 30px rgba(0,0,0,.6); }
+    #victory .vsub { font-size: clamp(14px, 2.6vw, 22px); font-weight: 800; color: #fff; margin-top: 10px;
+      text-shadow: 0 2px 12px rgba(0,0,0,.7); }
+    #victory.go .vbig { animation: vpop .6s cubic-bezier(.2,1.5,.3,1) both; }
+    #victory.go .vsub { animation: vfade .5s .28s both; }
+    @keyframes vpop { 0% { opacity: 0; transform: scale(.35) rotate(-7deg); } 55% { opacity: 1; transform: scale(1.14) rotate(2deg); } 100% { transform: scale(1) rotate(0); } }
+    @keyframes vfade { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+
+    /* kill-feed */
+    #killfeed { position: absolute; top: 74px; right: 16px; display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+    #killfeed .kf { font-size: 12.5px; font-weight: 700; padding: 5px 10px; border-radius: 8px; background: rgba(10,15,28,.6); border: 1px solid rgba(120,160,255,.2); }
+    /* toast */
+    #toast { position: absolute; left: 50%; bottom: 120px; transform: translateX(-50%); font-size: 15px; font-weight: 800; padding: 10px 18px;
+      border-radius: 12px; background: rgba(10,15,28,.78); border: 1px solid rgba(251,191,36,.5); color: #fde68a; opacity: 0; transition: opacity .2s;
+      text-shadow: 0 2px 8px rgba(0,0,0,.7); white-space: nowrap; }
+    #toast.show { opacity: 1; }
+    /* MOBIL: telefonni yon burish (landscape) so'rovi — faqat portret + touch */
+    #rotate { display: none; position: fixed; inset: 0; z-index: 100; background: #05060a; color: #eaf2ff;
+      flex-direction: column; align-items: center; justify-content: center; text-align: center; gap: 20px; padding: 24px; }
+    #rotate .ic { font-size: 68px; animation: rotanim 2.2s ease-in-out infinite; }
+    #rotate .tx { font-size: 17px; font-weight: 700; line-height: 1.6; color: #cfe0ff; }
+    #rotate .tx b { color: #fbbf24; }
+    @keyframes rotanim { 0%,45%{transform:rotate(0);} 70%,100%{transform:rotate(90deg);} }
+    @media (orientation: portrait) and (pointer: coarse) { #rotate { display: flex; } }
+    /* countdown */
+    #countdown { position: absolute; inset: 0; display: none; align-items: center; justify-content: center; }
+    #countdown span { font-size: clamp(70px,18vw,140px); font-weight: 900; color: #fff; text-shadow: 0 0 44px rgba(251,191,36,.85); }
+    /* Mezbon (Host) syujet gaplari */
+    #host { position: absolute; left: 50%; top: 96px; transform: translateX(-50%); max-width: 82%; text-align: center;
+      font-family: Georgia, 'Times New Roman', serif; font-style: italic; font-size: clamp(15px,3.4vw,22px); color: #f0d9a0;
+      text-shadow: 0 2px 16px rgba(0,0,0,.9); opacity: 0; transition: opacity .45s; letter-spacing: .3px; }
+    #host.show { opacity: 1; }
+    /* hodisa badge */
+    #event { position: absolute; top: 64px; left: 50%; transform: translateX(-50%); display: none; align-items: center; gap: 6px;
+      font-size: 12.5px; font-weight: 800; padding: 5px 12px; border-radius: 999px; background: rgba(30,20,10,.6);
+      border: 1px solid rgba(251,146,60,.5); color: #ffd7a8; letter-spacing: .5px; white-space: nowrap; }
+    /* mute tugma */
+    .mutebtn { position: fixed; top: 48px; right: 14px; z-index: 11; pointer-events: auto; cursor: pointer; font-size: 15px;
+      background: rgba(10,15,28,.5); padding: 6px 11px; border-radius: 9px; border: 1px solid rgba(120,160,255,.2); }
+    /* scoreboard */
+    #scoreboard { margin: 16px 0 20px; text-align: left; display: flex; flex-direction: column; gap: 6px; }
+    #scoreboard .sb { display: flex; align-items: center; gap: 10px; padding: 8px 12px; border-radius: 10px;
+      background: rgba(120,160,255,.06); border: 1px solid rgba(120,160,255,.14); font-size: 14px; }
+    #scoreboard .sb.me { background: rgba(251,191,36,.14); border-color: rgba(251,191,36,.4); }
+    #scoreboard .sb .rk { width: 22px; font-weight: 900; color: #8ea3c7; }
+    #scoreboard .sb .nm { flex: 1; font-weight: 700; }
+    #scoreboard .sb .st { font-weight: 800; }
+    #scoreboard .sb .st.alive { color: #34d399; } #scoreboard .sb .st.dead { color: #f43f5e; }
+    .record { font-size: 13px; color: #8ea3c7; margin: 6px 0 14px; }
+    .record b { color: #fbbf24; }
+    .record .new { color: #34d399; font-weight: 800; }
+  </style>
+<script>window.__UZG_SLUG="blackout";</script>
+</head>
+<body>
+  <div id="app"></div>
+  <div id="rotate"><div class="ic">📱</div><div class="tx">Yaxshiroq o'ynash uchun<br>telefonni <b>yon buring</b> ↻</div></div>
+
+  <div class="hud">
+    <div class="topbar">
+      <div><span id="phase" class="phase dark">🌑 QORONG'I</span><div class="alive" id="alive"></div></div>
+      <div class="timer" id="timer">1:30</div>
+    </div>
+    <div id="killfeed"></div>
+    <div id="event"></div>
+    <div id="host"></div>
+    <div id="toast"></div>
+    <div id="spectate"></div>
+    <div id="victory"></div>
+    <div id="countdown"><span></span></div>
+    <div class="hpwrap">
+      <div class="hplabel">🔥 OLOV <span id="hpnum">100</span>%</div>
+      <div class="hpbar"><div class="hpfill" id="hpfill"></div></div>
+      <div class="items">
+        <span class="item weapon" id="i-weapon">🔪 Qurol</span>
+        <span class="item ult" id="i-ult">✨ <span id="ult-name"></span> <span id="ult-time"></span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="vignette" id="vignette"></div>
+  <div class="flash" id="flash"></div>
+
+  <div class="touch" id="touch">
+    <div class="stick" id="stick"><div class="knob" id="knob"></div></div>
+    <div class="btns">
+      <div class="bbtn" id="b-emote">🎉</div>
+      <div class="bbtn" id="b-ult">✨</div>
+      <div class="bbtn" id="b-atk">⚔️</div>
+    </div>
+  </div>
+
+  <a class="back" href="../../">← Store</a>
+  <div class="mutebtn" id="mute">🔊</div>
+  <div id="confetti"></div>
+
+  <!-- Boshlash paneli -->
+  <div class="panel" id="startPanel">
+    <div class="card">
+      <h1>BLACKOUT</h1>
+      <p>Sirli <b style="color:#f0d9a0">Mezbon</b> sizni tungi o'yiniga taklif qildi — ketishga ruxsat yo'q. Svet <b style="color:#a9c2ff">o'chganda</b> yugur: <b style="color:#ff8a3c">olov uchqunlarini</b> va <b style="color:#ffd24a">tangalarni</b> yig' (qimirlamasang zulmat seni yeydi). Svet <b style="color:#ffe9a8">yonganda darrov haykaldek QOT!</b> — qimirlagan yonadi. Qurol va sirli kuchlarni ol, raqiblarni yo'q qil. Oxirgacha yongan olov — <b style="color:#f0d9a0">g'olib</b>. Har kecha yanada qorong'i, yanada uzun...</p>
+      <div class="pickrow"><div class="lbl">🏠 Atmosfera</div><div class="pick" id="pick-map"></div></div>
+      <div class="pickrow"><div class="lbl">🧍 Personaj</div><div class="pick" id="pick-char"></div></div>
+      <div class="pickrow"><div class="lbl">🎨 Skin</div><div class="pick" id="pick-skin"></div></div>
+      <div class="record" id="record"></div>
+      <div class="keys">
+        <b>WASD</b> / <b>strelka</b> — yurish · <b>sichqoncha</b> — kamera<br>
+        <b>Space / ⚔️</b> — hujum (qurol bo'lsa) · <b>E / ✨</b> — kuch ishlatish<br>
+        <b>F / 🎉</b> — emote (quvon!) · to'qnashuvlar kulgili chayqaladi<br>
+        🪙 tangalarni yig' — do'kondan personaj/skin ochasan<br>
+        Mobil: chap joystik + o'ng tugmalar
+      </div>
+      <button class="btn" id="startBtn">Boshlash (yakka + botlar)</button>
+      <button class="btn btn2" id="onlineBtn">🌐 Onlayn o'ynash (do'stlar bilan)</button>
+    </div>
+  </div>
+
+  <!-- Onlayn lobbi -->
+  <div class="panel hidden" id="lobby">
+    <div class="card">
+      <h1 style="font-size:34px">🌐 Onlayn</h1>
+      <div id="lobby-setup">
+        <div class="pickrow"><div class="lbl">Ismingiz</div>
+          <input id="lobby-nick" class="tin" maxlength="16" placeholder="O'yinchi" autocomplete="off"></div>
+        <button class="btn" id="lobby-create">Yangi xona yaratish</button>
+        <div class="orline">yoki</div>
+        <div class="joinrow">
+          <input id="lobby-join-code" class="tin code" maxlength="4" placeholder="KOD" autocomplete="off">
+          <button class="btn btn2" id="lobby-join">Kirish</button>
+        </div>
+      </div>
+      <div id="lobby-room" style="display:none">
+        <div class="lbl">Xona kodi (do'stlaringizga yuboring)</div>
+        <div id="lobby-code" class="roomcode">————</div>
+        <div class="lbl" style="margin-top:14px">O'yinchilar</div>
+        <div id="lobby-players"></div>
+        <button class="btn" id="lobby-start" style="margin-top:16px;display:none">Boshlash</button>
+      </div>
+      <div class="lobby-msg" id="lobby-msg"></div>
+      <button class="btn btn2" id="lobby-back" style="margin-top:10px">← Orqaga</button>
+    </div>
+  </div>
+
+  <!-- Round natija paneli -->
+  <div class="panel hidden" id="endPanel">
+    <div class="card">
+      <div class="result" id="resultText"></div>
+      <p id="resultSub"></p>
+      <div id="scoreboard"></div>
+      <div class="record" id="rec-end"></div>
+      <button class="btn" id="againBtn">Yana</button>
+    </div>
+  </div>
+
+  <script src="./_shared/config.js"></script>
+  <script src="./net.js"></script>
+  <script type="module" src="./src/main.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Xalqa otish — nishonga xalqa (halqa) otish o'yini. Yo'nalish va masofani sozlab qoziqqa ilib ol. Pseudo-3D aniqlik o'yini." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/xalqa/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Xalqa otish — qoziqqa il" />
+  <meta property="og:description" content="Xalqani yo'naltirib qoziqqa ilib ol — pseudo-3D aniqlik o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/xalqa.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/xalqa/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/xalqa.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Xalqa otish — qoziqqa il</title>
+  <meta name="theme-color" content="#4a3a55" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="xalqa";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="ringPill">⭕ 7</div>
+      <div class="pill" id="statePill">🎯 0/3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">BOS ⭕</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">⭕</div>
+        <h1>XALQA OTISH</h1>
+        <p class="sub" id="cardSub">Aniqlik o'yini! <b>Xalqa</b>ni (halqa) maydondagi <b>qoziqlar</b>ga ilib ol. Avval <b>yo'nalish</b>ni tanla (chap-o'ng), so'ng <b>masofa</b>ni — yashil nuqta qoziqqa tushsa, xalqa ilinadi! Chekli xalqa bilan nishon soniga yetsang — bosqich o'tadi.</p>
+        <div class="keys" id="cardKeys">
+          <b>Bitta tugma</b> — ekranni bos yoki Probel (YO'NALISH → MASOFA)<br>
+          <b>Aniqlik</b> — yashil nuqtani qoziq tagiga tushir
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

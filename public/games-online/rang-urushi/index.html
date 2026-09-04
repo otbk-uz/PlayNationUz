@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ikki jamoa — maydonni o'z rangingga bo'ya, ko'proq bo'yagan yutadi." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/rang-urushi/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Rang Urushi — UzIndieGame" />
+  <meta property="og:description" content="Ikki jamoa — maydonni o'z rangingga bo'ya, ko'proq bo'yagan yutadi." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/rang-urushi.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/rang-urushi/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Rang Urushi — UzIndieGame" />
+  <meta name="twitter:description" content="Ikki jamoa — maydonni o'z rangingga bo'ya, ko'proq bo'yagan yutadi." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/rang-urushi.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Rang Urushi — Team vs Team</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="rang-urushi";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>🎨 Rang Urushi</h1>
+      <p class="tag">Ikki jamoa — maydonni o'z rangingga bo'ya! Ko'proq bo'yagan yutadi.</p>
+    </header>
+
+    <section id="lobby" class="panel">
+      <div class="field">
+        <label>Ismingiz</label>
+        <input id="nick" maxlength="16" placeholder="Masalan: Ali" />
+      </div>
+      <div class="row">
+        <button id="createBtn">Yangi xona ochish</button>
+        <span class="or">yoki</span>
+        <div class="join">
+          <input id="roomInput" maxlength="4" placeholder="KOD" />
+          <button id="joinBtn" class="ghost">Kirish</button>
+        </div>
+      </div>
+      <p id="serverNote" class="server-note"></p>
+    </section>
+
+    <section id="room" class="panel hidden">
+      <div class="room-head">
+        <div>Xona kodi: <span id="roomCode" class="code">----</span></div>
+        <button id="copyBtn" class="ghost small">Nusxa</button>
+      </div>
+      <p class="muted">Do'stlaringizga kodni yuboring. Jamoalar boshlanishida bo'linadi.</p>
+      <ul id="playerList" class="players"></ul>
+      <button id="startBtn" class="hidden">Boshlash</button>
+      <p id="waitNote" class="muted"></p>
+    </section>
+
+    <section id="game" class="panel hidden">
+      <div class="scorebar">
+        <span id="teamA" class="team-a">Qizil: 0</span>
+        <span id="timer" class="timer">--</span>
+        <span id="teamB" class="team-b">Ko'k: 0</span>
+      </div>
+      <div class="board">
+        <canvas id="canvas" width="800" height="600"></canvas>
+      </div>
+      <p class="muted controls-hint">Boshqaruv: ← ↑ → ↓ yoki W A S D</p>
+      <div class="controls-mobile" aria-hidden="true">
+        <button data-k="up">▲</button>
+        <div><button data-k="left">◀</button><button data-k="down">▼</button><button data-k="right">▶</button></div>
+      </div>
+    </section>
+
+    <section id="over" class="panel hidden">
+      <h2 id="overTitle">O'yin tugadi</h2>
+      <ol id="scoreList" class="scores"></ol>
+      <p class="muted">6 soniyadan keyin xonaga qaytamiz...</p>
+    </section>
+
+    <p id="status" class="status"></p>
+  </div>
+
+  <script src="./_shared/config.js"></script>
+  <script src="./net.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

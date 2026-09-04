@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Quvlashmachoq (Muzlash) — quvlovchidan qoch, muzlab qolgan do'stlaringga tegib ularni ozod qil. 2.5D izometrik muzlatib quvlashmachoq." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/quvlashmachoq/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Quvlashmachoq — muzlatib quvlash" />
+  <meta property="og:description" content="Quvlovchidan qoch va muzlagan do'stlaringni qutqar — 2.5D izometrik quvlashmachoq." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/quvlashmachoq.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/quvlashmachoq/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/quvlashmachoq.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Quvlashmachoq — muzlatib quvlash</title>
+  <meta name="theme-color" content="#0b1a2c" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="quvlashmachoq";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="timePill">⏱ 45</div>
+      <div class="pill" id="statePill">🧊 0/3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <div class="dpad">
+        <button class="tbtn" id="btnUp" data-dir="up">▲</button>
+        <button class="tbtn" id="btnLeft" data-dir="left">◀</button>
+        <button class="tbtn" id="btnWait" data-dir="mid">·</button>
+        <button class="tbtn" id="btnRight" data-dir="right">▶</button>
+        <button class="tbtn" id="btnDown" data-dir="down">▼</button>
+      </div>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🧊</div>
+        <h1>QUVLASHMACHOQ</h1>
+        <p class="sub" id="cardSub">Qizil <b>quvlovchi</b> 👹 seni ta'qib qiladi — unga tutilsang bir zumga <b>muzlab</b> qolasan. Maydondagi muzlab qolgan <b>do'stlaring</b> 🧊 ga tegib ularni ozod qil. Vaqt tugaguncha hammasini qutqarsang — g'alaba!</p>
+        <div class="keys" id="cardKeys">
+          <b>Yurish</b> — strelka / WASD yoki ekran tugmalari<br>
+          <b>Ozod qil</b> — muzlagan do'stga tegin · quvlovchidan qoch
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

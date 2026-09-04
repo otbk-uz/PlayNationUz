@@ -1,0 +1,6 @@
+/* Aks-sado — o'yinga xos joylashuv.
+   Umumiy chrome (tokenlar, body, h1, .hud/.stat, .board, .overlay,
+   tugmalar, .controls-mobile, footer) ../_shared/neon.css'dan keladi. */
+
+/* Ikki maydonli keng canvas (616×300) — kengligini cheklaymiz. */
+canvas { max-width: 616px; }

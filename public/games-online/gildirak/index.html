@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="G'ildirak (obruch) — xalq o'yini. Tayoq bilan g'ildirakni boshqarib, ko'chadagi to'siqlardan chetlab manzilga yet. Pseudo-3D perspektiv yo'l." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/gildirak/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="G'ildirak — to'siqlardan o't" />
+  <meta property="og:description" content="G'ildirakni boshqarib to'siqlardan chetlab manzilga yet — xalq obruch o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/gildirak.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/gildirak/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/gildirak.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>G'ildirak — to'siqlardan o't</title>
+  <meta name="theme-color" content="#6f97c0" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="gildirak";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="distPill">📍 0%</div>
+      <div class="pill" id="statePill">🛞 Ko'cha</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <div class="dpad">
+        <button class="tbtn" id="btnLeft" data-dir="left">◀</button>
+        <button class="tbtn" id="btnRight" data-dir="right">▶</button>
+      </div>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🛞</div>
+        <h1>G'ILDIRAK</h1>
+        <p class="sub" id="cardSub">Nostaljik ko'cha o'yini! Tayoq bilan <b>g'ildirak</b>ni (obruch) dumalatib olib borasan. Ko'chada <b>toshlar</b> va g'ovlar uchraydi — <b>chapga-o'ngga</b> burib ochiq yo'lakdan o'tkaz. G'ildirakni tushirmasdan ko'cha oxiriga yetsang — bosqich o'tadi. Yo'l tobora tez va gavjum!</p>
+        <div class="keys" id="cardKeys">
+          <b>Boshqarish</b> — ekranni chap/o'ngga sur (yoki ← → / A D, ekran tugmalari)<br>
+          <b>Ochiq yo'lakni</b> oldindan tanla — to'siqqa urilma
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

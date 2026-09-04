@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Bo'laklarni burab, nishon siluetni to'liq qopla. Har katak faqat bir marta — bo'shliqsiz, chiqmasdan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/soya-shakl/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Soya Shakl — UzIndieGame" />
+  <meta property="og:description" content="Bo'laklarni burab, nishon siluetni to'liq qopla. Bo'shliqsiz, chiqmasdan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/soya-shakl.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/soya-shakl/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/soya-shakl.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Soya Shakl — siluetni bo'laklardan yig'</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="soya-shakl";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="fillPill">◪ 0/0</div>
+      <button class="pill rot" id="rotateBtn" title="Burash">⟳</button>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🧩</div>
+        <h1>SOYA SHAKL</h1>
+        <p class="sub" id="cardSub">Pastdagi <b>bo'laklarni</b> yuqoridagi <b>soya siluetga</b> joyla. Har katak faqat <b>bir marta</b> to'lishi kerak — <b>bo'shliq qoldirma</b>, chetidan <b>chiqmang</b>. Bo'lakni <b>burash</b> uchun ⟳ tugmasini bos. Butun soyani to'ldirsang — bosqich yakunlanadi.</p>
+        <div class="keys" id="cardKeys">
+          <b>Tanla</b> — pastdagi bo'lakka teg<br>
+          <b>Joyla</b> — soyaga surib qo'yvor · <b>Burash</b> — ⟳ yoki R<br>
+          <b>Olib tashlash</b> — joylangan bo'lakka teg
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Girdob — suv oqimi navigatsiyasi. Qayiqni chap/o'ng burib girdoblarni aylanib o't yoki oqimdan foydalanib tepadagi darvozaga yet. Markazga tortilma. Pseudo-3D." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/girdob/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Girdob — oqimdan omon o't" />
+  <meta property="og:description" content="Girdoblar orasidan qayiqni boshqarib darvozaga yet — suv oqimi navigatsiyasi." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/girdob.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/girdob/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/girdob.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Girdob — oqimdan omon o't</title>
+  <meta name="theme-color" content="#0e2a4e" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="girdob";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="progPill">🌀 1/5</div>
+      <div class="pill" id="statePill">❤ 3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="tbtn" id="leftBtn">◀</button>
+      <button class="tbtn" id="rightBtn">▶</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🌀</div>
+        <h1>GIRDOB</h1>
+        <p class="sub" id="cardSub">Qayiq doim <b>oldinga</b> suzadi — sen faqat <b>chap/o'ng</b> burasan. Suvdagi <b>girdoblar</b> oqim hosil qiladi: yaqinlashsang seni aylantirib markazga tortadi. Girdoblarni <b>aylanib o't</b> yoki oqimidan foydalanib tezlan, tepadagi <b>yashil darvoza</b>ga yet. Markazga tortilsang — jon yo'qotasan. Barcha bosqichdan o't!</p>
+        <div class="keys" id="cardKeys">
+          <b>Burilish</b> — ◀ ▶ tugmalari yoki ← → / A D<br>
+          <b>Maslahat</b> — girdob chetidan oqimga qo'shilib sling ol
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

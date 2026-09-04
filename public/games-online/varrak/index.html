@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Varrak Jang — osmonda varrak (gudiparan) urushi. Varragingni boshqarib ipingni raqib ipiga ishqalab uzib tushir. Pseudo-3D osmon jangi." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/varrak/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Varrak Jang — osmon urushi" />
+  <meta property="og:description" content="Varragingni uchirib raqib iplarini uzib tushir — pseudo-3D osmon jangi." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/varrak.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/varrak/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/varrak.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Varrak Jang — osmon urushi</title>
+  <meta name="theme-color" content="#1a5fb4" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="varrak";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="statePill">🪁 0/1</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <div class="dpad">
+        <button class="tbtn" id="btnUp" data-dir="up">▲</button>
+        <button class="tbtn" id="btnLeft" data-dir="left">◀</button>
+        <button class="tbtn" id="btnWait" data-dir="mid">·</button>
+        <button class="tbtn" id="btnRight" data-dir="right">▶</button>
+        <button class="tbtn" id="btnDown" data-dir="down">▼</button>
+      </div>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🪁</div>
+        <h1>VARRAK JANG</h1>
+        <p class="sub" id="cardSub">Osmonda varraklar jangi! Varragingni boshqar va <b>ipingni</b> raqib varragining ipiga <b>ishqalab</b> ur. Ipni chalishtirib tez-tez harakatlan — ishqalanish sening foydangga o'sadi va raqib ipi <b>uziladi</b> 🪁. Sust tursang — o'zing uzilib qolasan!</p>
+        <div class="keys" id="cardKeys">
+          <b>Boshqaruv</b> — ekranni surib varrakni yurgiz (yoki strelka / WASD)<br>
+          <b>Kes</b> — ipni raqib ipiga chalishtirib tez sil (ishqala)
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

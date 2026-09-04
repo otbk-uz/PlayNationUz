@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="uz">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="description" content="Olovni o'chirmay saqla — to'lqinma-to'lqin yovuzlik. Do'stlaring bilan omon qol (co-op)." />
+  <link rel="canonical" href="https://uzindiegame.uz/ember/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Ember — UzIndieGame" />
+  <meta property="og:description" content="Olovni o'chirmay saqla — to'lqinma-to'lqin yovuzlik. Do'stlaring bilan omon qol (co-op)." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/ember.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/ember/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Ember — UzIndieGame" />
+  <meta name="twitter:description" content="Olovni o'chirmay saqla — to'lqinma-to'lqin yovuzlik. Do'stlaring bilan omon qol (co-op)." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/ember.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+    <meta name="theme-color" content="#07080c" />
+    <title>EMBER — olovni soʻndirma</title>
+    <script type="module" crossorigin src="./assets/index-DfL5-8yE.js"></script>
+    <link rel="stylesheet" crossorigin href="./assets/index-4Q3kC78T.css">
+  <script>window.__UZG_SLUG="ember";</script>
+</head>
+  <body>
+    <canvas id="c"></canvas>
+
+    <div id="hud">
+      <div class="hud__core">
+        <span class="hud__label">EMBER</span>
+        <div class="bar"><div class="bar__fill" id="coreBar"></div></div>
+        <span class="hud__num" id="coreNum">100</span>
+      </div>
+      <div class="hud__right">
+        <span class="hud__wave" id="wave">Toʻlqin 1</span>
+        <span class="hud__time" id="time">0:00</span>
+        <span class="hud__ping" id="ping"></span>
+      </div>
+      <div class="hud__dawn">
+        <span class="hud__moon">☾</span>
+        <div class="bar bar--dawn"><div class="bar__fill bar__fill--dawn" id="dawnBar"></div></div>
+        <span class="hud__sun" id="sun">☀</span>
+      </div>
+
+      <div class="hud__mates" id="mates"></div>
+      <div class="hud__mission" id="mission"></div>
+    </div>
+
+    <!-- Kirish sahnasi: uchqundan olovgacha. Bosilsa o'tkazib yuboriladi. -->
+    <div id="intro" class="intro">
+      <div class="intro__spark"></div>
+      <div class="intro__title">EMBER</div>
+      <div class="intro__line">dunyodagi soʻnggi olov</div>
+      <button class="intro__skip" id="skipIntro">oʻtkazish</button>
+    </div>
+
+    <!-- Boshqaruv paneli -->
+    <div id="dash" class="overlay overlay--hidden">
+      <div class="card card--dash">
+        <div class="dash__brand">EMBER</div>
+        <div class="dash__who">
+          <input id="dashName" class="input" maxlength="16" placeholder="Ismingiz" />
+        </div>
+        <div class="dash__stats" id="dashStats"></div>
+        <button class="btn-play" id="toSetup">OʻYNASH</button>
+        <div class="live" id="live"></div>
+        <div class="dash__row">
+          <button class="link-btn" id="toSettings">Sozlamalar</button>
+          <button class="link-btn" id="dashLogout">Chiqish</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sozlamalar (dashboarddan ham, o'yin ichidan ham ochiladi) -->
+    <div id="settings" class="overlay overlay--hidden">
+      <div class="card">
+        <h1>Sozlamalar</h1>
+        <div class="set-row">
+          <span>Ovoz</span>
+          <button class="link-btn" id="setSound">yoniq</button>
+        </div>
+        <div class="set-row">
+          <span>Ism</span>
+          <input id="setName" class="input" maxlength="16" />
+        </div>
+        <div class="set-row">
+          <span>Boshqa qurilmada oʻynash</span>
+          <button class="link-btn" id="setTransfer">Kod kiriting</button>
+        </div>
+        <p class="tag" id="setNote"></p>
+        <button class="btn-play btn-play--small" id="setClose">Yopish</button>
+      </div>
+    </div>
+
+    <div id="overlay" class="overlay overlay--hidden">
+      <div class="card">
+        <h1>Tuningizni tanlang</h1>
+        <p class="story">
+          Dunyodagi soʻnggi olov — sizniki.<br />
+          Har tun ruhlar uni oʻchirgani keladi.<br />
+          Quyosh qaytguncha uni boqing.
+        </p>
+        <p class="goal">
+          Hali olov yoʻq. Uni yoqing, soʻng <b>5 daqiqa</b> — tonggacha soʻndirmang.
+        </p>
+        <details class="howbox">
+        <summary>Qanday oʻynaladi</summary>
+        <ul class="how">
+          <li><b>Harakat</b> — WASD / strelkalar / surish</li>
+          <li>Chuqurga <b>3 boʻgʻ yogʻoch</b> olib keling, soʻng yoqish uchun <b>Probelni bosib turing</b></li>
+          <li>Uni <b>🪵 yogʻoch</b> bilan boqing — yoki qoyalardan <b>⛏ koʻmir</b>: ancha qimmatliroq</li>
+          <li><b>Alanga</b> — Probel / ✦ bosing — ruhlarni orqaga uradi</li>
+          <li><b>Kuch</b> — Q / dumaloq tugmani bosing — har 75 soniyada bir marta</li>
+          <li>Yiqilgan doʻst yonida turib uni <b>turgʻazing</b></li>
+          <li>Quloq soling. Ruhlarni koʻrishdan oldin <b>eshitasiz</b></li>
+        </ul>
+        </details>
+        <div class="pick-label">Tun qanchalik ogʻir</div>
+        <div class="ult-pick ult-pick--3" id="diffs"></div>
+        <div class="pick-label">Kuchingiz</div>
+        <div class="ult-pick" id="ults"></div>
+        <div class="modes" id="modes"></div>
+        <button class="link-btn" id="backToDash">← Orqaga</button>
+      </div>
+    </div>
+
+    <button id="flareBtn" class="flare-btn" aria-label="Alanga">✦</button>
+    <button id="ultBtn" class="ult-btn" aria-label="Kuch">💥</button>
+    <button id="gearBtn" class="gear-btn" aria-label="Sozlamalar">⚙</button>
+    <button id="exitBtn" class="gear-btn gear-btn--exit" aria-label="Chiqish">✕</button>
+    <div id="cabin" class="cabin cabin--off"></div>
+    <button id="muteBtn" class="mute-btn" aria-label="Ovozni yoqish/oʻchirish" title="Ovoz (M)">🔊</button>
+
+    <script src="./_shared/catalog.js"></script>
+    <script src="./_shared/guide.js"></script>
+    <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

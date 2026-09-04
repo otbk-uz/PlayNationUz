@@ -1,0 +1,49 @@
+/* Ip — o'yinga xos layout. Umumiy chrome ../_shared/neon.css'dan keladi. */
+.wrap { max-width: 640px; }
+
+canvas {
+  background: #0a0e14;
+  cursor: pointer;
+}
+
+.card {
+  padding: 24px 22px;
+  max-width: 88%;
+}
+.card h2 { font-size: 26px; margin-bottom: 10px; }
+.card h2.danger {
+  color: var(--danger);
+  -webkit-text-fill-color: var(--danger);
+}
+.rule {
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.5;
+  margin-bottom: 18px;
+}
+.score { font-size: 18px; margin-bottom: 6px; }
+.best { color: var(--muted); font-size: 15px; margin-bottom: 18px; }
+.score span, .best span { color: var(--accent); font-weight: 700; }
+
+.btn {
+  font: inherit;
+  font-weight: 600;
+  font-size: 15px;
+  color: #06121f;
+  background: var(--accent);
+  border: none;
+  border-radius: 10px;
+  padding: 11px 26px;
+  cursor: pointer;
+  transition: transform 0.08s ease, filter 0.15s ease;
+}
+.btn:hover { filter: brightness(1.08); }
+.btn:active { transform: scale(0.96); }
+
+.hud {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 0 4px;
+}
+.hud b { color: var(--text); }

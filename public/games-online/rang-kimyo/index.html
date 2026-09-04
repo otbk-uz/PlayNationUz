@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Quvurlarni burab rangli suyuqliklarni ulang — ikki oqim uchrashsa aralashadi. Har idishga aniq nishon rangni yetkazing." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/rang-kimyo/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Rang Kimyosi — UzIndieGame" />
+  <meta property="og:description" content="Quvurlarni burab rangli oqimlarni aralashtiring va nishon rangni yig'ing." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/rang-kimyo.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/rang-kimyo/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/rang-kimyo.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Rang Kimyosi — oqimlarni aralashtir</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="rang-kimyo";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="fillPill">◉ 0/0</div>
+      <button class="pill reset" id="resetBtn" title="Aralashtir">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🧪</div>
+        <h1>RANG KIMYOSI</h1>
+        <p class="sub" id="cardSub">Har <b>manba</b> ⬤ o'z asosiy rangini (moviy·pushti·sariq) quvurga oqizadi. Quvurni <b>bosib burang</b> — oqimlar uchrashsa <b>aralashadi</b> (moviy+sariq=yashil). Har <b>idishga</b> ⬡ aynan uning <b>nishon rangini</b> yetkazing.</p>
+        <div class="keys" id="cardKeys">
+          <b>Burash</b> — quvurni bos<br>
+          <b>Maqsad</b> — barcha idishni to'g'ri rang bilan to'ldir
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

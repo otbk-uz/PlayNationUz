@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Muz ustida sirg&#39;alasan — devor yoki eshikka urilguncha to&#39;xtamaysan. Barcha yulduzni yig&#39;ib eshikka yet." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/muz/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Sirg&#39;anoq Muz — UzIndieGame" />
+  <meta property="og:description" content="Muz ustida sirg&#39;alasan — devorga urilguncha to&#39;xtamaysan. Yulduzlarni yig&#39;ib eshikka yet." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/muz.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/muz/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/muz.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Sirg'anoq Muz — sirg'alib yulduz yig'</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="muz";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="starPill">★ 0/0</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <div class="touch" id="touch">
+      <div class="dpad4">
+        <button class="tbtn" id="btnUp" aria-label="Yuqori">▲</button>
+        <button class="tbtn" id="btnLeft" aria-label="Chap">◀</button>
+        <button class="tbtn" id="btnDown" aria-label="Past">▼</button>
+        <button class="tbtn" id="btnRight" aria-label="O'ng">▶</button>
+      </div>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🧊</div>
+        <h1>SIRG'ANOQ MUZ</h1>
+        <p class="sub" id="cardSub">Muz ustida turibsan — bir tomonga bossang, <b>devor yoki eshikka urilguncha</b> sirg'alaysan, o'rtada to'xtay olmaysan! Yo'lda uchragan barcha <b>yulduzni</b> ⭐ yig'ib, so'ng 🚪 eshikka yet. Har qadamni oldindan rejala.</p>
+        <div class="keys" id="cardKeys">
+          <b>Sirg'alish</b> — WASD yoki strelkalar (ekranda pad)<br>
+          <b>Qaytadan</b> — R yoki ↺
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

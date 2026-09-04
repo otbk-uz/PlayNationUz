@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Dunyo oldinga — faqat o'zingni orqaga qaytarib xatoni tuzatasan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/orqaga/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Orqaga — UzIndieGame" />
+  <meta property="og:description" content="Dunyo oldinga — faqat o'zingni orqaga qaytarib xatoni tuzatasan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/orqaga.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/orqaga/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Orqaga — UzIndieGame" />
+  <meta name="twitter:description" content="Dunyo oldinga — faqat o'zingni orqaga qaytarib xatoni tuzatasan." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/orqaga.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>⏪ Orqaga</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="orqaga";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>⏪ Orqaga</h1>
+      <p class="tag">Dunyo oldinga yuradi — faqat sen orqaga qayta olasan.</p>
+    </header>
+
+    <div class="hud">
+      <span>Bosqich: <b id="hudLevel">1</b></span>
+      <span>Orblar: <b id="hudOrbs">0</b></span>
+      <span class="meter-wrap">
+        <span class="meter-label">Rewind</span>
+        <span class="meter"><i id="meterFill"></i></span>
+      </span>
+    </div>
+
+    <div class="board">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <!-- Start overlay -->
+      <div id="startOverlay" class="overlay">
+        <div class="card">
+          <h2>⏪ Orqaga</h2>
+          <p class="rule">Orblarni yig'ib, yashil chiqishga yet. Xatoga yo'l qo'ysang —
+          <b>R</b> ni bosib o'zingni orqaga qaytar (dunyo esa oldinga yuraveradi).</p>
+          <button id="startBtn" class="btn primary">Boshlash</button>
+        </div>
+      </div>
+
+      <!-- Game over overlay -->
+      <div id="overOverlay" class="overlay hidden">
+        <div class="card">
+          <h2 class="danger">Mag'lubiyat</h2>
+          <p class="rule" id="overText">Xavfga tegding!</p>
+          <button id="restartBtn" class="btn primary">Qaytadan</button>
+        </div>
+      </div>
+
+      <!-- Win overlay -->
+      <div id="winOverlay" class="overlay hidden">
+        <div class="card">
+          <h2 class="good">G'alaba!</h2>
+          <p class="rule" id="winText">Barcha bosqichlar tugadi.</p>
+          <button id="againBtn" class="btn primary">Yana o'ynash</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile / touch controls -->
+    <div class="controls">
+      <div class="dpad">
+        <button class="pad" data-dir="up" aria-label="Yuqori">▲</button>
+        <div class="pad-mid">
+          <button class="pad" data-dir="left" aria-label="Chap">◀</button>
+          <button class="pad" data-dir="down" aria-label="Past">▼</button>
+          <button class="pad" data-dir="right" aria-label="O'ng">▶</button>
+        </div>
+      </div>
+      <button id="rewindBtn" class="btn rewind">⏪ Orqaga</button>
+    </div>
+
+    <footer><p>UzIndieGame community · shu papka mustaqil deploy qilinadi</p></footer>
+  </div>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

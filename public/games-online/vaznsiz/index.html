@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Tortishishsiz to'pni cherting — devorlardan sakraydi. Eng kam urinishda barcha yulduzni yig'." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/vaznsiz/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Vaznsiz To'p — UzIndieGame" />
+  <meta property="og:description" content="Tortishishsiz to'pni cherting — devorlardan sakraydi. Barcha yulduzni yig'." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/vaznsiz.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/vaznsiz/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/vaznsiz.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Vaznsiz To'p — chertib yulduz yig'</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="vaznsiz";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="starPill">★ 0/0</div>
+      <div class="pill" id="shotPill">Zarba 0 · Par 0</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🪐</div>
+        <h1>VAZNSIZ TO'P</h1>
+        <p class="sub" id="cardSub">Kosmosda tortishish yo'q — to'p to'xtamaguncha suzadi va <b>devorlardan sakraydi</b>. To'pni <b>orqaga tortib qo'yvor</b> (sling): u qarama-qarshi tomonga uchadi. Barcha <b>yulduzni</b> ⭐ yig'ib bosqichni yakunla — imkon qadar <b>kam zarba</b> bilan (Par).</p>
+        <div class="keys" id="cardKeys">
+          <b>Nishonlash</b> — to'pdan orqaga torting, qo'yvoring<br>
+          <b>Qaytadan</b> — R yoki ↺
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

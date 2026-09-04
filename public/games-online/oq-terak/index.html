@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Oq terak ko'k terak — jamoa yorib o'tish o'yini. Zaif bo'g'inni tanla, kuchni sozlab qatorni yorib o't. Pseudo-3D." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/oq-terak/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Oq terak ko'k terak — yorib o't" />
+  <meta property="og:description" content="Zaif bo'g'inni tanlab jamoani yorib o't — xalq jamoa o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/oq-terak.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/oq-terak/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/oq-terak.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Oq terak ko'k terak — yorib o't</title>
+  <meta name="theme-color" content="#3d5474" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="oq-terak";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="breakPill">💥 0/3</div>
+      <div class="pill" id="statePill">❤ 3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">TANLA / YOR 💥</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🤝</div>
+        <h1>OQ TERAK KO'K TERAK</h1>
+        <p class="sub" id="cardSub">Qadimiy jamoa o'yini! Qarshi jamoa qo'l ushlashib qator tuzadi. Ularning <b>zaif bo'g'ini</b>ni (yashil = zaif, qizil = kuchli) tanla, so'ng <b>kuch</b>ni sozlab yugurib <b>yorib o't</b>. Qizil chiziqdan kuchli bossang — yorasan; aks holda qaytib ketasan. Nishon soncha yorib o'tsang — bosqich o'tadi!</p>
+        <div class="keys" id="cardKeys">
+          <b>Bitta tugma</b> — ekranni bos yoki Probel: ko'rsatkich zaif bo'g'inda TANLA → KUCHni sozla<br>
+          <b>Zaifni tanla</b> — kuching eng kuchli bo'g'inga yetmaydi
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

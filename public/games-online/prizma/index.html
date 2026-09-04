@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Oq nurni prizmadan o'tkazib qizil·yashil·moviyga ajrating; ko'zgularni burab har rangni o'z sensoriga yo'naltiring." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/prizma/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Prizma — UzIndieGame" />
+  <meta property="og:description" content="Oq nurni RGB ga ajratib, har rangni sensoriga yo'naltiring." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/prizma.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/prizma/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/prizma.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Prizma — nurni ranglarga ajrat</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="prizma";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="litPill">◎ 0/3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🔺</div>
+        <h1>PRIZMA</h1>
+        <p class="sub" id="cardSub">Oq nur <b>prizmaga</b> 🔺 tushsa uch rangga bo'linadi — <b style="color:#ff5545">qizil</b>, <b style="color:#37e07d">yashil</b>, <b style="color:#4f8bff">moviy</b>. <b>Ko'zgularni bosib buring</b> (◹ ↔ ◸) va har rangni <b>o'z sensoriga</b> ◎ yo'naltiring. Uchala sensor yonganda — bosqich yakunlanadi.</p>
+        <div class="keys" id="cardKeys">
+          <b>Burash</b> — ko'zguni bos<br>
+          <b>Maqsad</b> — har rangni mos sensorga yetkaz
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

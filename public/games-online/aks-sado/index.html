@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Ikkita ilon — biri ikkinchisining oyna aksi. Ikkalasini ham tirik saqla." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/aks-sado/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Aks-sado — UzIndieGame" />
+  <meta property="og:description" content="Ikkita ilon — biri ikkinchisining oyna aksi. Ikkalasini ham tirik saqla." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/aks-sado.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/aks-sado/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aks-sado — UzIndieGame" />
+  <meta name="twitter:description" content="Ikkita ilon — biri ikkinchisining oyna aksi. Ikkalasini ham tirik saqla." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/aks-sado.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Aks-sado — Oyna Ilon</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="aks-sado";</script>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>⚡ Aks-sado</h1>
+      <p class="tag">Ikkala ilonni bir vaqtda boshqar — biri ikkinchisining oynadagi aksi</p>
+    </header>
+
+    <div class="hud">
+      <div class="stat"><span class="label">Ball</span><span id="score">0</span></div>
+      <div class="stat"><span class="label">Rekord</span><span id="best">0</span></div>
+      <div class="stat"><span class="label">Daraja</span><span id="level">1</span></div>
+    </div>
+
+    <div class="board">
+      <canvas id="game" width="642" height="320"></canvas>
+      <div id="overlay" class="overlay">
+        <div class="overlay-card">
+          <h2 id="ov-title">Aks-sado</h2>
+          <p id="ov-text">Chap ilonni boshqar. O'ng tomon — uning ko'zgu aksi. Ikkalasi ham urilmasligi kerak!</p>
+          <button id="startBtn">Boshlash</button>
+          <p class="hint">Boshqaruv: ← ↑ → ↓  yoki  W A S D · Pauza: Space</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls-mobile" aria-hidden="true">
+      <button data-dir="up">▲</button>
+      <div>
+        <button data-dir="left">◀</button>
+        <button data-dir="down">▼</button>
+        <button data-dir="right">▶</button>
+      </div>
+    </div>
+
+    <footer>
+      <p>Chap tomon — siz · O'ng tomon — aks-sado 🪞</p>
+    </footer>
+  </div>
+
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

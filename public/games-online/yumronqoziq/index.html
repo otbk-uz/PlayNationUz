@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Yumronqoziq — reaksiya o'yini. Inidan chiqqan yumronqozizni tez ur, chumchuqni urma. Nishon soniga vaqtida yet. 2.5D izometrik." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/yumronqoziq/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Yumronqoziq — tez ur" />
+  <meta property="og:description" content="Inidan chiqqan yumronqozizni tez ur, chumchuqni urma — reaksiya o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/yumronqoziq.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/yumronqoziq/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/yumronqoziq.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Yumronqoziq — tez ur</title>
+  <meta name="theme-color" content="#3a5442" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="yumronqoziq";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="timePill">⏱ 25</div>
+      <div class="pill" id="statePill">🔨 0/12</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🐹</div>
+        <h1>YUMRONQOZIQ</h1>
+        <p class="sub" id="cardSub">Chaqqonlik o'yini! Yer inlaridan <b>yumronqoziq</b> 🐹 chiqib-yashirinadi — u ko'ringanda tez <b>bos (ur)</b> va ochko yig'. Ammo ba'zan <b>chumchuq</b> 🐤 chiqadi — uni ursang ochko kamayadi! Vaqt tugaguncha nishon soniga yetsang — bosqich o'tadi.</p>
+        <div class="keys" id="cardKeys">
+          <b>Urish</b> — chiqqan yumronqozizni bos (sichqon / barmoq)<br>
+          <b>Ehtiyot</b> — 🐤 chumchuqni urma; ketma-ket ursang kombo o'sadi
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

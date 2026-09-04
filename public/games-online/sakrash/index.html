@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Sakrash arqoni (skakalka) — xalq epchillik o'yini. Arqon oyoq ostiga kelganda sakra, tripka tushmasdan nishon soniga yet. Pseudo-3D refleks o'yini." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/sakrash/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Sakrash arqoni — sakrab yur" />
+  <meta property="og:description" content="Arqon pastga kelganda sakra — tripka tushma. Xalq skakalka o'yini." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/sakrash.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/sakrash/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/sakrash.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Sakrash arqoni — sakrab yur</title>
+  <meta name="theme-color" content="#39536e" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="sakrash";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="targetPill">🎯 8</div>
+      <div class="pill" id="statePill">🤸 0/8</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">SAKRA 🤸</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🤸</div>
+        <h1>SAKRASH ARQONI</h1>
+        <p class="sub" id="cardSub">Klassik skakalka! Ikki do'sting <b>arqonni</b> aylantiradi — u <b>oyoq ostiga</b> kelganda <b>sakra</b> va ustidan o't. Tripka tushmasdan nishon soniga yetsang — bosqich o'tadi. Arqon tobora tezlashadi!</p>
+        <div class="keys" id="cardKeys">
+          <b>Sakrash</b> — ekranni bos, Probel yoki ↑<br>
+          <b>Vaqtida</b> — "SAKRA!" chiqqanda bos (arqon pastda)
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

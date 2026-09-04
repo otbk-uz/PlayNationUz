@@ -1,0 +1,70 @@
+/* Kim Bo'ri? — o'yinga xos layout. Umumiy neon chrome: ../_shared/neon.css */
+.wrap { width: 100%; max-width: 860px; }
+
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 14px;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 0 40px rgba(34,211,238,0.06), 0 20px 60px rgba(0,0,0,0.45);
+}
+.hidden { display: none !important; }
+
+.field { margin-bottom: 14px; }
+label { display: block; font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 6px; }
+input {
+  width: 100%;
+  background: rgba(7,11,20,0.6);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  color: var(--text);
+  padding: 12px 14px;
+  font-size: 16px;
+}
+#roomInput { text-transform: uppercase; letter-spacing: 4px; text-align: center; font-weight: 700; }
+
+.row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.or { color: var(--muted); font-size: 13px; }
+.join { display: flex; gap: 8px; flex: 1; min-width: 180px; }
+.join input { max-width: 120px; }
+
+button.small { padding: 8px 14px; font-size: 13px; }
+
+.server-note { margin-top: 14px; font-size: 12px; color: var(--muted); }
+.server-note a { color: var(--accent); cursor: pointer; }
+
+.room-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
+.code { font-size: 26px; font-weight: 800; letter-spacing: 6px; color: var(--accent); text-shadow: 0 0 16px rgba(34,211,238,0.5); }
+.muted { color: var(--muted); font-size: 13px; }
+.players { list-style: none; margin: 14px 0; display: flex; flex-direction: column; gap: 8px; }
+.players li {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(7,11,20,0.5); border: 1px solid var(--line);
+  border-radius: 10px; padding: 10px 14px;
+}
+.dot { width: 12px; height: 12px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); }
+.badge { margin-left: auto; font-size: 11px; color: var(--muted); }
+
+.scores { margin: 14px 0; padding-left: 22px; display: flex; flex-direction: column; gap: 6px; }
+.scores li { font-size: 15px; }
+h2 { text-align: center; margin-bottom: 6px; }
+
+/* Kim Bo'ri */
+.scorebar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 14px; font-weight: 700; font-size: 15px; gap: 8px; flex-wrap: wrap; }
+.role-tag { padding: 4px 12px; border-radius: 8px; font-weight: 800; }
+.role-wolf { background: rgba(251,113,133,0.15); color: var(--danger); border: 1px solid var(--danger); box-shadow: 0 0 14px rgba(251,113,133,0.3); }
+.role-villager { background: rgba(52,211,153,0.15); color: var(--green); border: 1px solid var(--green); box-shadow: 0 0 14px rgba(52,211,153,0.3); }
+.timer { color: var(--text); background: rgba(7,11,20,0.6); border: 1px solid var(--line); border-radius: 8px; padding: 4px 14px; font-variant-numeric: tabular-nums; }
+.progress-wrap { position: relative; background: rgba(7,11,20,0.6); border: 1px solid var(--line); border-radius: 10px; height: 34px; overflow: hidden; margin-bottom: 18px; }
+.progress-bar { height: 100%; width: 0%; background: linear-gradient(90deg, var(--green), var(--cyan)); box-shadow: 0 0 24px rgba(52,211,153,0.5); transition: width 0.2s; }
+.progress-wrap span { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-weight: 800; }
+.action-row { display: flex; gap: 12px; justify-content: center; }
+button.big { padding: 18px 28px; font-size: 18px; }
+button.danger { background: linear-gradient(135deg, var(--danger), #e11d48); color: #fff; box-shadow: 0 0 24px rgba(251,113,133,0.45); }
+.reveal { text-align: center; margin-top: 14px; font-weight: 700; color: var(--amber); text-shadow: 0 0 12px rgba(251,191,36,0.4); min-height: 20px; }
+#voteList li { cursor: pointer; }
+#voteList li:hover { border-color: var(--accent); }
+#voteList li.dead { opacity: 0.4; text-decoration: line-through; cursor: default; }
+#voteList li.voted { border-color: var(--accent); box-shadow: 0 0 14px rgba(34,211,238,0.3); }

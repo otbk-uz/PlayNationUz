@@ -1,0 +1,87 @@
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <meta name="description" content="O'z o'tmish yurishing arvoh bo'lib to'siq bo'ladi — o'zing bilan poyga." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/vaqt-arvohi/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Vaqt Arvohi — UzIndieGame" />
+  <meta property="og:description" content="O'z o'tmish yurishing arvoh bo'lib to'siq bo'ladi — o'zing bilan poyga." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/vaqt-arvohi.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/vaqt-arvohi/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Vaqt Arvohi — UzIndieGame" />
+  <meta name="twitter:description" content="O'z o'tmish yurishing arvoh bo'lib to'siq bo'ladi — o'zing bilan poyga." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/vaqt-arvohi.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+<title>Vaqt Arvohi</title>
+<link rel="stylesheet" href="./_shared/neon.css" />
+<link rel="stylesheet" href="style.css" />
+
+<div class="wrap">
+  <header class="header">
+    <h1>🕳️ Vaqt Arvohi</h1>
+    <p class="tagline">O'z o'tmishingdan qoch — kechagi izlaring seni ovlaydi.</p>
+  </header>
+
+  <div class="hud">
+    <div class="stat"><span class="stat-label">Ball</span><span id="score" class="stat-val">0</span></div>
+    <div class="stat"><span class="stat-label">Raund</span><span id="round" class="stat-val">1</span></div>
+    <div class="stat"><span class="stat-label">Vaqt</span><span id="time" class="stat-val">12.0</span></div>
+  </div>
+
+  <div class="stage">
+    <canvas id="game" width="480" height="480"></canvas>
+
+    <div id="startOverlay" class="overlay">
+      <div class="card">
+        <h2>🕳️ Vaqt Arvohi</h2>
+        <p class="rules">
+          Har raundda 5 ta halqani belgilangan vaqtda yig'ib ol.
+          Har raund oxirida sening harakating <b>arvoh</b> bo'lib qoladi va
+          keyingi raundlarda takrorlanadi. Har qanday qizil arvohga tegsang — <b>o'yin tugaydi</b>.
+        </p>
+        <ul class="keys">
+          <li><b>Harakat:</b> strelka tugmalari yoki WASD</li>
+          <li><b>To'xtatish:</b> Bo'sh joy (Probel)</li>
+          <li>Mobil: pastdagi tugmalar bilan boshqar</li>
+        </ul>
+        <button id="startBtn" class="btn">Boshlash</button>
+      </div>
+    </div>
+
+    <div id="pauseOverlay" class="overlay hidden">
+      <div class="card">
+        <h2>To'xtatildi</h2>
+        <p class="rules">Davom etish uchun Space bosing.</p>
+        <button id="resumeBtn" class="btn">Davom etish</button>
+      </div>
+    </div>
+
+    <div id="overOverlay" class="overlay hidden">
+      <div class="card">
+        <h2 class="danger">O'yin tugadi</h2>
+        <p class="rules" id="overStats"></p>
+        <button id="retryBtn" class="btn">Qayta o'ynash</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pad" id="pad">
+    <button class="padbtn" data-dir="up" aria-label="Yuqoriga">▲</button>
+    <div class="pad-mid">
+      <button class="padbtn" data-dir="left" aria-label="Chapga">◀</button>
+      <button class="padbtn" data-dir="down" aria-label="Pastga">▼</button>
+      <button class="padbtn" data-dir="right" aria-label="O'ngga">▶</button>
+    </div>
+  </div>
+
+  <p class="foot">Barcha izlaring saqlanadi. Har raund yangi arvoh tug'iladi.</p>
+</div>
+
+<script src="./_shared/fx.js"></script>
+<script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+<script src="./_shared/cats-badge.js"></script>
+<script src="./_shared/analytics.js"></script>
+<script src="game.js"></script>
+<script src="./assets/cf-analytics.js"></script>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Personajni emas — tortishishni aylantirasan, shar yumalaydi." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/tortishish/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Tortishish — UzIndieGame" />
+  <meta property="og:description" content="Personajni emas — tortishishni aylantirasan, shar yumalaydi." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/tortishish.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/tortishish/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Tortishish — UzIndieGame" />
+  <meta name="twitter:description" content="Personajni emas — tortishishni aylantirasan, shar yumalaydi." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/tortishish.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>🌍 Tortishish</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="style.css" />
+<script>window.__UZG_SLUG="tortishish";</script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="header">
+      <h1 class="title">🌍 Tortishish</h1>
+      <p class="tagline">Tortishishni bur, sharni chiqishga yo'nalt</p>
+    </header>
+
+    <section class="hud">
+      <div class="hud-item">
+        <span class="hud-label">Daraja</span>
+        <span class="hud-value" id="hud-level">1</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Yurishlar</span>
+        <span class="hud-value" id="hud-moves">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Eng yaxshi</span>
+        <span class="hud-value" id="hud-best">—</span>
+      </div>
+    </section>
+
+    <div class="stage">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <div class="overlay" id="overlay">
+        <div class="overlay-card" id="overlay-card">
+          <h2 class="overlay-title" id="overlay-title">🌍 Tortishish</h2>
+          <p class="overlay-text" id="overlay-text">
+            Yo'nalish tugmalari tortishishni o'zgartiradi. Siz sharni to'g'ridan-to'g'ri
+            harakatlantirmaysiz — faqat tortishish yo'nalishini burasiz, shar esa o'sha
+            tomonga dumalab tushadi. Sharni yashil chiqishga (G) olib boring, qizil
+            tikonlardan (^) saqlaning.
+          </p>
+          <button class="btn" id="overlay-btn">Boshlash</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="pad-btn pad-up" data-dir="up" aria-label="Yuqori">▲</button>
+      <button class="pad-btn pad-left" data-dir="left" aria-label="Chap">◀</button>
+      <button class="pad-btn pad-right" data-dir="right" aria-label="O'ng">▶</button>
+      <button class="pad-btn pad-down" data-dir="down" aria-label="Past">▼</button>
+    </div>
+
+    <p class="hint">Klaviatura: strelkalar yoki WASD &middot; R — qaytadan</p>
+  </main>
+
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

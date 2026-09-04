@@ -1,0 +1,87 @@
+/* Magnit — o'yinga xos layout. Umumiy chrome ../_shared/neon.css'dan keladi. */
+:root {
+  --red: #fb7185;   /* + qutb */
+  --blue: #22d3ee;  /* − qutb */
+}
+
+.wrap { max-width: 560px; }
+
+/* HUD pill (o'yinga xos ko'rinish) */
+.hud {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  justify-content: center;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 10px 14px;
+  font-size: 14px;
+  color: var(--muted);
+  margin: 12px 0;
+}
+.hud b { color: var(--text); }
+
+/* Canvas o'lchami (o'yinga xos) */
+canvas {
+  max-width: 480px;
+  background: #0a0e14;
+}
+
+/* Overlay ichidagi karta (o'yinga xos) */
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 20px;
+  max-width: 400px;
+  text-align: center;
+}
+.card h2 { font-size: 22px; margin-bottom: 12px; }
+.card p { color: var(--muted); font-size: 14px; margin: 8px 0; line-height: 1.5; }
+.card ul { text-align: left; color: var(--muted); font-size: 14px; margin: 10px 4px; padding-left: 18px; line-height: 1.6; }
+.card b { color: var(--text); }
+.key {
+  display: inline-block;
+  background: #0a0e14;
+  border: 1px solid var(--line);
+  border-radius: 5px;
+  padding: 1px 7px;
+  font-size: 13px;
+  color: var(--text);
+}
+.red { color: var(--red); font-weight: 700; }
+.blue { color: var(--blue); font-weight: 700; }
+
+/* Tugmalar (o'yinga xos variantlar) */
+.primary {
+  margin-top: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 10px 26px;
+}
+.controls {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 14px;
+}
+.pole {
+  background: var(--red);
+  color: #1a0303;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 12px 22px;
+  box-shadow: none;
+  transition: background 0.12s;
+}
+.pole.blue { background: var(--blue); color: #04101f; }
+.ghost {
+  background: var(--panel);
+  color: var(--text);
+  border: 1px solid var(--line);
+  padding: 12px 18px;
+  font-size: 14px;
+  box-shadow: none;
+}
+.ghost:hover { border-color: var(--muted); }

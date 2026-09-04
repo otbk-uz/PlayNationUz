@@ -1,0 +1,57 @@
+/* ikki-dunyo — o'yinga xos layout.
+   Umumiy chrome (:root, body, h1, .board, .overlay, button, footer ...) neon.css'dan keladi. */
+
+/* HUD — o'yinga xos uch xonali panel */
+.hud-item {
+  flex: 1;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 8px 10px;
+  text-align: center;
+}
+.hud-label {
+  display: block;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--muted);
+}
+.hud-value {
+  display: block;
+  font-size: 22px;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* Faol olamni ko'rsatuvchi indikator (rang bo'yicha) */
+.world-indicator {
+  transition: border-color 0.15s, box-shadow 0.15s, color 0.15s;
+}
+.world-indicator.world-a {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  box-shadow: 0 0 12px -2px var(--cyan);
+}
+.world-indicator.world-b {
+  border-color: var(--pink);
+  color: var(--pink);
+  box-shadow: 0 0 12px -2px var(--pink);
+}
+
+/* Overlay ichidagi matn */
+.rule {
+  color: var(--text);
+  font-size: 15px;
+  line-height: 1.5;
+  margin-bottom: 10px;
+}
+.hint {
+  color: var(--muted);
+  font-size: 13px;
+  margin-bottom: 18px;
+}
+.score-line { font-size: 18px; margin-bottom: 6px; }
+.score-line.muted { color: var(--muted); font-size: 15px; }
+.score-line + .score-line { margin-bottom: 18px; }
+.score-line:last-of-type { margin-bottom: 18px; }

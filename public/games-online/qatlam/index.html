@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Qatlam — aniqlik minorasi. Siljiydigan blokni to'g'ri paytda tashla, chiqib qolgan qismi kesiladi. Aynan ustma-ust tushirsang PULS — blok kengayadi. Pseudo-3D." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/qatlam/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Qatlam — aniqlik minorasi" />
+  <meta property="og:description" content="Bloklarni aniq ustma-ust tashlab baland va mustahkam minora qur." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/qatlam.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/qatlam/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/qatlam.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Qatlam — aniqlik minorasi</title>
+  <meta name="theme-color" content="#182a54" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="qatlam";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="progPill">🏗️ 1/8</div>
+      <div class="pill" id="statePill">❤ 3</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+    <div class="controls" id="controls">
+      <button class="bigbtn" id="actBtn">TASHLA 🏗️</button>
+    </div>
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🏗️</div>
+        <h1>QATLAM</h1>
+        <p class="sub" id="cardSub">Tepada blok o'ngdan chapga <b>siljiydi</b>. To'g'ri paytda <b>TASHLA</b> — oldingi qatlamdan chiqib qolgan qismi <b>kesilib tushadi</b>, blok kichrayadi. Aynan ustma-ust tushirsang <b>PULS</b> 💚 — blok kengayadi, kombo o'sadi. Butunlay chetga tushsang — jon yo'qotasan. Nishon <b>balandlik</b>ka yet!</p>
+        <div class="keys" id="cardKeys">
+          <b>Tashlash</b> — ekranni bos yoki Probel<br>
+          <b>Maslahat</b> — punktir markaz chizig'iga qarab tashla
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

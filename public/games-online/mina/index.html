@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Klassik mina maydoni — raqamlarga qarab minalarni top. Mobil uchun bayroqcha rejimi bilan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/mina/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Mina Maydoni — UzIndieGame" />
+  <meta property="og:description" content="Klassik mina maydoni — raqamlarga qarab minalarni top. Bayroqcha rejimi bilan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/mina.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/mina/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/mina.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Mina Maydoni — minalarni top</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="mina";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill danger" id="minePill">💣 0</div>
+      <button class="pill flag" id="flagBtn" title="Bayroqcha rejimi">🚩</button>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">💣</div>
+        <h1>MINA MAYDONI</h1>
+        <p class="sub" id="cardSub">Maydonda yashiringan <b>minalar</b> bor. Katakni oching — undagi <b>raqam</b> atrofdagi (8 ta) minalar sonini bildiradi. Raqamlarga qarab minasiz kataklarni oching. Mina bo'lgan katakni <b>bayroqcha</b> 🚩 bilan belgila. Barcha minasiz katakni ochsang — yutasan! (Birinchi bosish har doim xavfsiz.)</p>
+        <div class="keys" id="cardKeys">
+          <b>Ochish</b> — katakni bos · <b>Bayroqcha</b> — 🚩 rejimini yoq yoki uzoq bos (sichqonda o'ng tugma)<br>
+          <b>Qaytadan</b> — R yoki ↺
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

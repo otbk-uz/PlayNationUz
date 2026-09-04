@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="description" content="Bitta tugma bilan shishib-kichrayib teshiklardan o'tasan." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/bir-nafas/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Bir Nafas — UzIndieGame" />
+  <meta property="og:description" content="Bitta tugma bilan shishib-kichrayib teshiklardan o'tasan." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/bir-nafas.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/bir-nafas/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Bir Nafas — UzIndieGame" />
+  <meta name="twitter:description" content="Bitta tugma bilan shishib-kichrayib teshiklardan o'tasan." />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/bir-nafas.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>🎈 Bir Nafas</title>
+  <link rel="stylesheet" href="./_shared/neon.css" />
+  <link rel="stylesheet" href="style.css" />
+<script>window.__UZG_SLUG="bir-nafas";</script>
+</head>
+<body>
+  <main class="wrap">
+    <header class="head">
+      <h1>🎈 Bir Nafas</h1>
+      <p class="tag">Bir tugma — ham o'lchamingni, ham balandligingni boshqaradi</p>
+    </header>
+
+    <div class="hud">
+      <div class="hud-item">
+        <span class="hud-label">Ball</span>
+        <span id="score" class="hud-value">0</span>
+      </div>
+      <div class="hud-item">
+        <span class="hud-label">Rekord</span>
+        <span id="best" class="hud-value">0</span>
+      </div>
+    </div>
+
+    <div class="stage">
+      <canvas id="game" width="480" height="480"></canvas>
+
+      <div id="startOverlay" class="overlay">
+        <div class="panel">
+          <h2>Bir Nafas</h2>
+          <p class="rule">Bosib turing — shishasiz va ko'tarilasiz; qo'ying — kichrayib tushasiz.</p>
+          <p class="rule muted">To'siqlardan o'ting: teshikka to'g'ri kelinг va yetarlicha kichik bo'ling.</p>
+          <button id="startBtn" class="btn">Boshlash</button>
+        </div>
+      </div>
+
+      <div id="overOverlay" class="overlay hidden">
+        <div class="panel">
+          <h2>O'yin tugadi</h2>
+          <div class="over-stats">
+            <div><span class="hud-label">Ball</span><span id="finalScore" class="big">0</span></div>
+            <div><span class="hud-label">Rekord</span><span id="finalBest" class="big">0</span></div>
+          </div>
+          <button id="againBtn" class="btn">Qayta o'ynash</button>
+        </div>
+      </div>
+    </div>
+
+    <p class="hint">Boshqaruv: <b>Bo'shliq (Probel)</b> yoki ekranni bosib turing.</p>
+  </main>
+
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./_shared/cats-badge.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="game.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

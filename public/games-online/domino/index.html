@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="description" content="Dominolarni joylab zanjirni ulang — GO bosing, qulash to'lqini barcha nishonni ag'darsin. Zanjir reaksiya boshqotirmasi." />
+  <link rel="canonical" href="https://uzindiegame.uz/games/domino/" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="UzIndieGame" />
+  <meta property="og:title" content="Domino Reaksiya — UzIndieGame" />
+  <meta property="og:description" content="Dominolarni joylab zanjir qur — qulash to'lqini barcha nishonni ag'darsin." />
+  <meta property="og:image" content="https://uzindiegame.uz/covers/domino.png" />
+  <meta property="og:url" content="https://uzindiegame.uz/games/domino/" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:image" content="https://uzindiegame.uz/covers/domino.png" />
+  <link rel="icon" type="image/png" href="./assets/logo.png" />
+  <title>Domino Reaksiya — zanjirni ag'dar</title>
+  <meta name="theme-color" content="#070912" />
+  <link rel="stylesheet" href="./style.css" />
+<script>window.__UZG_SLUG="domino";</script>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game"></canvas>
+
+    <div class="hud">
+      <div class="pill" id="levelPill">Bosqich 1</div>
+      <div class="pill" id="leftPill">🁢 0</div>
+      <div class="pill" id="goalPill">◎ 0/0</div>
+      <button class="pill reset" id="resetBtn" title="Qaytadan">↺</button>
+      <button class="pill snd" id="soundBtn" title="Ovoz">🔊</button>
+      <a class="pill back" href="../../" title="Store">← Store</a>
+    </div>
+
+    <button class="gobtn" id="goBtn">▶ GO</button>
+
+    <div class="panel" id="panel">
+      <div class="card">
+        <div class="emoji">🁣</div>
+        <h1>DOMINO REAKSIYA</h1>
+        <p class="sub" id="cardSub">Zanjir uzilgan — bo'sh joylarga <b>domino qo'ying</b> (yaqin turgan dominolar bir-birini ag'daradi). So'ng <b>GO</b> bosing: yashil <b>boshlagich</b>dan qulash to'lqini tarqaladi va barcha <b>oltin nishonni</b> ◎ ag'darsa — bosqich yakunlanadi.</p>
+        <div class="keys" id="cardKeys">
+          <b>Qo'yish</b> — bo'sh joyni bos · <b>Olib tashlash</b> — o'z dominongni bos<br>
+          <b>Ishga tushirish</b> — GO · <b>Qaytadan</b> — ↺ / R
+        </div>
+        <button class="btn" id="startBtn">▶ Boshlash</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="./_shared/catalog.js"></script>
+  <script src="./_shared/analytics.js"></script>
+  <script src="./_shared/fx.js"></script>
+  <script src="./_shared/sfx.js"></script>
+  <script src="./game.js"></script>
+  <script src="./_shared/guide.js"></script>
+  <script src="./assets/cf-analytics.js"></script>
+</body>
+</html>

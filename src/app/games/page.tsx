@@ -3,14 +3,14 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Navbar from "@/components/Navbar";
-import { Gamepad2, Star, Search, Monitor, Smartphone, ShoppingCart, ArrowRight, Sparkles, Crown, Heart } from "lucide-react";
+import { Gamepad2, Star, Search, Monitor, Smartphone, ShoppingCart, ArrowRight, Sparkles, Crown, Heart, Globe, PlayCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { supabase } from "@/lib/supabase";
 import { BackButton } from "@/components/ui/BackButton";
 import { useTranslation, useAuthStore } from "@/lib/store";
 
 interface StoreGame {
-  id: number;
+  id: number | string;
   title: string;
   slug: string;
   developer_details: {
@@ -28,7 +28,7 @@ interface StoreGame {
 
 const GamesPage = () => {
   const { t } = useTranslation();
-  const { user } = useAuthStore();
+  const { user, isAuthenticated } = useAuthStore();
   const [games, setGames] = useState<StoreGame[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState("ALL");
@@ -135,7 +135,7 @@ const GamesPage = () => {
             cover: g.cover || null,
             price: g.price?.toString() || '0',
             premium_price: g.premium_price?.toString() || null,
-            platform: g.platform,
+            platform: g.platform || 'WEB',
             rating: g.rating || 5.0,
             language: g.language || 'O\'zbek',
             description: g.description,
@@ -153,6 +153,7 @@ const GamesPage = () => {
 
   const platformTabs = [
     { value: "ALL", label: t("all_platforms", "Barcha platformalar") },
+    { value: "WEB", label: t("web_games", "🌐 Onlayn (Brauzer)") },
     { value: "PC", label: t("pc_games", "PC o'yinlar") },
     { value: "MOBILE", label: t("mobile_games", "Mobil o'yinlar") },
   ];
@@ -313,7 +314,7 @@ const GamesPage = () => {
 
                     <div className="absolute top-4 left-4 flex gap-2">
                       <span className="bg-white/10 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-white flex items-center gap-1.5">
-                        {g.platform === "PC" ? <Monitor size={10} /> : <Smartphone size={10} />}
+                        {g.platform === "WEB" ? <Globe size={10} className="text-violet" /> : g.platform === "PC" ? <Monitor size={10} /> : <Smartphone size={10} />}
                         {g.platform}
                       </span>
                     </div>
@@ -396,14 +397,25 @@ const GamesPage = () => {
                         )}
                       </div>
 
-                      <Link
-                        href={`/games/${g.id}`}
-                        className="px-5 py-3 bg-white/5 hover:bg-primary text-white border border-white/10 hover:border-primary hover:shadow-glow rounded-xl font-display font-bold uppercase tracking-widest text-[11px] transition-all flex items-center gap-2 active:scale-95 whitespace-nowrap"
-                      >
-                        <ShoppingCart size={14} />
-                        <span>{t("buy_game", "Sotib olish")}</span>
-                        <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                      </Link>
+                      {g.platform === "WEB" ? (
+                        <Link
+                          href={isAuthenticated ? `/games/play/${g.slug}` : `/login?redirect=/games/play/${g.slug}`}
+                          className="px-5 py-3 bg-violet hover:bg-violet/90 text-white border border-violet/30 rounded-xl font-display font-bold uppercase tracking-widest text-[11px] transition-all flex items-center gap-2 active:scale-95 whitespace-nowrap shadow-glow-violet"
+                        >
+                          <PlayCircle size={14} />
+                          <span>O'ynash</span>
+                          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      ) : (
+                        <Link
+                          href={`/games/${g.id}`}
+                          className="px-5 py-3 bg-white/5 hover:bg-primary text-white border border-white/10 hover:border-primary hover:shadow-glow rounded-xl font-display font-bold uppercase tracking-widest text-[11px] transition-all flex items-center gap-2 active:scale-95 whitespace-nowrap"
+                        >
+                          <ShoppingCart size={14} />
+                          <span>{t("buy_game", "Sotib olish")}</span>
+                          <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                        </Link>
+                      )}
                     </div>
                   </div>
                 </motion.div>
